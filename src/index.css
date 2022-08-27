@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: 'Mulish', system-ui, sans-serif;
+    }
+
+    h1 {
+        font-weight: 300;
+        font-size: 6.3125rem;
+        letter-spacing: -0.09375rem;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 3.9375rem;
+        letter-spacing: -0.03125rem;
+    }
+
+    h3 {
+        font-weight: 400;
+        font-size: 3.125rem;
+        letter-spacing: 0rem;
+    }
+
+    h4 {
+        font-weight: 400;
+        font-size: 2.25rem;
+        letter-spacing: 0.015625rem;
+    }
+
+    h5 {
+        font-weight: 400;
+        font-size: 1.5625rem;
+        letter-spacing: 0rem;
+    }
+
+    h6 {
+        font-weight: 500;
+        font-size: 1.3125rem;
+        letter-spacing: 0.009375rem;
+    }
+
+    p {
+        font-weight: 400;
+        font-size: 1.0625rem;
+        letter-spacing: 0.03125rem;
+    }
+
+    button {
+        font-weight: 500;
+        font-size: 0.9375rem;
+        letter-spacing: 0.078125rem;
+        text-transform: uppercase;
+    }
+
+    small {
+        font-weight: 400;
+        font-size: 0.8125rem;
+        letter-spacing: 0.025rem;
+    }
+}
+
+@layer utilities {
+    .subtitle {
+        font-weight: 400;
+        font-size: 1.0625rem;
+        letter-spacing: 0.009375rem;
+    }
+
+    .subtitle-sm {
+        font-weight: 500;
+        font-size: 0.9375rem;
+        letter-spacing: 0.00625rem;
+    }
+
+    .body-sm {
+        font-weight: 400;
+        font-size: 0.9375rem;
+        letter-spacing: 0.015625rem;
+    }
+
+    .text-overline {
+        font-weight: 400;
+        font-size: 0.625rem;
+        letter-spacing: 0.09375rem;
+        text-transform: uppercase;
+    }
+}
+
+@layer components {
+    .form-group {
+        @apply flex flex-col space-y-2
+    }
+
+    .form-group-row {
+        @apply flex flex-row items-center space-x-2
+    }
+
+    .form-label {
+        @apply pl-2
+    }
+
+    .select {
+        @apply appearance-none
+    }
+
+    .form-input {
+        @apply border px-2 py-1 rounded-md
+    }
+}
