@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { v4 as uuid } from 'uuid';
 import { IoAddOutline } from "react-icons/io5";
 
 import Tool, {QuestionSchema, ToolTypes} from "../../components/assessment-creator/tools/Tool";
@@ -25,8 +26,10 @@ const AssessmentCreator = () => {
         // TODO: add validations
         if (isValid(schema)) {
             setQuestions([...questions, {
+                id: uuid(),
                 schema,
-                order: questions.length + 1
+                order: questions.length + 1,
+                selected: false
             }]);
 
             setSchema({ questionType: schema.questionType, question: "" });
@@ -35,7 +38,6 @@ const AssessmentCreator = () => {
         }
     };
 
-    // TODO: responsive in large sizes - scrollbar is not working
     return (
         <div className="flex flex-col space-x-0 space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0 min-h-full">
             <div className="bg-surface shadow rounded-md flex-1 p-4 flex flex-col space-y-5">
