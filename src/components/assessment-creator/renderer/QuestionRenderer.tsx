@@ -5,9 +5,10 @@ import Question, {QuestionType} from "./Question";
 interface QuestionRenderedProps {
     schema: QuestionType[];
     setSchema: (x: QuestionType[]) => void;
+    onSelectedQuestionChanged: (id: string) => void;
 };
 
-const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
+const QuestionRenderer = ({ schema, setSchema, onSelectedQuestionChanged }: QuestionRenderedProps) => {
     const [dragId, setDragId] = useState<string>();
 
     const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -47,8 +48,10 @@ const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
     const onQuestionDeletedHandler = (id: string) =>
         setSchema(schema.filter(x => x.id !== id))
 
-    const onSelectedQuestionChangedHandler = (id: string) =>
-        setSchema(schema.map(x => ({ ...x, selected: (x.id === id) })))
+    const onSelectedQuestionChangedHandler = (id: string) => {
+        setSchema(schema.map(x => ({...x, selected: (x.id === id)})));
+        onSelectedQuestionChanged(id);
+    }
 
     return (
         <div className="flex flex-col space-y-3">

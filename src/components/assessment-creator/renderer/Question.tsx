@@ -42,7 +42,10 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelec
                 </div>
                 <IoTrashOutline className="text-error cursor-pointer"
                                 type="button"
-                                onClick={() => onQuestionDeleted(question.id)} />
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onQuestionDeleted(question.id);
+                                }} />
             </div>
             {
                 isOpen &&

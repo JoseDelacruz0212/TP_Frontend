@@ -1,21 +1,30 @@
 import React, {useState} from "react";
 import { v4 as uuid } from 'uuid';
-import { IoAddOutline } from "react-icons/io5";
+import {IoAddOutline, IoSaveOutline} from "react-icons/io5";
 
 import Tool, {QuestionSchema, ToolTypes} from "../../components/assessment-creator/tools/Tool";
 import QuestionRenderer from "../../components/assessment-creator/renderer/QuestionRenderer";
 import {QuestionType} from "../../components/assessment-creator/renderer/Question";
 
+const defaultSchema = {
+    questionType: ToolTypes.MULTIPLE,
+    question: ""
+}
+
 const AssessmentCreator = () => {
     const [questions, setQuestions] = useState<QuestionType[]>([]);
-    const [schema, setSchema] = useState<QuestionSchema>({
-        questionType: ToolTypes.MULTIPLE,
-        question: ""
-    });
+    const [schema, setSchema] = useState<QuestionSchema>(defaultSchema);
+
+    console.log(schema);
 
     const saveQuestions = () => {
         console.log(questions);
     }
+
+    const onSelectedQuestionChanged = (id: string) =>
+        setSchema(questions.find(x => x.id === id)?.schema || defaultSchema);
+
+    const clearSelectedQuestion = () => setQuestions(questions.map(x => ({ ...x, selected: false })));
 
     const onQuestionTypeChanged = (questionType: string) => setSchema({ ...schema, questionType });
     const onQuestionChanged = (question: string) => setSchema({ ...schema, question });
@@ -25,14 +34,18 @@ const AssessmentCreator = () => {
 
         // TODO: add validations
         if (isValid(schema)) {
-            setQuestions([...questions, {
-                id: uuid(),
-                schema,
-                order: questions.length + 1,
-                selected: false
-            }]);
+            if (!questions.some(x => x.selected)) {
+                setQuestions([...questions, {
+                    id: uuid(),
+                    schema,
+                    order: questions.length + 1,
+                    selected: false
+                }]);
 
-            setSchema({ questionType: schema.questionType, question: "" });
+                setSchema({ questionType: schema.questionType, question: "" });
+            } else {
+                setQuestions(questions.map(question => question.selected ? { ...question, schema } : question));
+            }
         } else {
             console.log("Invalid schema");
         }
@@ -43,21 +56,36 @@ const AssessmentCreator = () => {
             <div className="bg-surface shadow rounded-md flex-1 p-4 flex flex-col space-y-5">
                 <div className="flex justify-between">
                     <small className="subtitle">Diseñador</small>
-                    <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark"
+                    <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8"
                             onClick={() => saveQuestions()}>
                         Guardar
                     </button>
                 </div>
                 <div className="bg-gray-100 rounded-md h-64 min-h-full lg:flex-1 lg:min-h-0 overflow-y-auto p-5">
-                    <QuestionRenderer schema={questions} setSchema={setQuestions} />
+                    <QuestionRenderer schema={questions}
+                                      setSchema={setQuestions}
+                                      onSelectedQuestionChanged={onSelectedQuestionChanged} />
                 </div>
             </div>
             <div className="bg-surface shadow rounded-md w-full lg:w-1/3 p-4 flex flex-col space-y-5">
-                <div className="flex justify-between space-x-2">
+                <div className="flex justify-between space-x-2 items-center">
                     <small className="subtitle">Herramientas</small>
-                    <button type="submit" form="add-question-form" className="bg-secondary w-7 h-7 rounded-full px-2 py-1 hover:bg-secondary-dark flex justify-center items-center">
-                        <IoAddOutline size={50} />
-                    </button>
+                    <div className="flex space-x-2 h-8">
+                        <button type="submit" form="add-question-form" className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark flex justify-center items-center">
+                            {
+                                !questions.some(x => x.selected) ?
+                                    <IoAddOutline size={20} /> :
+                                    <IoSaveOutline size={20} />
+                            }
+                        </button>
+                        {
+                            questions.some(x => x.selected) &&
+                            <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark"
+                                onClick={() => clearSelectedQuestion()}>
+                                Nuevo
+                            </button>
+                        }
+                    </div>
                 </div>
                 <form id="add-question-form" className="flex flex-col divide-y space-y-5" onSubmit={onAddQuestionClicked}>
                     <div className="form-group">
