@@ -8,7 +8,8 @@ import {QuestionType} from "../../components/assessment-creator/renderer/Questio
 
 const defaultSchema = {
     questionType: ToolTypes.MULTIPLE,
-    question: ""
+    question: "",
+    points: 1
 }
 
 const AssessmentCreator = () => {
@@ -28,6 +29,7 @@ const AssessmentCreator = () => {
 
     const onQuestionTypeChanged = (questionType: string) => setSchema({ ...schema, questionType });
     const onQuestionChanged = (question: string) => setSchema({ ...schema, question });
+    const onQuestionPointsChanged = (points: number) => setSchema({ ...schema, points });
 
     const onAddQuestionClicked = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -42,7 +44,7 @@ const AssessmentCreator = () => {
                     selected: false
                 }]);
 
-                setSchema({ questionType: schema.questionType, question: "" });
+                setSchema({ questionType: schema.questionType, question: "", points: 1 });
             } else {
                 setQuestions(questions.map(question => question.selected ? { ...question, schema } : question));
             }
@@ -115,6 +117,18 @@ const AssessmentCreator = () => {
                                       maxLength={255}
                                       value={schema.question}
                                       onChange={(e) => onQuestionChanged(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="question-points" className="form-label">
+                                <small>Puntos</small>
+                            </label>
+                            <input type="number"
+                                   min={1}
+                                   className="form-input"
+                                   id="question-points"
+                                   placeholder="Puntos"
+                                   value={schema.points}
+                                   onChange={(e) => onQuestionPointsChanged(parseInt(e.target.value))}/>
                         </div>
                         <Tool schema={schema} onSchemaChanged={setSchema} />
                     </div>

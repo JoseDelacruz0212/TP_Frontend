@@ -18,6 +18,7 @@ export type QuestionSchema = {
     answer?: string;
     isCaseSensitive?: boolean;
     options?: QuestionOption[];
+    points: number;
 };
 
 export interface ToolType {
