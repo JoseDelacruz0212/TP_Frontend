@@ -5,9 +5,10 @@ import Question, {QuestionType} from "./Question";
 interface QuestionRenderedProps {
     schema: QuestionType[];
     setSchema: (x: QuestionType[]) => void;
-}
+    onSelectedQuestionChanged: (id: string) => void;
+};
 
-const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
+const QuestionRenderer = ({ schema, setSchema, onSelectedQuestionChanged }: QuestionRenderedProps) => {
     const [dragId, setDragId] = useState<string>();
 
     const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -15,27 +16,42 @@ const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
     };
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        const dragItem = schema.find(x => x.order.toString() === dragId);
-        const dropItem = schema.find(x => x.order.toString() === e.currentTarget.id);
+        const dragItem = schema.find(x => x.id.toString() === dragId);
+        const dropItem = schema.find(x => x.id.toString() === e.currentTarget.id);
 
-        const dragItemOrder = dragItem?.order;
-        const dropItemOrder = dropItem?.order;
+        if (!dropItem || !dragItem) return;
+        if (dropItem.order === dragItem.order) return;
 
-        const newState = schema.map(x => {
-            const newValue = { ...x };
+        const dropItemOrder = dropItem.order;
 
-            // TODO: implement logic for reordering
+        const getNewOrder = (currentOrder: number) => {
+            if (dragItem.order > dropItem.order) {
+                if (currentOrder >= dropItemOrder)
+                    return currentOrder + 1;
+            } else {
+                if (currentOrder <= dropItemOrder)
+                    return currentOrder - 1;
+            }
 
-            return newValue;
-        });
+            return currentOrder;
+        };
 
-        setSchema(newState);
+        const newSchema = schema.map(x =>  ({ ...x, order: getNewOrder(x.order)}));
+        const newDragItem = newSchema.find(x => x.id.toString() === dragId);
+
+        if (!newDragItem) return;
+
+        newDragItem.order = dropItemOrder;
+        setSchema(newSchema);
     }
 
-    const onQuestionDeletedHandler = (order: number) => {
-        const newState = schema.filter(x => x.order !== order);
-        setSchema(newState);
-    };
+    const onQuestionDeletedHandler = (id: string) =>
+        setSchema(schema.filter(x => x.id !== id))
+
+    const onSelectedQuestionChangedHandler = (id: string) => {
+        setSchema(schema.map(x => ({...x, selected: (x.id === id)})));
+        onSelectedQuestionChanged(id);
+    }
 
     return (
         <div className="flex flex-col space-y-3">
@@ -45,7 +61,8 @@ const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
                               question={question}
                               handleDrag={handleDrag}
                               handleDrop={handleDrop}
-                              onQuestionDeleted={onQuestionDeletedHandler} />
+                              onQuestionDeleted={onQuestionDeletedHandler}
+                              onSelectedQuestionChanged={onSelectedQuestionChangedHandler}  />
                 ))
             }
         </div>

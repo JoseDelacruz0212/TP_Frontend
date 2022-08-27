@@ -4,25 +4,29 @@ import {IoChevronDown, IoChevronForward, IoTrashOutline} from "react-icons/io5";
 import {QuestionSchema, ToolTypes} from "../tools/Tool";
 
 export type QuestionType = {
+    id: string;
     schema: QuestionSchema;
     order: number;
+    selected: boolean;
 };
 
 interface QuestionProps {
     question: QuestionType;
     handleDrag: (e: React.DragEvent<HTMLDivElement>) => void;
     handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
-    onQuestionDeleted: (order: number) => void;
+    onQuestionDeleted: (id: string) => void;
+    onSelectedQuestionChanged: (id: string) => void;
 }
 
 // TODO: Make question types polymorphic
-const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted }: QuestionProps) => {
+const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelectedQuestionChanged }: QuestionProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return (
-        <div id={question.order.toString()}
-             key={question.order}
-             className="border rounded-md px-4 py-2 bg-surface"
+        <div id={question.id}
+             onClick={() => onSelectedQuestionChanged(question.id)}
+             key={question.id}
+             className={`border rounded-md px-4 py-2 bg-surface ${question.selected ? 'border border-2 border-secondary' : ''}`}
              draggable={true}
              onDragOver={(e) => e.preventDefault()}
              onDragStart={handleDrag}
@@ -38,7 +42,10 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted }: Quest
                 </div>
                 <IoTrashOutline className="text-error cursor-pointer"
                                 type="button"
-                                onClick={() => onQuestionDeleted(question.order)} />
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onQuestionDeleted(question.id);
+                                }} />
             </div>
             {
                 isOpen &&
