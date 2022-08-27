@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { v4 as uuid } from 'uuid';
-import {IoAddOutline, IoSaveOutline} from "react-icons/io5";
+import {IoAddOutline, IoRocketOutline, IoSaveOutline} from "react-icons/io5";
 
 import Tool, {QuestionSchema, ToolTypes} from "../../components/assessment-creator/tools/Tool";
 import QuestionRenderer from "../../components/assessment-creator/renderer/QuestionRenderer";
@@ -16,20 +16,18 @@ const AssessmentCreator = () => {
     const [questions, setQuestions] = useState<QuestionType[]>([]);
     const [schema, setSchema] = useState<QuestionSchema>(defaultSchema);
 
-    console.log(schema);
-
-    const saveQuestions = () => {
-        console.log(questions);
+    const clearSelectedQuestion = () => {
+        setQuestions(questions.map(x => ({ ...x, selected: false })));
+        setSchema(defaultSchema);
     }
-
-    const onSelectedQuestionChanged = (id: string) =>
-        setSchema(questions.find(x => x.id === id)?.schema || defaultSchema);
-
-    const clearSelectedQuestion = () => setQuestions(questions.map(x => ({ ...x, selected: false })));
-
     const onQuestionTypeChanged = (questionType: string) => setSchema({ ...schema, questionType });
     const onQuestionChanged = (question: string) => setSchema({ ...schema, question });
     const onQuestionPointsChanged = (points: number) => setSchema({ ...schema, points });
+    const onSelectedQuestionChanged = (id: string) => setSchema(questions.find(x => x.id === id)?.schema || defaultSchema);
+
+
+    const publishAssessment = () => console.log("publish assessment");
+    const saveQuestions = () => console.log(questions);
 
     const onAddQuestionClicked = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -58,10 +56,18 @@ const AssessmentCreator = () => {
             <div className="bg-surface shadow rounded-md flex-1 p-4 flex flex-col space-y-5">
                 <div className="flex justify-between">
                     <small className="subtitle">Diseñador</small>
-                    <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8"
-                            onClick={() => saveQuestions()}>
-                        Guardar
-                    </button>
+                    <div className="flex space-x-5">
+                        <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
+                                onClick={() => publishAssessment()}>
+                            <IoRocketOutline />
+                            <span>Publicar</span>
+                        </button>
+                        <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
+                                onClick={() => saveQuestions()}>
+                            <IoSaveOutline />
+                            <span>Guardar</span>
+                        </button>
+                    </div>
                 </div>
                 <div className="bg-gray-100 rounded-md h-64 min-h-full lg:flex-1 lg:min-h-0 overflow-y-auto p-5">
                     <QuestionRenderer schema={questions}
@@ -76,8 +82,8 @@ const AssessmentCreator = () => {
                         <button type="submit" form="add-question-form" className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark flex justify-center items-center">
                             {
                                 !questions.some(x => x.selected) ?
-                                    <IoAddOutline size={20} /> :
-                                    <IoSaveOutline size={20} />
+                                    <IoAddOutline /> :
+                                    <IoSaveOutline />
                             }
                         </button>
                         {
