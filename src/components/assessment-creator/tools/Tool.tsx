@@ -1,25 +1,8 @@
 import React from "react";
+
 import FreeTextQuestion from "./FreeTextQuestion";
 import MultipleOptionQuestion from "./MultipleOptionQuestion";
-
-export const ToolTypes = Object.freeze({
-    MULTIPLE: 'multiple',
-    FREE_TEXT: 'free-text'
-});
-
-export type QuestionOption = {
-    label: string;
-};
-
-export type QuestionSchema = {
-    questionType: string;
-    question: string;
-    hasAnswer?: boolean;
-    answer?: string;
-    isCaseSensitive?: boolean;
-    options?: QuestionOption[];
-    points: number;
-};
+import {QuestionOption, QuestionSchema, QuestionTypes} from "../renderer/Question";
 
 export interface ToolType {
     hasAnswer?: boolean;
@@ -105,8 +88,8 @@ const Tool = ({ schema, onSchemaChanged }: ToolProps) => {
 
 const getComponentByType = (type: string): React.ComponentType<ToolType> | null => {
     switch (type) {
-        case ToolTypes.FREE_TEXT: return FreeTextQuestion;
-        case ToolTypes.MULTIPLE: return MultipleOptionQuestion;
+        case QuestionTypes.FREE_TEXT: return FreeTextQuestion;
+        case QuestionTypes.MULTIPLE: return MultipleOptionQuestion;
     }
 
     return null;

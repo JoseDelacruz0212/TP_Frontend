@@ -5,10 +5,9 @@ import Question, {QuestionType} from "./Question";
 interface QuestionRenderedProps {
     schema: QuestionType[];
     setSchema: (x: QuestionType[]) => void;
-    onSelectedQuestionChanged: (id: string) => void;
 };
 
-const QuestionRenderer = ({ schema, setSchema, onSelectedQuestionChanged }: QuestionRenderedProps) => {
+const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
     const [dragId, setDragId] = useState<string>();
 
     const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -45,19 +44,14 @@ const QuestionRenderer = ({ schema, setSchema, onSelectedQuestionChanged }: Ques
         setSchema(newSchema);
     }
 
-    const onQuestionDeletedHandler = (id: string) =>
-        setSchema(schema.filter(x => x.id !== id))
-
-    const onSelectedQuestionChangedHandler = (id: string) => {
-        setSchema(schema.map(x => ({...x, selected: (x.id === id)})));
-        onSelectedQuestionChanged(id);
-    }
+    const onQuestionDeletedHandler = (id: string) => setSchema(schema.filter(x => x.id !== id))
+    const onSelectedQuestionChangedHandler = (id: string) => setSchema(schema.map(x => ({...x, selected: (x.id === id)})));
 
     return (
         <div className="flex flex-col space-y-3">
             {
                 schema.sort((a, b) => a.order - b.order).map(question => (
-                    <Question key={question.order}
+                    <Question key={question.id}
                               question={question}
                               handleDrag={handleDrag}
                               handleDrop={handleDrop}

@@ -1,7 +1,24 @@
 import React, {useState} from "react";
 import {IoChevronDown, IoChevronForward, IoTrashOutline} from "react-icons/io5";
 
-import {QuestionSchema, ToolTypes} from "../tools/Tool";
+export const QuestionTypes = Object.freeze({
+    MULTIPLE: 'multiple',
+    FREE_TEXT: 'free-text'
+});
+
+export type QuestionOption = {
+    label: string;
+};
+
+export type QuestionSchema = {
+    questionType: string;
+    question: string;
+    hasAnswer?: boolean;
+    answer?: string;
+    isCaseSensitive?: boolean;
+    options?: QuestionOption[];
+    points: number;
+};
 
 export type QuestionType = {
     id: string;
@@ -56,7 +73,7 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelec
                         { !question.schema.answer && <small>No especificado (libre)</small> }
                     </div>
                     {
-                        question.schema.questionType === ToolTypes.FREE_TEXT && question.schema.hasAnswer &&
+                        question.schema.questionType === QuestionTypes.FREE_TEXT && question.schema.hasAnswer &&
                         <div className="flex items-center space-x-2">
                             <small className="font-bold">Respetar mayúsuclas:</small>
                             { question.schema.isCaseSensitive && <small>Sí</small> }
@@ -64,7 +81,7 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelec
                         </div>
                     }
                     {
-                        question.schema.questionType === ToolTypes.MULTIPLE &&
+                        question.schema.questionType === QuestionTypes.MULTIPLE &&
                         <div className="space-x-2">
                             <small className="font-bold">Opciones:</small>
                             <ul className="pl-5">
@@ -86,8 +103,8 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelec
 
 const getQuestionTypeNameByTypeId = (typeId: string) => {
     switch (typeId) {
-        case ToolTypes.MULTIPLE: return 'Opción múltiple';
-        case ToolTypes.FREE_TEXT: return 'Respuesta libre';
+        case QuestionTypes.MULTIPLE: return 'Opción múltiple';
+        case QuestionTypes.FREE_TEXT: return 'Respuesta libre';
         default:
             return '';
     }
