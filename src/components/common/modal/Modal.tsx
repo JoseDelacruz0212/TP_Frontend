@@ -1,42 +1,37 @@
-import React, {useLayoutEffect, useState} from "react";
-import { createPortal } from "react-dom";
+import React, {useEffect} from "react";
+import ModalWrapper from "./ModalWrapper";
 
 interface ModalProps {
-    children: React.ReactNode;
-    wrapperId: string;
-}
-
-const Modal = ({ children, wrapperId }: ModalProps) => {
-    const [wrapper, setWrapper] = useState<HTMLElement | null>(null);
-
-    useLayoutEffect(() => {
-        let element = document.getElementById(wrapperId);
-        let created = false;
-
-        if (!element) {
-            created = true;
-            element = createModalWrapper(wrapperId);
-        }
-
-        setWrapper(element);
-
-        return () => {
-            if (created && element?.parentNode) {
-                element.parentNode.removeChild(element);
-            }
-        }
-    }, [wrapperId]);
-
-    if (!wrapper) return null;
-
-    return createPortal(children, wrapper);
+    id: string;
+    width?: number | string;
+    children?: React.ReactNode;
+    isOpen?: boolean;
+    handleClose?: () => void;
+    closeOnEscapeKey?: boolean;
 };
 
-const createModalWrapper = (wrapperId: string) => {
-    const wrapper = document.createElement('div');
-    wrapper.setAttribute('id', wrapperId);
-    document.body.appendChild(wrapper);
-    return wrapper;
+const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey }: ModalProps) => {
+    useEffect(() => {
+        const closeOnEscapeKeyHandler = (e: KeyboardEvent) => e.key === 'Escape' ? handleClose && handleClose() : null;
+
+        closeOnEscapeKey && document.body.addEventListener('keydown', closeOnEscapeKeyHandler);
+
+        return () => {
+            closeOnEscapeKey && document.body.removeEventListener('keydown', closeOnEscapeKeyHandler);
+        }
+    }, [handleClose]);
+
+    if (!isOpen) return null;
+
+    return (
+        <ModalWrapper wrapperId={id}>
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50 px-5">
+                <div style={width ? { width } : {}} className={`h-3/4 bg-surface text-on-surface rounded-lg ${!width ? 'w-full md:w-2/3 lg:w-1/2' : ''}`}>
+                    { children }
+                </div>
+            </div>
+        </ModalWrapper>
+    )
 };
 
 export default Modal;
