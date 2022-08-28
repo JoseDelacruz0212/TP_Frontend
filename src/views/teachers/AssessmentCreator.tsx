@@ -29,16 +29,16 @@ const AssessmentCreator = () => {
             <div className="bg-surface shadow rounded-md flex-1 p-4 flex flex-col space-y-5">
                 <div className="flex justify-between">
                     <small className="subtitle">Diseñador</small>
-                    <div className="flex space-x-5">
+                    <div className="flex space-x-3">
                         <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
                                 onClick={() => publishAssessment()}>
                             <IoRocketOutline />
-                            <span>Publicar</span>
+                            <span className="hidden sm:block">Publicar</span>
                         </button>
                         <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
                                 onClick={() => saveQuestions()}>
                             <IoSaveOutline />
-                            <span>Guardar</span>
+                            <span className="hidden sm:block">Guardar</span>
                         </button>
                     </div>
                 </div>

@@ -5,7 +5,6 @@ import { Routes, Route } from "react-router-dom";
 import ApplicationLayout from "./views/layouts/ApplicationLayout";
 
 import Courses from "./views/teachers/Courses";
-import Assessments from "./views/teachers/Assessments";
 import AssessmentCreator from "./views/teachers/AssessmentCreator";
 
 moment().locale('es');
@@ -16,7 +15,7 @@ function App() {
           <Route path="/" element={null} />
           <Route element={<ApplicationLayout />}>
               <Route path="/courses" element={<Courses />} />
-              <Route path="/assessments" element={<Assessments />} />
+              <Route path="/assessments" element={null} />
               <Route path="/assessment-creator" element={<AssessmentCreator />} />
               <Route path="/students" element={null} />
               <Route path="/requests" element={null} />

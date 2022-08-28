@@ -1,15 +1,16 @@
 import React from "react";
-import moment from "moment";
-import {Link} from "react-router-dom";
 
-import Table, {Column, Row, RowValue} from "../../components/common/table/Table";
+import Table from "../../components/common/table/Table";
 import {FilterSchema} from "../../components/common/table/filter-renderer/Filter";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
 import DatePicker from "../../components/common/table/filter-renderer/elements/DatePicker";
-import Chip from "../../components/common/chip/Chip";
+
+import useTable, {Convertor} from "../../hooks/useTable";
 
 const Courses = () => {
+    const { tableColumns, tableData } = useTable(convertor, columns, rows);
+
     const filterSchemas: FilterSchema[] = [
         {
             id: "course-name-filter",
@@ -41,8 +42,8 @@ const Courses = () => {
     return (
         <div>
             <Table title="Lista de cursos"
-                   columns={columns}
-                   rows={rows}
+                   columns={tableColumns}
+                   rows={tableData}
                    onPageChange={(a) => console.log(a)}
                    onPageSizeChanged={(a) => console.log(a)}
                    filterSchemas={filterSchemas}
@@ -53,20 +54,7 @@ const Courses = () => {
     );
 };
 
-const columns: Column[] = [
-    {
-        key: 1,
-        label: 'Nombre'
-    },
-    {
-        key: 2,
-        label: 'Duración'
-    },
-    {
-        key: 3,
-        label: ''
-    }
-];
+const columns = ["Nombre", "Duración", ""];
 
 const rows = [
     {
@@ -81,42 +69,18 @@ const rows = [
         startDate: new Date(2022, 5, 20),
         endDate: new Date(2022, 5, 26)
     }
-].map(item => {
-    const result: Row = {
-        key: item.id,
-        rowValues: Object.keys(item).reduce<RowValue[]>((acc: RowValue[], current: string) => {
-            let value: React.ReactNode = null;
+];
 
-            switch (current) {
-                case 'name': value = item['name']; break;
-                case 'endDate': value = `Desde ${moment(item['startDate']).format('LL')} a ${moment(item['endDate']).format('LL')}`; break;
-            }
+const convertor: Convertor<any> = (column, rowData) => {
+    let value: React.ReactNode = null;
 
-            if (value != null) {
-                value = <div className="py-4">{value}</div>
-                const result: RowValue = {key: acc.length === 0 ? 1 : +acc[acc.length - 1].key + 1, value}
-                return [...acc, result];
-            } else {
-                return acc;
-            }
-        }, [])
+    switch (column) {
+        case 1: value = <div className="py-4">{rowData.name}</div>; break;
+        case 2: value = <div className="py-4">2</div>; break;
+        case 3: value = <div className="flex justify-end space-x-4">Actions</div>; break;
     };
 
-    result.rowValues.push({
-        key: 3,
-        value: (
-            <div className="flex justify-end space-x-4">
-                <Link to="/students">
-                    <Chip label="Estudiantes" className="bg-secondary text-on-secondary hover:bg-secondary-dark" />
-                </Link>
-                <Link to="/assessments">
-                    <Chip label="Evaluaciones" className="bg-secondary text-on-secondary hover:bg-secondary-dark" />
-                </Link>
-            </div>
-        )
-    });
-
-    return result;
-});
+    return value;
+};
 
 export default Courses;
