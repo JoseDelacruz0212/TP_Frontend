@@ -20,7 +20,10 @@ const FreeTextQuestion = (props: ToolType) => {
                 <div className="flex flex-col space-y-5 border rounded-md p-4">
                     <div className="form-group">
                         <label htmlFor="free-text-question-answer" className="form-label">
-                            <small>Respuesta</small>
+                            <div className="flex justify-between">
+                                <small>Respuesta</small>
+                                <small className="text-overline">{props.answer?.length || '0'} / 50</small>
+                            </div>
                         </label>
                         <input className="form-input"
                                id="free-text-question-answer"

@@ -38,16 +38,18 @@ const MultipleOptionQuestion = (props: ToolType) => {
                 <label htmlFor="multiple-question-with-answer" className="form-label">
                     <small>Opciones</small>
                 </label>
-                <div className="flex space-x-5 items-center px-1">
-                    <input className="flex-1 border-b px-2"
-                           id="multiple-question-options"
-                           name="multiple-question-options"
-                           placeholder="Nueva opción"
-                           value={newOption}
-                           onChange={(e) => setNewOption(e.target.value)} />
+                <div className="flex items-center">
+                    <div className="flex-1 px-2">
+                        <input className="border-b w-full"
+                               id="multiple-question-options"
+                               name="multiple-question-options"
+                               placeholder="Nueva opción"
+                               value={newOption}
+                               onChange={(e) => setNewOption(e.target.value)} />
+                    </div>
                     <div className="flex items-center justify-center">
-                        <button type="button" className="bg-secondary w-7 h-7 rounded-full px-2 py-1 hover:bg-secondary-dark flex justify-center items-center">
-                            <IoAddOutline size={50} onClick={onNewOptionClicked} />
+                        <button onClick={onNewOptionClicked} type="button" className="bg-secondary rounded-full w-6 h-6 px-2 py-1 hover:bg-secondary-dark flex justify-center items-center">
+                            <IoAddOutline size={50} />
                         </button>
                     </div>
                 </div>
