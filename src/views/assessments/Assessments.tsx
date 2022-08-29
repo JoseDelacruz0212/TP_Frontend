@@ -23,15 +23,23 @@ const Assessments = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const state = location.state as LocationState;
-    const courseId = state?.courseId;
-
     const dispatch = useAppDispatch();
     const { filteredAssessments: assessments, filters, pagination } = useAppSelector(state => state.assessments);
     const { tableColumns, tableData } = useTable(convertor, columns, assessments);
 
     useEffect(() => {
-        dispatch(getAllAssessments(courseId));
+        const func = async () => {
+            await dispatch(getAllAssessments());
+
+            const state = location.state as LocationState;
+            const courseId = state?.courseId;
+
+            if (courseId) {
+                await dispatch(updateFilters({...filters, courseId}));
+            }
+        };
+
+        func().then();
     }, [dispatch]);
 
     const filterSchemas: FilterSchema[] = [

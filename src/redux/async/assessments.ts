@@ -24,14 +24,7 @@ export const getAllAssessments = (courseId?: string) => async (dispatch: any) =>
 
     dispatch(assessmentsLoaded(assessments));
 
-    let filters = { ...initialState.filters };
-
-    if (courseId) {
-        filters.courseId = courseId;
-        dispatch(filtersUpdated(filters));
-    }
-
-    dispatch(filterData(assessments, filters, initialState.pagination));
+    dispatch(filterData(assessments, initialState.filters, initialState.pagination));
 };
 
 export const updateFilters = (filters: AssessmentFilter) => async (dispatch: any, getState: any) => {
