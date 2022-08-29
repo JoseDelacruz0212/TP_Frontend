@@ -40,7 +40,7 @@ const Assessments = () => {
         };
 
         func().then();
-    }, [dispatch]);
+    }, [dispatch, filters, location]);
 
     const filterSchemas: FilterSchema[] = [
         {
