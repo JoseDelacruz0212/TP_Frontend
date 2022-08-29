@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Outlet, useLocation} from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
 
 import NavMenu from "../../components/layouts/application-layout/NavMenu";
@@ -14,6 +14,7 @@ const ApplicationLayout = () => {
     const username = "Rodrigo Silva";
 
     const { pathname } = useLocation();
+    const navigate = useNavigate();
     const [activeOption, setActiveOption] = useState(getActiveOptionForCurrentLocation(pathname));
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -25,6 +26,8 @@ const ApplicationLayout = () => {
         setActiveOption(newOption);
         setIsMenuOpen(!isMenuOpen);
     }
+
+    const onProfileClicked = () => navigate('profile');
 
     return (
         <div className="flex flex-col min-h-screen lg:flex-row">
@@ -38,7 +41,7 @@ const ApplicationLayout = () => {
             </aside>
             <main className="bg-background flex-1 flex flex-col pt-14 lg:pl-60 lg:pt-0">
                 <div className="py-5 px-4 sm:px-10 min-h-full flex flex-col">
-                    <ProfileHeader title={getTitleForCurrentLocation(pathname)} username={username} />
+                    <ProfileHeader title={getTitleForCurrentLocation(pathname)} username={username} onProfileClicked={onProfileClicked} />
                     <div className="px-2 py-10 pb-0 flex-1">
                         <Outlet />
                     </div>

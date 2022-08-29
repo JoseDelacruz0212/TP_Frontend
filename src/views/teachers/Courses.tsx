@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import Table from "../../components/common/table/Table";
 import {FilterSchema} from "../../components/common/table/filter-renderer/Filter";
@@ -8,14 +8,24 @@ import DatePicker from "../../components/common/table/filter-renderer/elements/D
 
 import useTable, {Convertor} from "../../hooks/useTable";
 
+import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {getAllCourses} from "../../redux/async/courses";
+import {filtersUpdated} from "../../redux/slices/courses";
+
 const Courses = () => {
-    const { tableColumns, tableData } = useTable(convertor, columns, rows);
+    const dispatch = useAppDispatch();
+    const { courses, filters } = useAppSelector(state => state.courses);
+    const { tableColumns, tableData } = useTable(convertor, columns, courses);
+
+    useEffect(() => {
+        dispatch(getAllCourses());
+    }, [dispatch]);
 
     const filterSchemas: FilterSchema[] = [
         {
             id: "course-name-filter",
             type: Text,
-            onChange: (value: string) => console.log(value),
+            onChange: (value: string) => dispatch(filtersUpdated({ ...filters, name: value })),
             withLabel: true,
             label: 'Nombre',
             placeholder: 'Nombre'
@@ -23,7 +33,7 @@ const Courses = () => {
         {
             id: "course-start-date-filter",
             type: DatePicker,
-            onChange: (value: string) => console.log(value),
+            onChange: (value: string) => dispatch(filtersUpdated({ ...filters, startDate: new Date(value) })),
             withLabel: true,
             label: 'Fecha de inicio',
             placeholder: 'Fecha de inicio',
@@ -32,7 +42,7 @@ const Courses = () => {
         {
             id: "course-end-date-filter",
             type: DatePicker,
-            onChange: (value: string) => console.log(value),
+            onChange: (value: string) => dispatch(filtersUpdated({ ...filters, endDate: new Date(value) })),
             withLabel: true,
             label: 'Fecha de fin',
             placeholder: 'Fecha de fin',
@@ -55,21 +65,6 @@ const Courses = () => {
 };
 
 const columns = ["Nombre", "Duración", ""];
-
-const rows = [
-    {
-        id: 1,
-        name: 'Matemática',
-        startDate: new Date(2022, 4, 20),
-        endDate: new Date(2022, 4, 26)
-    },
-    {
-        id: 2,
-        name: 'Química',
-        startDate: new Date(2022, 5, 20),
-        endDate: new Date(2022, 5, 26)
-    }
-];
 
 const convertor: Convertor<any> = (column, rowData) => {
     let value: React.ReactNode = null;
