@@ -1,15 +1,12 @@
 import React, {useState} from "react";
-import moment from "moment";
 
 import { FilterProps } from "../Filter";
 
 const DatePicker = (props: FilterProps) => {
-    const [value, setValue] = useState(new Date(props.schema.initialValue as string) || null);
+    const [value, setValue] = useState(props.schema.initialValue as string || null);
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newDate = moment(e.target.value).toDate()
-
-        setValue(newDate);
+        setValue(e.target.value);
         props.onChange(e.target.value);
     }
 
@@ -26,7 +23,8 @@ const DatePicker = (props: FilterProps) => {
                    id={props.schema.id}
                    name={props.schema.id}
                    placeholder={props.schema.placeholder}
-                   value={moment(value).format(`YYYY-MM-DD${props.schema.withTime ? ' HH:mm' : ''}`)}
+                   min={props.schema.startDate}
+                   value={value || ''}
                    onChange={onChangeHandler} />
         </div>
     )

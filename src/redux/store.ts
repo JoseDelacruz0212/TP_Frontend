@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 import courses from "./slices/courses";
+import assessments from "./slices/assessments";
 
 const store = configureStore({
     reducer: {
-        courses
+        courses,
+        assessments
     }
 });
 

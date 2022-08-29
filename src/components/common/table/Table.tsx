@@ -42,9 +42,10 @@ interface TableProps {
     onPageSizeChanged: (pageSize: number) => void;
     filterSchemas: FilterSchema[];
     pageSize: number;
-    startIndex: number;
-    endIndex: number;
+    currentPage: number;
+    totalItems: number;
     onClick?: (id: number | string) => void;
+    onFiltersClosed?: () => void;
 }
 
 const Table = ({
@@ -56,16 +57,23 @@ const Table = ({
     onPageSizeChanged,
     filterSchemas,
     pageSize,
-    startIndex,
-    endIndex,
-    onClick
+    currentPage,
+    totalItems,
+    onClick,
+    onFiltersClosed
 }: TableProps) => {
     const [filtersOpen, setFiltersOpen] = useState(false);
 
     const onPageSizeChangedHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
         onPageSizeChanged(parseInt(e.target.value));
 
-    const openFilters = () => setFiltersOpen(!filtersOpen);
+    const openFilters = () =>{
+        if (filtersOpen) {
+            onFiltersClosed && onFiltersClosed();
+        }
+
+        setFiltersOpen(!filtersOpen);
+    }
 
     return (
         <div className="bg-surface shadow flex flex-col space-y-7">
@@ -98,17 +106,24 @@ const Table = ({
                     </thead>
                     <tbody>
                         {
-                            rows.map(row => (
-                                <tr key={row.key} className={onClick ? 'hover:bg-gray-100 hover:cursor-pointer' : ''} onClick={() => onClick && onClick(row.key)}>
-                                    {
-                                        row.rowValues.map(value => (
-                                            <td key={value.key} className="px-5">
-                                                {value.value}
-                                            </td>
-                                        ))
-                                    }
+                            rows.length === 0 ?
+                                <tr>
+                                    <td colSpan={columns.length} className="py-4">
+                                        <small className="flex justify-center">No se encontraton datos</small>
+                                    </td>
                                 </tr>
-                            ))
+                                :
+                                rows.map(row => (
+                                    <tr key={row.key} className={onClick ? 'hover:bg-gray-100 hover:cursor-pointer' : ''} onClick={() => onClick && onClick(row.key)}>
+                                        {
+                                            row.rowValues.map(value => (
+                                                <td key={value.key} className="px-5">
+                                                    {value.value}
+                                                </td>
+                                            ))
+                                        }
+                                    </tr>
+                                ))
                         }
                     </tbody>
                 </table>
@@ -143,7 +158,7 @@ const Table = ({
                                 </div>
                             </small>
                             <small className="flex items-center text-gray-500 space-x-3 pt-3 sm:pt-0">
-                                <span>{startIndex} - {endIndex} de 20</span>
+                                <span>{(currentPage - 1) * pageSize + 1} - {currentPage * pageSize} de {totalItems}</span>
                                 <div className="flex space-x-2">
                                     <FaAngleDoubleLeft role="button" size={18} onClick={() => onPageChange(-2)} />
                                     <FaAngleLeft role="button" size={18} onClick={() => onPageChange(-1)} />

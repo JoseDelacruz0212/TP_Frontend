@@ -10,8 +10,8 @@ export interface FilterSchema {
     type: React.ComponentType<FilterProps>;
     maxLength?: number;
     options?: Option[];
-    startDate?: Date;
-    endDate?: Date;
+    startDate?: string;
+    endDate?: string;
     onChange: (value: string) => void;
     withLabel?: boolean;
     placeholder?: string;

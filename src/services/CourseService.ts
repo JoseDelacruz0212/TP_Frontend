@@ -1,20 +1,153 @@
 import {Course} from "../communication/types/responses/course";
+import { v4 as uuid } from 'uuid';
 
 class CourseService {
     async getCourses(): Promise<Course[]> {
         return [
             {
-                id: "1",
+                id: uuid(),
                 name: 'Matemática',
-                startDate: new Date(2022, 4, 20),
-                endDate: new Date(2022, 4, 26)
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
             },
             {
-                id: "2",
+                id: uuid(),
                 name: 'Química',
-                startDate: new Date(2022, 5, 20),
-                endDate: new Date(2022, 5, 26)
-            }
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
+            {
+                id: uuid(),
+                name: 'Matemática',
+                startDate: '2022-04-26',
+                endDate: '2022-04-30'
+            },
+            {
+                id: uuid(),
+                name: 'Química',
+                startDate: '2022-04-4',
+                endDate: '2022-04-26'
+            },
         ]
     }
 }
