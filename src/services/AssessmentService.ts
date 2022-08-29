@@ -7,7 +7,7 @@ class AssessmentsService {
             {
                 id: uuid(),
                 name: 'Práctica calificada 1',
-                courseId: '6f43976a-48ef-4210-a869-8227aa2ea802',
+                courseId: '1',
                 courseName: 'Matemática',
                 startDate: '2022-08-26',
                 endDate: '2022-08-26',
@@ -15,7 +15,7 @@ class AssessmentsService {
             },
             {
                 id: uuid(),
-                courseId: '6f43976a-48ef-4210-a869-8227aa2ea802',
+                courseId: '1',
                 name: 'Práctica calificada 2',
                 courseName: 'Matemática',
                 startDate: '2022-08-26',
@@ -24,7 +24,7 @@ class AssessmentsService {
             },
             {
                 id: uuid(),
-                courseId: '',
+                courseId: '2',
                 name: 'Práctica calificada 1',
                 courseName: 'Química',
                 startDate: '2022-08-26',

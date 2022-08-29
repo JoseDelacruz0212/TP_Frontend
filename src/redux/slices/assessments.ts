@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 import {Assessment} from "../../communication/types/responses/assessment";
+import {CourseOption} from "../../communication/types/responses/course";
 
 export type Pagination = {
     page: number;
@@ -25,6 +26,8 @@ export type AssessmentsState = {
     assessments: Assessment[];
     filteredAssessments: Assessment[];
     error: string | null;
+    courseOptions: CourseOption[];
+    isFilterActivated: boolean;
 }
 
 export const initialState: AssessmentsState = {
@@ -45,7 +48,9 @@ export const initialState: AssessmentsState = {
     isLoading: false,
     assessments: [],
     filteredAssessments: [],
-    error: null
+    error: null,
+    courseOptions: [],
+    isFilterActivated: false
 }
 
 export const assessmentsSlice = createSlice({
@@ -60,6 +65,9 @@ export const assessmentsSlice = createSlice({
         },
         assessmentsLoading: (state) => {
             state.isLoading = true;
+        },
+        courseOptionsLoaded: (state, action: PayloadAction<CourseOption[]>) => {
+            state.courseOptions = [...action.payload]
         },
         assessmentsFailed: (state, action: PayloadAction<string>) => {
             state.assessments = [];
@@ -79,6 +87,6 @@ export const assessmentsSlice = createSlice({
     }
 });
 
-export const { assessmentsLoaded, assessmentsLoading, assessmentsFailed, filteredAssessmentsUpdated, filtersUpdated, paginationUpdate } = assessmentsSlice.actions;
+export const { assessmentsLoaded, assessmentsLoading, courseOptionsLoaded, assessmentsFailed, filteredAssessmentsUpdated, filtersUpdated, paginationUpdate } = assessmentsSlice.actions;
 
 export default assessmentsSlice.reducer;

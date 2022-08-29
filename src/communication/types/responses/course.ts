@@ -4,3 +4,8 @@ export interface Course {
     startDate: string;
     endDate: string;
 };
+
+export interface CourseOption {
+    key: string;
+    value: string;
+};

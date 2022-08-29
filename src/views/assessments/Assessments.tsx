@@ -12,8 +12,15 @@ import Select from "../../components/common/table/filter-renderer/elements/Selec
 import useTable, {Convertor} from "../../hooks/useTable";
 
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {getAllAssessments, updateFilters, updatePage, resetFilters, updatePageSize} from "../../redux/async/assessments";
 import {useLocation, useNavigate} from "react-router-dom";
+
+import {
+    getAllAssessments,
+    updateFilters,
+    updatePage,
+    resetFilters,
+    updatePageSize, getCourseOptions,
+} from "../../redux/async/assessments";
 
 interface LocationState {
     courseId?: string;
@@ -24,11 +31,12 @@ const Assessments = () => {
     const location = useLocation();
 
     const dispatch = useAppDispatch();
-    const { filteredAssessments: assessments, filters, pagination } = useAppSelector(state => state.assessments);
+    const { filteredAssessments: assessments, filters, pagination, courseOptions } = useAppSelector(state => state.assessments);
     const { tableColumns, tableData } = useTable(convertor, columns, assessments);
 
     useEffect(() => {
         const func = async () => {
+            await dispatch(getCourseOptions());
             await dispatch(getAllAssessments());
 
             const state = location.state as LocationState;
@@ -40,7 +48,7 @@ const Assessments = () => {
         };
 
         func().then();
-    }, [dispatch, filters, location]);
+    }, [dispatch, location]);
 
     const filterSchemas: FilterSchema[] = [
         {
@@ -57,6 +65,7 @@ const Assessments = () => {
             type: Select,
             onChange: (value: string) => dispatch(updateFilters({ ...filters, courseId: value })),
             initialValue: filters.courseId,
+            options: courseOptions,
             withLabel: true,
             label: 'Curso',
             placeholder: 'Curso'
@@ -83,6 +92,17 @@ const Assessments = () => {
 
     const onFiltersClosed = () => dispatch(resetFilters());
 
+    const goToAssessment = (key: string) => {
+        const selectedAssessment = assessments.find(x => x.id === key);
+
+        if (!selectedAssessment) return;
+
+        if (selectedAssessment.status === 2)
+            navigate('/assessment-visualizer/' + key)
+        else
+            navigate('/assessment-creator/' + key)
+    }
+
     return (
         <div>
             <Table title="Lista de cursos"
@@ -95,7 +115,7 @@ const Assessments = () => {
                    pageSize={pagination.pageSize}
                    currentPage={pagination.page}
                    totalItems={pagination.totalItems}
-                   onClick={(key) => navigate('/assessment-creator')} />
+                   onClick={(key) => goToAssessment(key as string)} />
         </div>
     );
 };

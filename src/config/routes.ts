@@ -1,8 +1,10 @@
 export const getTitleForCurrentLocation = (location: string, params?: object) => {
+    if (location.includes('/assessment-creator')) return 'Diseñador de evaluación';
+    if (location.includes('/assessment-visualizer')) return 'Evaluación';
+
     switch (location) {
         case '/courses': return 'Cursos';
         case '/assessments': return 'Evaluaciones';
-        case '/assessment-creator': return 'Diseñador de evaluación';
         case '/students': return 'Estudiantes';
         case '/requests': return 'Reclamos';
         case '/verification': return 'Verificación';

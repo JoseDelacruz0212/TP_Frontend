@@ -6,8 +6,33 @@ import QuestionRenderer from "../../components/assessment-creator/renderer/Quest
 import Tools from "../../components/assessment-creator/tools/Tools";
 import {QuestionSchema, QuestionType} from "../../components/assessment-creator/renderer/Question";
 
+const courseOptions = [
+    {
+        key: '1',
+        value: 'Matemática'
+    },
+    {
+        key: '2',
+        value: 'Química'
+    },
+    {
+        key: '3',
+        value: 'Biología'
+    },
+    {
+        key: '4',
+        value: 'Comunicación'
+    },
+    {
+        key: '5',
+        value: 'Arte'
+    }
+];
+
 const AssessmentCreator = () => {
     const [questions, setQuestions] = useState<QuestionType[]>([]);
+    const [courseId, setCourseId] = useState<string | null>(null);
+    const [title, setTitle] = useState<string | null>(null);
 
     const clearSelectedQuestion = () => setQuestions(questions.map(x => ({ ...x, selected: false })));
 
@@ -51,7 +76,12 @@ const AssessmentCreator = () => {
                 <Tools selectedQuestion={questions.find(x => x.selected)?.schema}
                        onQuestionAdd={onQuestionAdd}
                        onQuestionUpdate={onQuestionUpdate}
-                       onClearSelectedClicked={clearSelectedQuestion} />
+                       onClearSelectedClicked={clearSelectedQuestion}
+                       courseOptions={courseOptions}
+                       courseId={courseId || ""}
+                       setCourseId={setCourseId}
+                       title={title || ""}
+                       setTitle={setTitle} />
             </div>
         </div>
     );

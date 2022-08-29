@@ -11,14 +11,34 @@ export const defaultSchema = {
     points: 1
 };
 
+export type Option = {
+    key: string;
+    value: string;
+}
+
 interface ToolsProps {
     selectedQuestion?: QuestionSchema;
     onQuestionAdd: (schema: QuestionSchema) => void;
     onQuestionUpdate: (schema: QuestionSchema) => void;
     onClearSelectedClicked: () => void;
+    courseOptions: Option[];
+    courseId: string;
+    setCourseId: (x: string) => void;
+    title: string;
+    setTitle: (x: string) => void;
 };
 
-const Tools = ({ selectedQuestion, onQuestionAdd, onQuestionUpdate, onClearSelectedClicked }: ToolsProps) => {
+const Tools = ({
+    selectedQuestion,
+    onQuestionAdd,
+    onQuestionUpdate,
+    onClearSelectedClicked,
+    courseOptions,
+    courseId,
+    setCourseId,
+    title,
+    setTitle }: ToolsProps
+) => {
     const [schema, setSchema] = useState<QuestionSchema>(selectedQuestion || defaultSchema);
 
     useEffect(() => setSchema(selectedQuestion || defaultSchema), [selectedQuestion]);
@@ -67,7 +87,43 @@ const Tools = ({ selectedQuestion, onQuestionAdd, onQuestionUpdate, onClearSelec
                 </div>
             </div>
             <form id="add-question-form" className="flex flex-col divide-y space-y-5" onSubmit={onAddClickedHandler}>
-                <div className="form-group">
+                <div className="flex flex-col space-y-5">
+                    <div className="form-group">
+                        <label htmlFor="assessment-course" className="form-label">
+                            <small>Curso</small>
+                        </label>
+                        <select className="form-input select"
+                                id="assessment-course"
+                                name="assessment-course"
+                                value={courseId}
+                                disabled={courseOptions.length === 0}
+                                placeholder="Tipo de pregunta"
+                                onChange={(e) => setCourseId(e.target.value)} >
+                            { courseOptions && courseOptions.length > 0 && <option value="">Seleccione una opción</option> }
+                            { courseOptions.map(option => (
+                                <option key={option.key} value={option.key}>
+                                    {option.value}
+                                </option>
+                            )) }
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="free-text-question-answer" className="form-label">
+                            <div className="flex justify-between">
+                                <small>Título</small>
+                                <small className="text-overline">{title.length || '0'} / 50</small>
+                            </div>
+                        </label>
+                        <input className="form-input"
+                               id="free-text-question-answer"
+                               name="free-text-question-answer"
+                               placeholder="Respuesta"
+                               maxLength={50}
+                               value={title}
+                               onChange={(e) => setTitle(e.target.value)} />
+                    </div>
+                </div>
+                <div className="form-group pt-5">
                     <label htmlFor="question-type-select" className="form-label">
                         <small>Tipo de pregunta</small>
                     </label>

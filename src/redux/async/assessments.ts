@@ -1,10 +1,11 @@
 import AssessmentService from "../../services/AssessmentService";
+import CourseService from "../../services/CourseService";
 
 import {
     AssessmentFilter,
     assessmentsFailed,
     assessmentsLoaded,
-    assessmentsLoading, filteredAssessmentsUpdated, filtersUpdated,
+    assessmentsLoading, courseOptionsLoaded, filteredAssessmentsUpdated, filtersUpdated,
     initialState, Pagination, paginationUpdate
 } from "../slices/assessments";
 
@@ -26,6 +27,19 @@ export const getAllAssessments = (courseId?: string) => async (dispatch: any) =>
 
     dispatch(filterData(assessments, initialState.filters, initialState.pagination));
 };
+
+export const getCourseOptions = () => async (dispatch: any) => {
+    let courses;
+
+    try {
+        courses = await CourseService.getCoursesForCombo();
+    } catch (error) {
+        dispatch(assessmentsFailed((error as Error).message));
+        return;
+    }
+
+    dispatch(courseOptionsLoaded(courses));
+}
 
 export const updateFilters = (filters: AssessmentFilter) => async (dispatch: any, getState: any) => {
     const { assessments } = getState();
