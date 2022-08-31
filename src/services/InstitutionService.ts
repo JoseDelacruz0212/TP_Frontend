@@ -41,6 +41,7 @@ class InstitutionService implements Service {
 
     async deleteItem(id: string) {
         this.institutions = this.institutions.filter(x => x.id !== id);
+        return id;
     }
 
     async saveItem(item: Entity) {
@@ -49,13 +50,18 @@ class InstitutionService implements Service {
         const existingInstitution = this.institutions.find(x => x.id === institution.id);
 
         if (!existingInstitution) {
-            this.institutions = [...this.institutions, {...institution, id: uuid()}];
+            const newInstitution = { ...institution, id: uuid() };
+            this.institutions = [...this.institutions, newInstitution];
+
+            return newInstitution.id;
         }
         else {
             this.institutions = this.institutions.map(x => {
                 if (x.id !== existingInstitution.id) return x;
                 return institution;
             });
+
+            return existingInstitution.id as string;
         }
     }
 }

@@ -1,5 +1,9 @@
-import {ReactElement} from "react";
+import React, {ReactElement} from "react";
 import {IconType} from "react-icons";
+import {Entity} from "../../communication/responses/entity";
+import {ConvertorCreator, FilterSchemaCreator} from "../../hooks/table";
+import {Service} from "../../communication/service";
+import {FormInputs} from "../common/modal";
 
 export type ProfileHeaderProps = {
     title: string;
@@ -31,4 +35,18 @@ export type SideBarProps = {
     title: string;
     isMenuOpen: boolean;
     toggleOpen: () => void;
+}
+
+export type TableViewProps<T extends Entity, F> = {
+    title: string;
+    filterSchemaCreator: FilterSchemaCreator<F>;
+    convertorCreator: ConvertorCreator<T>
+    columns: string[];
+    service: Service;
+    sidePanelId: string;
+    sidePanelCreateTitle: string;
+    sidePanelEditTitle: string;
+    defaultItemSchema: T;
+    addButtonText: string;
+    formInputs: React.ComponentType<FormInputs<T>>;
 }
