@@ -27,6 +27,8 @@ export type TableProps = {
     onPageSizeChanged: (pageSize: number) => void;
     filterSchemas: FilterSchema[];
     pageSize?: number;
+    hasNext?: boolean;
+    hasPrev?: boolean;
     currentPage?: number;
     totalItems?: number;
     onClick?: (id: number | string) => void;

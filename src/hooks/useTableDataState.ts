@@ -1,3 +1,5 @@
+import {useEffect} from "react";
+
 import {useAppDispatch} from "../redux/store";
 import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvider";
 
@@ -6,13 +8,12 @@ import useTable from "./useTable";
 import {Convertor} from "../types/hooks/table";
 import {Entity} from "../types/communication/responses/entity";
 import {Service} from "../types/communication/service";
-import {useEffect} from "react";
-import {Filter} from "../types/communication/requests/course";
+import {Filter} from "../types/communication/requests/filter";
 
 const useTableDataState = <T>(convertor: Convertor<Entity>, columns: string[] = [], service: Service) => {
     const dispatch = useAppDispatch();
     const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated } = useSliceActions();
-    const { items, filters, page, pageSize } = useSliceSelector();
+    const { items, filters, paginationOptions } = useSliceSelector();
     const { tableColumns, tableData } = useTable(convertor, columns, items?.data);
 
     const getData = async () => {
@@ -20,7 +21,7 @@ const useTableDataState = <T>(convertor: Convertor<Entity>, columns: string[] = 
 
         dispatch(dataRequestStarted(null));
 
-        service.getData(filters, page, pageSize).then(
+        service.getData(filters, paginationOptions?.page, paginationOptions?.pageSize).then(
             (response) => dispatch(dataLoaded(response)),
             (error) => dispatch(dataFetchingFailed(error.message))
         );
@@ -28,18 +29,19 @@ const useTableDataState = <T>(convertor: Convertor<Entity>, columns: string[] = 
 
     useEffect(() => {
         getData().then();
-    }, [filters, page, pageSize]);
+    }, [filters, paginationOptions]);
 
     const onFiltersUpdate = (filters: Filter) => dispatch(filtersUpdated(filters));
-    const onPageUpdate = (filters: Filter) => dispatch(pageUpdated(filters));
-    const onPageSizeUpdate = (filters: Filter) => dispatch(pageSizeUpdated(filters));
+    const onPageUpdate = (page?: number) => dispatch(pageUpdated(page));
+    const onPageSizeUpdate = (pageSize?: number) => dispatch(pageSizeUpdated(pageSize));
 
     return {
         tableColumns,
         tableData,
         filters: filters as T,
-        page,
-        pageSize,
+        pagination: items?.pagination,
+        page: paginationOptions?.page,
+        pageSize: paginationOptions?.pageSize,
         onFiltersUpdate,
         onPageUpdate,
         onPageSizeUpdate

@@ -4,7 +4,7 @@ import {ModalProps} from "../../../types/components/common/modal";
 
 import ModalWrapper from "./ModalWrapper";
 
-const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey }: ModalProps) => {
+const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey = true }: ModalProps) => {
     useEffect(() => {
         const closeOnEscapeKeyHandler = (e: KeyboardEvent) => e.key === 'Escape' ? handleClose && handleClose() : null;
 

@@ -21,18 +21,31 @@ const TableView = <T extends Entity, F>({ title, createFilterSchema, columns, co
     const tableData = useTableDataState<F>(convertor as Convertor<Entity>, columns, service);
     const filterSchemas = createFilterSchema(tableData.filters, tableData.onFiltersUpdate);
 
+    const getNewPage = (option: number) => {
+        if (!tableData.pagination) return undefined;
+
+        if (Math.abs(option) === 2) {
+            if (option < 0) return 1;
+            return tableData.pagination.lastPage
+        } else {
+            return tableData.pagination.page + option;
+        }
+    };
+
     return (
         <div>
             <Table title={title}
-                   columns={tableData.tableColumns}
+                   columns  ={tableData.tableColumns}
                    rows={tableData.tableData}
-                   onPageChange={(option) => tableData.onPageUpdate(option)}
+                   onPageChange={(option) => tableData.onPageUpdate(getNewPage(option))}
                    onPageSizeChanged={(pageSize) => tableData.onPageSizeUpdate(pageSize)}
                    onFiltersClosed={() => {}}
                    filterSchemas={filterSchemas}
-                   pageSize={tableData.pageSize}
-                   currentPage={tableData.page}
-                   totalItems={tableData.tableData?.length} />
+                   hasNext={tableData.pagination?.hasNext}
+                   hasPrev={tableData.pagination?.hasPrev}
+                   pageSize={tableData.pagination?.pageSize}
+                   currentPage={tableData.pagination?.page}
+                   totalItems={tableData.pagination?.totalItems} />
         </div>
     );
 };

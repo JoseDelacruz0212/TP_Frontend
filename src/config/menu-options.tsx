@@ -7,51 +7,58 @@ import {NavMenuItem} from "../types/components/layouts/application-layouts";
 const items: NavMenuItem[] = [
     {
         key: 1,
-        label: "Cursos",
+        label: "Instituciones",
         icon: <IoBookOutline size={30} />,
         order: 1,
-        link: 'courses'
+        link: 'institutions'
     },
     {
         key: 2,
-        label: "Evaluaciones",
-        icon: <IoBookmarksOutline size={30} />,
+        label: "Cursos",
+        icon: <IoBookOutline size={30} />,
         order: 2,
-        link: 'assessments'
+        link: 'courses'
     },
     {
         key: 3,
-        label: "Alumnos",
-        icon: <IoPeopleOutline size={30} />,
+        label: "Evaluaciones",
+        icon: <IoBookmarksOutline size={30} />,
         order: 3,
-        link: 'students'
+        link: 'assessments'
     },
     {
         key: 4,
-        label: "Reclamos",
-        icon: <IoFileTrayFullOutline size={30} />,
+        label: "Alumnos",
+        icon: <IoPeopleOutline size={30} />,
         order: 4,
-        link: 'requests'
+        link: 'students'
     },
     {
         key: 5,
-        label: "Verificación",
-        icon: <IoShieldCheckmarkOutline size={30} />,
+        label: "Reclamos",
+        icon: <IoFileTrayFullOutline size={30} />,
         order: 5,
-        link: 'verification'
+        link: 'requests'
     },
     {
         key: 6,
-        label: "Administración",
-        icon: <IoSettingsOutline size={30} />,
+        label: "Verificación",
+        icon: <IoShieldCheckmarkOutline size={30} />,
         order: 6,
-        link: 'administration'
+        link: 'verification'
     },
     {
         key: 7,
+        label: "Administración",
+        icon: <IoSettingsOutline size={30} />,
+        order: 7,
+        link: 'administration'
+    },
+    {
+        key: 8,
         label: "Cuenta",
         icon: <IoPersonOutline size={30} />,
-        order: 7,
+        order: 8,
         link: 'profile'
     }
 ];

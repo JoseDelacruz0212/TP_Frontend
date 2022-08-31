@@ -23,7 +23,7 @@ const convertToTableColumns = (columns: string[] = []): Column[] =>
 
 const convertData = <T extends Entity>(data: T[] = [], columns: Column[] = [], convertor: Convertor<T>): Row[] =>
     data.map((row, index): Row => ({
-        key: row.id,
+        key: row.id as string,
         rowValues: columns.map((column): RowValue => ({
             key: column.key,
             value: convertor(column.key as number, row)

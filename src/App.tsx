@@ -4,9 +4,10 @@ import { Routes, Route } from "react-router-dom";
 
 import ApplicationLayout from "./views/layouts/ApplicationLayout";
 
-import Courses from "./views/courses/Courses";
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
+
+import Institutions from "./views/institutions/Institutions";
 
 moment().locale('es');
 
@@ -15,7 +16,8 @@ function App() {
       <Routes>
           <Route path="/" element={null} />
           <Route element={<ApplicationLayout />}>
-              <Route path="/courses" element={<Courses />} />
+              <Route path="/institutions" element={<Institutions />} />
+              <Route path="/courses" element={null} />
               <Route path="/assessments" element={null} />
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
               <Route path="/assessment-creator" element={<AssessmentCreator />} />

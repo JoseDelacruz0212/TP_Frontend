@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
-import courses from "./slices/courses";
-import assessments from "./slices/assessments";
+import institutions from "./slices/institutions";
 
 const store = configureStore({
     reducer: {
-        courses,
-        assessments
+        institutions
     }
 });
 

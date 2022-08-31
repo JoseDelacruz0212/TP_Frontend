@@ -1,5 +1,4 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {DataSliceProps} from "../../types/store/slices";
 
 import {
     dataLoaded,
@@ -7,17 +6,25 @@ import {
     dataFetchingFailed,
     filtersUpdated,
     pageUpdated,
-    pageSizeUpdated
+    pageSizeUpdated,
+    dataItemDeleted,
+    dataItemUpdated
 } from "../reducers/tablaData";
 
-const createTableDataSlice = <T, F>({ name, initialState, reducers, extraReducers }: DataSliceProps<T, F>) => {
+import {Entity} from "../../types/communication/responses/entity";
+import {Filter} from "../../types/communication/requests/filter";
+import {DataSliceProps} from "../../types/store/slices";
+
+const createTableDataSlice = <T extends Entity, F extends Filter>({ name, initialState, reducers, extraReducers }: DataSliceProps<T, F>) => {
     initialState = {
         isLoading: false,
         items: undefined,
         error: null,
         isFilterActivated: false,
-        page: 1,
-        pageSize: 10,
+        paginationOptions: {
+            page: 1,
+            pageSize: 10,
+        },
         ...initialState
     };
 
@@ -32,6 +39,8 @@ const createTableDataSlice = <T, F>({ name, initialState, reducers, extraReducer
             filtersUpdated,
             pageUpdated,
             pageSizeUpdated,
+            dataItemDeleted,
+            dataItemUpdated,
             ...reducers
         },
         extraReducers: {

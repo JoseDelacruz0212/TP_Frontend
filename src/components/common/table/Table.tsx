@@ -25,6 +25,8 @@ const Table = ({
     pageSize = 1,
     currentPage = 1,
     totalItems = 0,
+    hasNext = true,
+    hasPrev = true,
     onClick,
     onFiltersClosed
 }: TableProps) => {
@@ -45,11 +47,14 @@ const Table = ({
         <div className="bg-surface shadow flex flex-col space-y-7">
             <div className="flex justify-between p-4 pb-0">
                 <small className="subtitle">{title}</small>
-                <div role="button" className="flex items-center justify-end space-x-2" onClick={openFilters}>
-                    { !filtersOpen && <IoFilterCircleOutline /> }
-                    { filtersOpen && <IoFilterCircle /> }
-                    <small>Filtros</small>
-                </div>
+                {
+                    filterSchemas.length > 0 &&
+                    <div role="button" className="flex items-center justify-end space-x-2" onClick={openFilters}>
+                        { !filtersOpen && <IoFilterCircleOutline /> }
+                        { filtersOpen && <IoFilterCircle /> }
+                        <small>Filtros</small>
+                    </div>
+                }
             </div>
             {
                 filtersOpen &&
@@ -126,10 +131,10 @@ const Table = ({
                             <small className="flex items-center text-gray-500 space-x-3 pt-3 sm:pt-0">
                                 <span>{(currentPage - 1) * pageSize + 1} - {currentPage * pageSize} de {totalItems}</span>
                                 <div className="flex space-x-2">
-                                    <FaAngleDoubleLeft role="button" size={18} onClick={() => onPageChange(-2)} />
-                                    <FaAngleLeft role="button" size={18} onClick={() => onPageChange(-1)} />
-                                    <FaAngleRight role="button" size={18} onClick={() => onPageChange(1)} />
-                                    <FaAngleDoubleRight role="button" size={18} onClick={() => onPageChange(2)} />
+                                    <FaAngleDoubleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange(-2)} />
+                                    <FaAngleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange(-1)} />
+                                    <FaAngleRight className={`${!hasNext ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasNext && onPageChange(1)} />
+                                    <FaAngleDoubleRight className={`${!hasNext ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasNext && onPageChange(2)} />
                                 </div>
                             </small>
                         </div>

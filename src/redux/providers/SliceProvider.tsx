@@ -3,13 +3,13 @@ import {useSelector} from "react-redux";
 import {Slice} from "@reduxjs/toolkit";
 
 import {RootState} from "../store";
-import {coursesSlice} from "../slices/courses";
+import {institutionsSlice} from "../slices/institutions";
 
 import {TableDataState} from "../../types/store/states";
 import {Entity} from "../../types/communication/responses/entity";
-import {Filter} from "../../types/communication/requests/course";
+import {Filter} from "../../types/communication/requests/filter";
 
-const SliceContext = createContext<Slice>(coursesSlice);
+const SliceContext = createContext<Slice>(institutionsSlice);
 
 const withSliceProvider = <P extends object>(slice: Slice, Component: React.ComponentType<P>) =>
     class WithSliceProvider extends React.Component<P> {
@@ -29,10 +29,9 @@ export const useSliceSelector = (): TableDataState<Entity, Filter> => {
 
     return useSelector((state: RootState) => {
         switch (name) {
-            case 'courses': return state.courses; break;
-            case 'assessments': return state.assessments; break;
+            case 'institutions': return state.institutions; break;
             default:
-                return state.assessments;
+                return state.institutions;
         }
     });
 };
