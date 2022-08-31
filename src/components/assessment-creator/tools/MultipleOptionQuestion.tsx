@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 
-import {ToolType} from "./Tool";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
+
+import {ToolType} from "../../../types/components/assessment-creator/tools";
 
 const MultipleOptionQuestion = (props: ToolType) => {
     const [newOption, setNewOption] = useState("");
@@ -13,27 +14,6 @@ const MultipleOptionQuestion = (props: ToolType) => {
 
     return (
         <>
-            <div className="form-group">
-                <label htmlFor="multiple-question-answer" className="form-label">
-                    <small>Opción correcta (respuesta)</small>
-                </label>
-                <select className={`form-input select ${props.options.length === 0 ? 'cursor-not-allowed' : ''}`}
-                        id="multiple-question-answer"
-                        name="multiple-question-answer"
-                        value={props.answer}
-                        placeholder="Respuesta"
-                        disabled={props.options.length === 0}
-                        onChange={(e) => props.setAnswer && props.setAnswer(e.target.value)}>
-                    { props.options && props.options.length > 0 && <option value="">Seleccione una opción</option> }
-                    {
-                        props.options && props.options.map(option => (
-                            <option key={option.label} value={option.label}>
-                                {option.label}
-                            </option>
-                        ))
-                    }
-                </select>
-            </div>
             <div className="form-group space-y-5">
                 <label htmlFor="multiple-question-with-answer" className="form-label">
                     <small>Opciones</small>
@@ -58,16 +38,37 @@ const MultipleOptionQuestion = (props: ToolType) => {
                     <div className="p-2 border rounded-md flex flex-col space-y-3">
                         {
                             props.options.map(option => (
-                                <div key={option.label} className="flex justify-between">
-                                    <small>{option.label}</small>
+                                <div key={option.key} className="flex justify-between">
+                                    <small>{option.value}</small>
                                     <IoTrashOutline className="text-error"
                                                     role="button"
-                                                    onClick={() => props.removeOption(option.label)}/>
+                                                    onClick={() => props.removeOption(option.key as string)}/>
                                 </div>
                             ))
                         }
                     </div>
                 }
+            </div>
+            <div className="form-group">
+                <label htmlFor="multiple-question-answer" className="form-label">
+                    <small>Opción correcta (respuesta)</small>
+                </label>
+                <select className={`form-input select ${props.options.length === 0 ? 'cursor-not-allowed' : ''}`}
+                        id="multiple-question-answer"
+                        name="multiple-question-answer"
+                        value={props.answer}
+                        placeholder="Respuesta"
+                        disabled={props.options.length === 0}
+                        onChange={(e) => props.setAnswer && props.setAnswer(e.target.value)}>
+                    { props.options && props.options.length > 0 && <option value="">Seleccione una opción</option> }
+                    {
+                        props.options && props.options.map(option => (
+                            <option key={option.key} value={option.key}>
+                                {option.value}
+                            </option>
+                        ))
+                    }
+                </select>
             </div>
         </>
     );

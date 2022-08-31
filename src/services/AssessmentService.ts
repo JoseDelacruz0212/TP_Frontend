@@ -1,4 +1,4 @@
-import {Assessment} from "../communication/types/responses/assessment";
+import {Assessment} from "../types/communication/responses/assessment";
 import { v4 as uuid } from 'uuid';
 
 class AssessmentsService {

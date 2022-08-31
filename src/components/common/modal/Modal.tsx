@@ -1,14 +1,8 @@
 import React, {useEffect} from "react";
-import ModalWrapper from "./ModalWrapper";
 
-interface ModalProps {
-    id: string;
-    width?: number | string;
-    children?: React.ReactNode;
-    isOpen?: boolean;
-    handleClose?: () => void;
-    closeOnEscapeKey?: boolean;
-};
+import {ModalProps} from "../../../types/components/common/modal";
+
+import ModalWrapper from "./ModalWrapper";
 
 const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey }: ModalProps) => {
     useEffect(() => {

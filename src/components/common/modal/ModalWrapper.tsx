@@ -1,12 +1,9 @@
 import React, {useLayoutEffect, useState} from "react";
 import { createPortal } from "react-dom";
 
-interface ModalProps {
-    children: React.ReactNode;
-    wrapperId: string;
-}
+import {ModalWrapperProps} from "../../../types/components/common/modal";
 
-const ModalWrapper = ({ children, wrapperId }: ModalProps) => {
+const ModalWrapper = ({ children, wrapperId }: ModalWrapperProps) => {
     const [wrapper, setWrapper] = useState<HTMLElement | null>(null);
 
     useLayoutEffect(() => {

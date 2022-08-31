@@ -1,5 +1,6 @@
-export interface Assessment {
-    id: string;
+import {Entity} from "./entity";
+
+export interface Assessment extends Entity {
     name: string;
     courseId: string;
     courseName: string;

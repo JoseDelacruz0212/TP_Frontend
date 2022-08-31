@@ -1,44 +1,9 @@
-import React, {useState} from "react";
-import {IoChevronDown, IoChevronForward, IoTrashOutline} from "react-icons/io5";
+import React from "react";
+import {IoTrashOutline} from "react-icons/io5";
 
-export const QuestionTypes = Object.freeze({
-    MULTIPLE: 'multiple',
-    FREE_TEXT: 'free-text'
-});
+import {QuestionProps, QuestionTypes} from "../../../types/components/assessment-creator/questions";
 
-export type QuestionOption = {
-    label: string;
-};
-
-export type QuestionSchema = {
-    questionType: string;
-    question: string;
-    hasAnswer?: boolean;
-    answer?: string;
-    isCaseSensitive?: boolean;
-    options?: QuestionOption[];
-    points: number;
-};
-
-export type QuestionType = {
-    id: string;
-    schema: QuestionSchema;
-    order: number;
-    selected: boolean;
-};
-
-interface QuestionProps {
-    question: QuestionType;
-    handleDrag: (e: React.DragEvent<HTMLDivElement>) => void;
-    handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
-    onQuestionDeleted: (id: string) => void;
-    onSelectedQuestionChanged: (id: string) => void;
-}
-
-// TODO: Make question types polymorphic
 const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelectedQuestionChanged }: QuestionProps) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
     return (
         <div id={question.id}
              onClick={() => onSelectedQuestionChanged(question.id)}
@@ -50,11 +15,9 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelec
              onDrop={handleDrop}>
             <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
-                    { !isOpen && <IoChevronForward role="button" onClick={() => setIsOpen(!isOpen)} /> }
-                    { isOpen && <IoChevronDown role="button" onClick={() => setIsOpen(!isOpen)} /> }
                     <div className="flex flex-col space-y-1">
                         <small>{getQuestionTypeNameByTypeId(question.schema.questionType)}</small>
-                        <span className="subtitle-sm">{question.schema.question}</span>
+                        <span className="subtitle-sm">{question.schema.question.substring(0, 15)}{question.schema.question.length > 15 ? '...' : ''}</span>
                     </div>
                 </div>
                 <IoTrashOutline className="text-error cursor-pointer"
@@ -64,39 +27,6 @@ const Question = ({ question, handleDrag, handleDrop, onQuestionDeleted, onSelec
                                     onQuestionDeleted(question.id);
                                 }} />
             </div>
-            {
-                isOpen &&
-                <div className="pt-5">
-                    <div className="flex items-center space-x-2">
-                        <small className="font-bold">Respuesta:</small>
-                        { question.schema.answer && <small>{question.schema.answer}</small> }
-                        { !question.schema.answer && <small>No especificado (libre)</small> }
-                    </div>
-                    {
-                        question.schema.questionType === QuestionTypes.FREE_TEXT && question.schema.hasAnswer &&
-                        <div className="flex items-center space-x-2">
-                            <small className="font-bold">Respetar mayúsuclas:</small>
-                            { question.schema.isCaseSensitive && <small>Sí</small> }
-                            { !question.schema.isCaseSensitive && <small>No</small> }
-                        </div>
-                    }
-                    {
-                        question.schema.questionType === QuestionTypes.MULTIPLE &&
-                        <div className="space-x-2">
-                            <small className="font-bold">Opciones:</small>
-                            <ul className="pl-5">
-                                {
-                                    question.schema.options && question.schema.options.map(question => (
-                                        <li>
-                                            <small>{question.label}</small>
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
-                    }
-                </div>
-            }
         </div>
     )
 };

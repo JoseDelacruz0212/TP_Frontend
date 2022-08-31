@@ -1,80 +1,63 @@
-import React, {useEffect} from "react";
+import React  from "react";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
-import Table from "../../components/common/table/Table";
-import {FilterSchema} from "../../components/common/table/filter-renderer/Filter";
+import {Convertor} from "../../types/hooks/table";
+import {Course} from "../../types/communication/responses/course";
+import {CourseFilter} from "../../types/communication/requests/course";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
 import DatePicker from "../../components/common/table/filter-renderer/elements/DatePicker";
-
-import useTable, {Convertor} from "../../hooks/useTable";
-
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {getAllCourses, updateFilters, updatePage, resetFilters, updatePageSize} from "../../redux/async/courses";
-
-import {Link} from "react-router-dom";
 import Chip from "../../components/common/chip/Chip";
+import TableView from "../../components/common/table/TableView";
+
+import CourseService from "../../services/CourseService";
+
+import {withCoursesProvider} from "../../redux/providers/providers";
 
 const Courses = () => {
-    const dispatch = useAppDispatch();
-    const { filteredCourses: courses, filters, pagination } = useAppSelector(state => state.courses);
-    const { tableColumns, tableData } = useTable(convertor, columns, courses);
-
-    useEffect(() => {
-        dispatch(getAllCourses());
-    }, [dispatch]);
-
-    const filterSchemas: FilterSchema[] = [
-        {
-            id: "course-name-filter",
-            type: Text,
-            initialValue: filters.name,
-            onChange: (value: string) => dispatch(updateFilters({ ...filters, name: value })),
-            withLabel: true,
-            label: 'Nombre',
-            placeholder: 'Nombre'
-        },
-        {
-            id: "course-start-date-filter",
-            type: DatePicker,
-            initialValue: filters.startDate,
-            onChange: (value: string) => dispatch(updateFilters({ ...filters, startDate: value })),
-            withLabel: true,
-            label: 'Fecha de inicio',
-            placeholder: 'Fecha de inicio',
-        },
-        {
-            id: "course-end-date-filter",
-            type: DatePicker,
-            initialValue: filters.endDate,
-            onChange: (value: string) => dispatch(updateFilters({ ...filters, endDate: value })),
-            withLabel: true,
-            label: 'Fecha de fin',
-            placeholder: 'Fecha de fin',
-        }
-    ];
-
-    const onFiltersClosed = () => dispatch(resetFilters());
-
     return (
-        <div>
-            <Table title="Lista de cursos"
-                   columns={tableColumns}
-                   rows={tableData}
-                   onPageChange={(option) => dispatch(updatePage(option))}
-                   onPageSizeChanged={(pageSize) => dispatch(updatePageSize(pageSize))}
-                   onFiltersClosed={onFiltersClosed}
-                   filterSchemas={filterSchemas}
-                   pageSize={pagination.pageSize}
-                   currentPage={pagination.page}
-                   totalItems={pagination.totalItems} />
-        </div>
-    );
+        <TableView title="Lista de cursos"
+                   createFilterSchema={createFilterSchema}
+                   columns={columns}
+                   convertor={convertor}
+                   service={CourseService} />
+    )
 };
+
+const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFilter) => any) => ([
+    {
+        id: "course-name-filter",
+        type: Text,
+        initialValue: filters.name,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, name: value }),
+        withLabel: true,
+        label: 'Nombre',
+        placeholder: 'Nombre'
+    },
+    {
+        id: "course-start-date-filter",
+        type: DatePicker,
+        initialValue: filters.startDate,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, startDate: value }),
+        withLabel: true,
+        label: 'Fecha de inicio',
+        placeholder: 'Fecha de inicio',
+    },
+    {
+        id: "course-end-date-filter",
+        type: DatePicker,
+        initialValue: filters.endDate,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, endDate: value }),
+        withLabel: true,
+        label: 'Fecha de fin',
+        placeholder: 'Fecha de fin',
+    }
+]);
 
 const columns = ["Nombre", "Duración", ""];
 
-const convertor: Convertor<any> = (column, rowData) => {
+const convertor: Convertor<Course> = (column, rowData) => {
     let value: React.ReactNode = null;
 
     switch (column) {
@@ -99,4 +82,4 @@ const convertor: Convertor<any> = (column, rowData) => {
     return value;
 };
 
-export default Courses;
+export default withCoursesProvider(Courses);

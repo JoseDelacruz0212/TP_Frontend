@@ -1,14 +1,8 @@
-import React, { ReactElement } from "react";
-import { IconType } from "react-icons";
+import React  from "react";
 
 import { IoClose, IoMenu } from "react-icons/io5";
 
-interface SideBarProps {
-    titleIcon: ReactElement<IconType>;
-    title: string;
-    isMenuOpen: boolean;
-    toggleOpen: () => void;
-}
+import {SideBarProps} from "../../../types/components/layouts/application-layouts";
 
 const Header = ({ titleIcon, title, isMenuOpen, toggleOpen }: SideBarProps) => {
     return (

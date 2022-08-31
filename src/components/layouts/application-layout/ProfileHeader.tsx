@@ -2,12 +2,7 @@ import React from "react";
 
 import {IoPersonOutline} from "react-icons/io5";
 
-interface ProfileHeaderProps {
-    title: string;
-    username: string;
-    userImage?: string;
-    onProfileClicked: () => void;
-}
+import {ProfileHeaderProps} from "../../../types/components/layouts/application-layouts";
 
 const ProfileHeader = ({ title, username, userImage, onProfileClicked }: ProfileHeaderProps) => {
     return (

@@ -1,11 +1,8 @@
 import React, {useState} from "react";
 
-import Question, {QuestionType} from "./Question";
+import Question from "./Question";
 
-interface QuestionRenderedProps {
-    schema: QuestionType[];
-    setSchema: (x: QuestionType[]) => void;
-};
+import {QuestionRenderedProps} from "../../../types/components/assessment-creator/questions";
 
 const QuestionRenderer = ({ schema, setSchema }: QuestionRenderedProps) => {
     const [dragId, setDragId] = useState<string>();

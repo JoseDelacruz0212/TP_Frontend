@@ -1,9 +1,6 @@
 import React from "react";
 
-interface QuestionInputProps {
-    value: string;
-    onChange: (x: string) => void;
-}
+import {QuestionInputProps} from "../../../types/components/assessment-creator/tools";
 
 const QuestionInput = ({ value, onChange }: QuestionInputProps) => {
     return (

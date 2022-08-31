@@ -4,7 +4,8 @@ import {IoRocketOutline, IoSaveOutline} from "react-icons/io5";
 
 import QuestionRenderer from "../../components/assessment-creator/renderer/QuestionRenderer";
 import Tools from "../../components/assessment-creator/tools/Tools";
-import {QuestionSchema, QuestionType} from "../../components/assessment-creator/renderer/Question";
+import GeneralInfo from "../../components/assessment-creator/information/GeneralInfo";
+import {QuestionSchema, QuestionType} from "../../types/components/assessment-creator/questions";
 
 const courseOptions = [
     {
@@ -50,38 +51,43 @@ const AssessmentCreator = () => {
         setQuestions(questions.map(question => question.selected ? { ...question, schema } : question));
 
     return (
-        <div className="flex flex-col space-x-0 space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0 min-h-full">
-            <div className="bg-surface shadow rounded-md flex-1 p-4 flex flex-col space-y-5">
-                <div className="flex justify-between">
-                    <small className="subtitle">Diseñador</small>
-                    <div className="flex space-x-3">
-                        <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
-                                onClick={() => publishAssessment()}>
-                            <IoRocketOutline />
-                            <span className="hidden sm:block">Publicar</span>
-                        </button>
-                        <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
-                                onClick={() => saveQuestions()}>
-                            <IoSaveOutline />
-                            <span className="hidden sm:block">Guardar</span>
-                        </button>
-                    </div>
-                </div>
-                <div className="bg-gray-100 rounded-md h-64 min-h-full lg:flex-1 lg:min-h-0 overflow-y-auto p-5">
-                    <QuestionRenderer schema={questions}
-                                      setSchema={setQuestions} />
+        <div className="flex flex-col space-y-5">
+            <div className="flex justify-end">
+                <div className="flex space-x-3">
+                    <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
+                            onClick={() => publishAssessment()}>
+                        <IoRocketOutline />
+                        <span className="hidden sm:block">Publicar</span>
+                    </button>
+                    <button className="bg-secondary rounded-md px-2 py-1 hover:bg-secondary-dark h-8 flex items-center space-x-2"
+                            onClick={() => saveQuestions()}>
+                        <IoSaveOutline />
+                        <span className="hidden sm:block">Guardar</span>
+                    </button>
                 </div>
             </div>
-            <div className="bg-surface shadow rounded-md w-full lg:w-1/3 p-4">
-                <Tools selectedQuestion={questions.find(x => x.selected)?.schema}
-                       onQuestionAdd={onQuestionAdd}
-                       onQuestionUpdate={onQuestionUpdate}
-                       onClearSelectedClicked={clearSelectedQuestion}
-                       courseOptions={courseOptions}
-                       courseId={courseId || ""}
-                       setCourseId={setCourseId}
-                       title={title || ""}
-                       setTitle={setTitle} />
+            <div className="flex flex-col space-x-0 space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0 min-h-full">
+                <div className="bg-surface shadow rounded-md flex-1 p-4 flex flex-col space-y-5">
+                    <div className="bg-gray-100 rounded-md h-64 min-h-full lg:flex-1 lg:min-h-0 overflow-y-auto p-5">
+                        <QuestionRenderer schema={questions}
+                                          setSchema={setQuestions} />
+                    </div>
+                </div>
+                <div className="flex flex-col w-full lg:w-1/2 space-y-5">
+                    <div className="bg-surface shadow rounded-md w-full p-4">
+                        <GeneralInfo courseOptions={courseOptions}
+                                     courseId={courseId || ""}
+                                     setCourseId={setCourseId}
+                                     title={title || ""}
+                                     setTitle={setTitle} />
+                    </div>
+                    <div className="bg-surface shadow rounded-md w-full p-4">
+                        <Tools selectedQuestion={questions.find(x => x.selected)?.schema}
+                               onQuestionAdd={onQuestionAdd}
+                               onQuestionUpdate={onQuestionUpdate}
+                               onClearSelectedClicked={clearSelectedQuestion} />
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,17 +1,6 @@
-import React, {ReactElement} from "react";
-import {IconType} from "react-icons";
+import React from "react";
 
-export type NavMenuItem = {
-    key: number;
-    label: string;
-    icon?: ReactElement<IconType>;
-    order: number;
-    link: string;
-}
-
-interface NavMenuItemProps {
-    item: NavMenuItem;
-}
+import {NavMenuItemProps} from "../../../types/components/layouts/application-layouts";
 
 const NavMenuItemComponent = ({ item }: NavMenuItemProps) => {
     return (

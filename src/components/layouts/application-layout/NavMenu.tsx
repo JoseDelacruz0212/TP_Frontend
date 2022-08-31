@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import NavMenuItemComponent, { NavMenuItem } from "./NavMenuItem";
+import NavMenuItemComponent  from "./NavMenuItem";
 
-interface NavMenuProps {
-    items: NavMenuItem[];
-    selected: number;
-    onOptionSelected: (newOption: number) => void;
-}
+import {NavMenuProps} from "../../../types/components/layouts/application-layouts";
 
 const NavMenu = ({ items, selected, onOptionSelected }: NavMenuProps) => {
     return (

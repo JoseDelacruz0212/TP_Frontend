@@ -1,25 +1,11 @@
 import React from "react";
+import { v4 as uuid } from 'uuid';
 
 import FreeTextQuestion from "./FreeTextQuestion";
 import MultipleOptionQuestion from "./MultipleOptionQuestion";
-import {QuestionOption, QuestionSchema, QuestionTypes} from "../renderer/Question";
 
-export interface ToolType {
-    hasAnswer?: boolean;
-    setHasAnswer?: (x: boolean) => void;
-    answer?: string;
-    setAnswer?: (x: string) => void;
-    isCaseSensitive?: boolean;
-    setIsCaseSensitive?: (x: boolean) => void;
-    options: QuestionOption[];
-    addOption: (x: string) => void;
-    removeOption: (x: string) => void;
-};
-
-export interface ToolProps {
-    schema: QuestionSchema;
-    onSchemaChanged: (x: QuestionSchema) => void;
-}
+import {ToolProps, ToolType} from "../../../types/components/assessment-creator/tools";
+import {QuestionSchema, QuestionTypes} from "../../../types/components/assessment-creator/questions";
 
 const Tool = ({ schema, onSchemaChanged }: ToolProps) => {
     const Component = getComponentByType(schema.questionType);
@@ -49,26 +35,28 @@ const Tool = ({ schema, onSchemaChanged }: ToolProps) => {
     };
 
     const onOptionAdded = (label: string) => {
-        const newSchema = { ...schema };
+        const newSchema: QuestionSchema = { ...schema };
 
-        if (newSchema.options && newSchema.options.length > 0 && newSchema.options.find(x => x.label === label)) {
-            console.log(label);
+        if (newSchema.options && newSchema.options.length > 0 && newSchema.options.find(x => x.value === label)) {
             return;
         }
 
-        newSchema.options = [...(newSchema.options || []), { label }];
+        newSchema.options = [...(newSchema.options || []), { key: uuid(), value: label }];
         onSchemaChanged(newSchema);
     };
 
-    const onOptionRemoved = (label: string) => {
+    const onOptionRemoved = (key: string) => {
         if (schema.options && schema.options.length > 0) {
-            const newSchema = {...schema};
+            const newSchema: QuestionSchema = {...schema};
 
-            if (newSchema.answer === label) {
-                newSchema.answer = undefined;
+            if (newSchema.options) {
+                const existingOption = newSchema.options.find(x => x.key === key);
+
+                if (existingOption && newSchema.answer === existingOption.value)
+                    newSchema.answer = undefined;
             }
 
-            newSchema.options = newSchema.options?.filter(x => x.label !== label);
+            newSchema.options = newSchema.options?.filter(x => x.key !== key);
             onSchemaChanged(newSchema);
         }
     }

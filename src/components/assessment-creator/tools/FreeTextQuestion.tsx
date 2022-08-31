@@ -1,6 +1,6 @@
 import React from "react";
 
-import {ToolType} from "./Tool";
+import {ToolType} from "../../../types/components/assessment-creator/tools";
 
 const FreeTextQuestion = (props: ToolType) => {
     return (

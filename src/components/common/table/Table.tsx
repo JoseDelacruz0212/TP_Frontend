@@ -10,43 +10,9 @@ import {
     FaAngleRight
 } from "react-icons/fa";
 
-import { FilterSchema } from "./filter-renderer/Filter";
 import FilterRenderer from "./filter-renderer/FilterRenderer";
 
-export type PageSizeOption = {
-    key: number | string;
-    value: number;
-}
-
-export type Column = {
-    key: number | string;
-    label: React.ReactNode;
-}
-
-export type RowValue = {
-    key: number | string;
-    value: React.ReactNode;
-}
-
-export type Row = {
-    key: number | string;
-    rowValues: RowValue[];
-}
-
-interface TableProps {
-    title: string;
-    columns: Column[];
-    rows: Row[];
-    onPageChange: (direction: -2 | -1 | 1 | 2) => void;
-    pageSizeOptions?: PageSizeOption[];
-    onPageSizeChanged: (pageSize: number) => void;
-    filterSchemas: FilterSchema[];
-    pageSize: number;
-    currentPage: number;
-    totalItems: number;
-    onClick?: (id: number | string) => void;
-    onFiltersClosed?: () => void;
-}
+import {TableProps} from "../../../types/components/common/table/table";
 
 const Table = ({
     title,
@@ -56,9 +22,9 @@ const Table = ({
     pageSizeOptions,
     onPageSizeChanged,
     filterSchemas,
-    pageSize,
-    currentPage,
-    totalItems,
+    pageSize = 1,
+    currentPage = 1,
+    totalItems = 0,
     onClick,
     onFiltersClosed
 }: TableProps) => {

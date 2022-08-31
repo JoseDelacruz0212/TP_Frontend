@@ -1,5 +1,6 @@
-export interface Course {
-    id: string;
+import {Entity} from "./entity";
+
+export interface Course extends Entity {
     name: string;
     startDate: string;
     endDate: string;
