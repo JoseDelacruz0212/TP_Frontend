@@ -49,4 +49,5 @@ export type TableViewProps<T extends Entity, F> = {
     defaultItemSchema: T;
     addButtonText: string;
     formInputs: React.ComponentType<FormInputs<T>>;
+    onItemClick?: (id: number | string) => void;
 }

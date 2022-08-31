@@ -19,7 +19,8 @@ const TableView = <T extends Entity, F>({
     sidePanelEditTitle,
     defaultItemSchema,
     addButtonText,
-    formInputs
+    formInputs,
+    onItemClick
 }: TableViewProps<T, F>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator);
 
@@ -52,7 +53,8 @@ const TableView = <T extends Entity, F>({
                    hasPrev={tableData.pagination?.hasPrev}
                    pageSize={tableData.pagination?.pageSize}
                    currentPage={tableData.pagination?.page}
-                   totalItems={tableData.pagination?.totalItems} />
+                   totalItems={tableData.pagination?.totalItems}
+                   onClick={onItemClick} />
             <SidePanelForm createTitle={sidePanelCreateTitle}
                            editTitle={sidePanelEditTitle}
                            sidePanelId={sidePanelId}

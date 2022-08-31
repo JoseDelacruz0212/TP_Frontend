@@ -2,10 +2,6 @@ import React from "react";
 
 import {FilterSchema} from "./filters";
 import {Option} from "../options";
-import {Entity} from "../../../communication/responses/entity";
-import {ConvertorCreator, FilterSchemaCreator} from "../../../hooks/table";
-import {Service} from "../../../communication/service";
-import {FormInputs} from "../modal";
 
 export type Column = {
     key: number | string;
