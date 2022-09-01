@@ -27,7 +27,7 @@ export type NavMenuItemProps = {
 
 export type NavMenuProps = {
     items: NavMenuItem[];
-    selected: number;
+    selected?: number;
     onOptionSelected: (newOption: number) => void;
 };
 

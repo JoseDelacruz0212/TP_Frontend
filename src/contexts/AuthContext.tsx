@@ -11,7 +11,8 @@ const AuthContext = createContext<AuthProviderContext>({
     signOut: () => {},
     isLoggedIn: false,
     getUserName: () => "",
-    hasPermissionFor: () => false
+    hasPermissionFor: () => false,
+    goToFirstAllowedView: () => {}
 });
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -29,17 +30,19 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const signIn = (username: string, password: string) => {
         AuthorizationService.signIn(username, password).then(
-            () => {
-                const firstAllowedView = menuOptions.find(x => AuthorizationService.hasPermissionFor(x.permission));
-
-                if (firstAllowedView) {
-                    navigate(firstAllowedView.link);
-                } else {
-                    navigate("/", { replace: true });
-                }
-            },
+            () => goToFirstAllowedView(),
             error => console.log(error)
         );
+    }
+
+    const goToFirstAllowedView = () => {
+        const firstAllowedView = menuOptions.find(x => AuthorizationService.hasPermissionFor(x.permission));
+
+        if (firstAllowedView) {
+            navigate(firstAllowedView.link);
+        } else {
+            navigate("/", { replace: true });
+        }
     }
 
     const signOut = () => {
@@ -57,7 +60,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             signOut,
             isLoggedIn,
             getUserName,
-            hasPermissionFor
+            hasPermissionFor,
+            goToFirstAllowedView
         }}>
                 { children }
         </AuthContext.Provider>

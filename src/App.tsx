@@ -14,7 +14,7 @@ moment().locale('es');
 function App() {
   return (
       <Routes>
-          <Route path="/" element={null} />
+          <Route path="/" element={<div>inicio</div>} />
           <Route element={<ApplicationLayout />}>
               <Route path="/institutions" element={<Institutions />} />
               <Route path="/courses" element={null} />

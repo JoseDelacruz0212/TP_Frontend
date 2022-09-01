@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
 
 import NavMenu from "../../components/layouts/application-layout/NavMenu";
@@ -12,7 +12,7 @@ import items from "../../config/app/menu-options";
 import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../../config/app/routes";
 
 const ApplicationLayout = () => {
-    const { hasPermissionFor } = useAuthContext();
+    const { isLoggedIn, hasPermissionFor } = useAuthContext();
 
     const appName = "My Title";
     const username = "Rodrigo Silva";
@@ -27,11 +27,13 @@ const ApplicationLayout = () => {
     }, [pathname]);
 
     const onOptionSelected = (newOption: number) => {
-        setActiveOption(newOption);
+        setActiveOption(items.find(x => x.key === newOption));
         setIsMenuOpen(!isMenuOpen);
     }
 
     const onProfileClicked = () => navigate('profile');
+
+    if (!isLoggedIn) return <Navigate to="/" />
 
     return (
         <div className="flex flex-col min-h-screen lg:flex-row">
@@ -44,11 +46,11 @@ const ApplicationLayout = () => {
                     {
                         isMenuOpen &&
                         <NavMenu items={items.filter(x => hasPermissionFor(x.permission))}
-                                 selected={activeOption}
+                                 selected={activeOption?.key}
                                  onOptionSelected={onOptionSelected} />
                     }
                 </span>
-                <span className="hidden lg:block">{ <NavMenu items={items.filter(x => hasPermissionFor(x.permission))} selected={activeOption} onOptionSelected={onOptionSelected} /> }</span>
+                <span className="hidden lg:block">{ <NavMenu items={items.filter(x => hasPermissionFor(x.permission))} selected={activeOption?.key} onOptionSelected={onOptionSelected} /> }</span>
             </aside>
             <main className="bg-background flex-1 flex flex-col pt-14 lg:pl-60 lg:pt-0">
                 <div className="py-5 px-4 sm:px-10 min-h-full flex flex-col">
