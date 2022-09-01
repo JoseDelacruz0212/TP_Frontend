@@ -30,7 +30,7 @@ class AuthorizationService {
     hasPermissionFor(permission: string) {
         const user = this.getUserData();
 
-        return user && user.roles.some(role =>
+        return user !== null && user.roles.some(role =>
             this.permissions[role].includes("*") || this.permissions[role].includes(permission));
     }
 
