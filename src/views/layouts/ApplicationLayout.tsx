@@ -43,7 +43,7 @@ const ApplicationLayout = () => {
 
     return (
         <div className="flex flex-col min-h-screen lg:flex-row">
-            <aside className={`bg-primary text-on-primary fixed top-0 h-14 lg:h-screen lg:pt-5 w-full lg:w-60 ${isMenuOpen ? 'h-screen' : ''}`}>
+            <aside className={`bg-primary text-on-primary fixed top-0 h-14 lg:h-screen lg:pt-5 w-full lg:w-52 ${isMenuOpen ? 'h-screen' : ''}`}>
                 <Header titleIcon={<IoSchool size="30" />}
                         title={APP_NAME}
                         isMenuOpen={isMenuOpen}
@@ -58,7 +58,7 @@ const ApplicationLayout = () => {
                 </span>
                 <span className="hidden lg:block">{ <NavMenu items={items.filter(x => hasPermissionFor(x.permission))} selected={activeOption?.key} onOptionSelected={onOptionSelected} /> }</span>
             </aside>
-            <main className="bg-background flex-1 flex flex-col pt-14 lg:pl-60 lg:pt-0">
+            <main className="bg-background flex-1 flex flex-col pt-14 lg:pl-52 lg:pt-0">
                 <div className="py-5 px-4 sm:px-10 min-h-full flex flex-col">
                     <ProfileHeader title={getTitleForCurrentLocation(pathname)} username={getUserName()} onProfileClicked={onProfileClicked} />
                     <div className="px-2 py-10 pb-0 flex-1">

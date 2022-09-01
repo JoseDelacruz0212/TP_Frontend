@@ -6,7 +6,7 @@ import {SideBarProps} from "../../../types/components/layouts/application-layout
 
 const Header = ({ titleIcon, title, isMenuOpen, toggleOpen }: SideBarProps) => {
     return (
-        <header className="flex justify-between items-center lg:block lg:static lg:w-60 p-2">
+        <header className="flex justify-between items-center lg:block lg:static lg:w-52 p-2">
             <div className="flex justify-center items-center space-x-3">
                 {titleIcon}
                 <h5>{title}</h5>
