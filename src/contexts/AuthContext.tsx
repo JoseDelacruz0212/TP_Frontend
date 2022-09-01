@@ -30,7 +30,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const signIn = (username: string, password: string) => {
         AuthorizationService.signIn(username, password).then(
-            () => goToFirstAllowedView(),
+            () => {
+                setIsLoggedIn(AuthorizationService.isLoggedIn());
+                goToFirstAllowedView()
+            },
             error => console.log(error)
         );
     }

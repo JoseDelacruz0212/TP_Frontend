@@ -2,6 +2,8 @@ import React from 'react';
 import moment from "moment";
 import { Routes, Route } from "react-router-dom";
 
+import SignInPage from "./views/auth/SignInPage";
+
 import ApplicationLayout from "./views/layouts/ApplicationLayout";
 
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
@@ -14,7 +16,7 @@ moment().locale('es');
 function App() {
   return (
       <Routes>
-          <Route path="/" element={<div>inicio</div>} />
+          <Route path="/" element={<SignInPage />} />
           <Route element={<ApplicationLayout />}>
               <Route path="/institutions" element={<Institutions />} />
               <Route path="/courses" element={null} />
