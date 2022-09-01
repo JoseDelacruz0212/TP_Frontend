@@ -17,8 +17,9 @@ export type NavMenuItem = {
     label: string;
     icon?: ReactElement<IconType>;
     order: number;
-    link: string;
-    permission: string;
+    link?: string;
+    permission?: string;
+    type: string;
 };
 
 export type NavMenuItemProps = {

@@ -19,5 +19,5 @@ export const getTitleForCurrentLocation = (location: string, params?: object) =>
 }
 
 export const getActiveOptionForCurrentLocation = (location: string) => {
-    return menuOptions.find(x => location.includes(x.link));
+    return menuOptions.find(x => x.link && location.includes(x.link));
 }

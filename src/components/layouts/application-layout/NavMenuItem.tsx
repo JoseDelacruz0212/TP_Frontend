@@ -4,10 +4,10 @@ import {NavMenuItemProps} from "../../../types/components/layouts/application-la
 
 const NavMenuItemComponent = ({ item }: NavMenuItemProps) => {
     return (
-        <div className="flex justify-center p-3">
-            <div className="flex flex-col justify-center">
-                <div className="flex justify-center">{item.icon}</div>
-                <span className="subtitle block text-center">{item.label}</span>
+        <div className="flex p-3">
+            <div className="flex space-x-2">
+                <div className="flex">{item.icon}</div>
+                <span className="subtitle block">{item.label}</span>
             </div>
         </div>
     );

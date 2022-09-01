@@ -39,10 +39,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     const goToFirstAllowedView = () => {
-        const firstAllowedView = menuOptions.find(x => AuthorizationService.hasPermissionFor(x.permission));
+        const firstAllowedView = menuOptions.find(x => x.link && AuthorizationService.hasPermissionFor(x.permission));
 
         if (firstAllowedView) {
-            navigate(firstAllowedView.link);
+            navigate(firstAllowedView.link as string);
         } else {
             navigate("/", { replace: true });
         }
@@ -55,7 +55,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     const getUserName = () => AuthorizationService.getUserName();
-    const hasPermissionFor = (permission: string) => AuthorizationService.hasPermissionFor(permission);
+    const hasPermissionFor = (permission?: string) => AuthorizationService.hasPermissionFor(permission);
 
     return (
         <AuthContext.Provider value={{
