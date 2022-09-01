@@ -1,4 +1,4 @@
-import httpClient from "../config/http/httpClient";
+import authorizationClient from "../config/httpClients/authorizationClient";
 
 import {AuthorizationResponse, UserAuthorizationResponse} from "../types/communication/responses/authorization";
 import StorageService from "./StorageService";
@@ -11,7 +11,7 @@ class AuthorizationService {
     };
 
     signIn(userEmail: string, passwordUser: string) {
-        httpClient.post<AuthorizationResponse>('/auth/login', { userEmail, passwordUser }).then(
+        authorizationClient.post<AuthorizationResponse>('/auth/login', { userEmail, passwordUser }).then(
             response => {
                 this.saveUserData(response.data);
             },
@@ -40,6 +40,10 @@ class AuthorizationService {
         if (!user) return "";
 
         return `${user.name} ${user.lastName}`;
+    }
+
+    getAccessToken() {
+        return StorageService.get<string>("accessToken");
     }
 
     private saveUserData(responseData: AuthorizationResponse) {
