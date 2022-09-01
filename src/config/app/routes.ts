@@ -1,5 +1,4 @@
 import menuOptions from "./menu-options";
-import {NavMenuItem} from "../../types/components/layouts/application-layouts";
 
 export const getTitleForCurrentLocation = (location: string, params?: object) => {
     if (location.includes('/assessment-creator')) return 'Diseñador de evaluación';

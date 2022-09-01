@@ -16,6 +16,7 @@ const AuthContext = createContext<AuthProviderContext>({
 });
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
+    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(AuthorizationService.isLoggedIn());
 
     useEffect(() => {
@@ -26,7 +27,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         return () => AuthorizationService.removeAuthListener();
     }, []);
 
-    const navigate = useNavigate();
 
     const signIn = (username: string, password: string) => {
         AuthorizationService.signIn(username, password).then(
