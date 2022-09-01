@@ -18,6 +18,7 @@ export type NavMenuItem = {
     icon?: ReactElement<IconType>;
     order: number;
     link: string;
+    permission: string;
 };
 
 export type NavMenuItemProps = {
@@ -26,7 +27,7 @@ export type NavMenuItemProps = {
 
 export type NavMenuProps = {
     items: NavMenuItem[];
-    selected: number;
+    selected?: number;
     onOptionSelected: (newOption: number) => void;
 };
 

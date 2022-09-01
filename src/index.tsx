@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 
 import './index.css';
+import AuthProvider from "./contexts/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +18,9 @@ root.render(
   <React.StrictMode>
       <Provider store={store}>
           <BrowserRouter>
-              <App />
+              <AuthProvider>
+                  <App />
+              </AuthProvider>
           </BrowserRouter>
       </Provider>
   </React.StrictMode>

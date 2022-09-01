@@ -2,7 +2,8 @@ import React from "react";
 
 import { IoBookOutline, IoBookmarksOutline, IoPeopleOutline, IoFileTrayFullOutline, IoShieldCheckmarkOutline, IoSettingsOutline, IoPersonOutline } from "react-icons/io5";
 
-import {NavMenuItem} from "../types/components/layouts/application-layouts";
+import {NavMenuItem} from "../../types/components/layouts/application-layouts";
+import {Permissions} from "../../types/app/auth";
 
 const items: NavMenuItem[] = [
     {
@@ -10,56 +11,64 @@ const items: NavMenuItem[] = [
         label: "Instituciones",
         icon: <IoBookOutline size={30} />,
         order: 1,
-        link: 'institutions'
+        link: '/institutions',
+        permission: Permissions.INSTITUTIONS
     },
     {
         key: 2,
         label: "Cursos",
         icon: <IoBookOutline size={30} />,
         order: 2,
-        link: 'courses'
+        link: '/courses',
+        permission: Permissions.COURSES
     },
     {
         key: 3,
         label: "Evaluaciones",
         icon: <IoBookmarksOutline size={30} />,
         order: 3,
-        link: 'assessments'
+        link: '/assessments',
+        permission: Permissions.ASSESSMENT
     },
     {
         key: 4,
         label: "Alumnos",
         icon: <IoPeopleOutline size={30} />,
         order: 4,
-        link: 'students'
+        link: '/students',
+        permission: Permissions.USERS
     },
     {
         key: 5,
         label: "Reclamos",
         icon: <IoFileTrayFullOutline size={30} />,
         order: 5,
-        link: 'requests'
+        link: '/requests',
+        permission: Permissions.REQUEST
     },
     {
         key: 6,
         label: "Verificación",
         icon: <IoShieldCheckmarkOutline size={30} />,
         order: 6,
-        link: 'verification'
+        link: '/verification',
+        permission: Permissions.VERIFICATION
     },
     {
         key: 7,
         label: "Administración",
         icon: <IoSettingsOutline size={30} />,
         order: 7,
-        link: 'administration'
+        link: '/administration',
+        permission: Permissions.MANAGEMENT
     },
     {
         key: 8,
         label: "Cuenta",
         icon: <IoPersonOutline size={30} />,
         order: 8,
-        link: 'profile'
+        link: '/profile',
+        permission: Permissions.PROFILE
     }
 ];
 

@@ -3,15 +3,19 @@ import React from "react";
 import {ConvertorCreator} from "../../types/hooks/table";
 import {InstitutionFilter} from "../../types/communication/requests/institutions";
 import {Institution} from "../../types/communication/responses/institutions";
-
-import {withInstitutionsProvider} from "../../redux/providers/providers";
+import {Permissions} from "../../types/app/auth";
 
 import InstitutionService from "../../services/InstitutionService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
-import TableView from "../layouts/TableView";
 import InstitutionEditForm from "../../components/institutions/InstitutionEditForm";
 import InstitutionActions from "../../components/institutions/InstitutionActions";
+
+import {withInstitutionsProvider} from "../../redux/providers/providers";
+
+import withPermission from "../../components/hoc/withPermission";
+
+import TableView from "../layouts/TableView";
 
 const defaultInstitution: Institution = {
     name: '',
@@ -88,4 +92,4 @@ const createFilterSchema = (filters: InstitutionFilter, onFiltersUpdate: (x: Ins
 
 const columns = ["Nombre", "Dirección", "Código", ""];
 
-export default withInstitutionsProvider(Institutions);
+export default withPermission(withInstitutionsProvider(Institutions), Permissions.INSTITUTIONS);

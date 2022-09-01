@@ -12,15 +12,11 @@ import {Filter} from "../../types/communication/requests/filter";
 const SliceContext = createContext<Slice>(institutionsSlice);
 
 const withSliceProvider = <P extends object>(slice: Slice, Component: React.ComponentType<P>) =>
-    class WithSliceProvider extends React.Component<P> {
-        render() {
-            return (
-                <SliceContext.Provider value={slice}>
-                    <Component { ...this.props as P } />
-                </SliceContext.Provider>
-            )
-        }
-    }
+    (props: P) => (
+        <SliceContext.Provider value={slice}>
+            <Component { ...props as P } />
+        </SliceContext.Provider>
+    )
 
 export const useSliceActions = () => useContext(SliceContext).actions;
 
