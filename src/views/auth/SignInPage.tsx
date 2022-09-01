@@ -4,9 +4,10 @@ import {IoSchool} from "react-icons/io5";
 
 import {useAuthContext} from "../../contexts/AuthContext";
 
+import {APP_NAME} from "../../config/app/basic-settings";
+
 const SignInPage = () => {
     const { signIn } = useAuthContext();
-    const appName = "My Title";
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -26,7 +27,7 @@ const SignInPage = () => {
                 <div className="flex flex-col space-y-10 shadow-md w-full p-3 sm:w-96">
                     <div className="flex justify-center items-center space-x-3">
                         <div><IoSchool size={30} /></div>
-                        <h5>{appName}</h5>
+                        <h5>{APP_NAME}</h5>
                     </div>
                     <form id="sign-in-form" className="flex flex-col space-y-5" onSubmit={onSignIn}>
                         <div className="form-group">
