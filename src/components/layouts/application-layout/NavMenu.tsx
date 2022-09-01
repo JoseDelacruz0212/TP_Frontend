@@ -11,10 +11,17 @@ const NavMenu = ({ items, selected, onOptionSelected }: NavMenuProps) => {
             {
                 items
                     .sort((a, b) => a.order - b.order)
-                    .map(item => (
+                    .map(item => item.link ?
+                        (
                             <Link key={item.key} to={item.link} onClick={() => onOptionSelected(item.key)} className={`${selected && selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
                                 <NavMenuItemComponent item={item} />
                             </Link>
+                        )
+                        :
+                        (
+                            <div key={item.key} onClick={() => onOptionSelected(item.key)} className={`${selected && selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
+                                <NavMenuItemComponent item={item} />
+                            </div>
                         )
                     )
             }

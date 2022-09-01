@@ -13,7 +13,7 @@ import {APP_NAME} from "../../config/app/basic-settings";
 import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../../config/app/routes";
 
 const ApplicationLayout = () => {
-    const { isLoggedIn, hasPermissionFor, getUserName } = useAuthContext();
+    const { signOut, isLoggedIn, hasPermissionFor, getUserName } = useAuthContext();
 
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -25,8 +25,16 @@ const ApplicationLayout = () => {
     }, [pathname]);
 
     const onOptionSelected = (newOption: number) => {
-        setActiveOption(items.find(x => x.key === newOption));
-        setIsMenuOpen(!isMenuOpen);
+        const existingOption = items.find(x => x.key === newOption);
+
+        if (!existingOption || (existingOption && existingOption.type === 'link')) {
+            setActiveOption(existingOption);
+            setIsMenuOpen(!isMenuOpen);
+        }
+
+        if (existingOption && existingOption.type === 'logout') {
+            signOut();
+        }
     }
 
     const onProfileClicked = () => navigate('profile');

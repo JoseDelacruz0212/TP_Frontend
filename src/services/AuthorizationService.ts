@@ -45,8 +45,10 @@ class AuthorizationService {
         return StorageService.get<string>("accessToken") !== null;
     }
 
-    hasPermissionFor(permission: string) {
+    hasPermissionFor(permission?: string) {
         const user = this.getUserData();
+
+        if (!permission) return true;
 
         return user !== null && user.roles.some(role => {
             if (this.permissions[role].includes("*")) return true;

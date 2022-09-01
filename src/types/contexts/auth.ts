@@ -5,7 +5,7 @@ export type AuthProviderContext = {
     signOut: () => void;
     isLoggedIn: boolean;
     getUserName: () => string;
-    hasPermissionFor: (permission: string) => boolean;
+    hasPermissionFor: (permission?: string) => boolean;
     goToFirstAllowedView: () => void;
 };
 
