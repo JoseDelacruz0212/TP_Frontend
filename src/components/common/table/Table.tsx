@@ -62,10 +62,10 @@ const Table = ({
                         <FilterRenderer schemas={filterSchemas} />
                     </div>
             }
-            <div className="p-4 pt-0">
+            <div className="px-4 pb-0 overflow-x-auto">
                 <table className="w-full">
                     <thead className="text-left">
-                        <tr className="border-b">
+                        <tr>
                             {
                                 columns.map(column => (
                                     <th key={column.key} className="px-5">
@@ -75,7 +75,7 @@ const Table = ({
                             }
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="border-y">
                         {
                             rows.length === 0 ?
                                 <tr>
@@ -98,49 +98,47 @@ const Table = ({
                         }
                     </tbody>
                 </table>
-                <footer>
-                    <div className="border-t">
-                        <div className="flex flex-col items-end space-x-10 space-y-1 sm:flex-row sm:justify-end pt-5">
-                            <small className="flex items-center text-gray-500 space-x-3">
-                                <span>Filas por página</span>
-                                <div className="relative">
-                                    <select className="appearance-none w-12 px-2 border" value={pageSize} onChange={onPageSizeChangedHandler}>
-                                        {
-                                            (pageSizeOptions || [{
-                                                key: 1,
-                                                value: 5
-                                            }, {
-                                                key: 2,
-                                                value: 10
-                                            }, {
-                                                key: 3,
-                                                value: 25
-                                            }, {
-                                                key: 4,
-                                                value: 50
-                                            }]).map(option => (
-                                                <option key={option.key}>
-                                                    {option.value}
-                                                </option>
-                                            ))
-                                        }
-                                    </select>
-                                    <FaAngleDown size={13} className="absolute top-1 right-1 pointer-events-none" />
-                                </div>
-                            </small>
-                            <small className="flex items-center text-gray-500 space-x-3 pt-3 sm:pt-0">
-                                <span>{(currentPage - 1) * pageSize + 1} - {currentPage * pageSize} de {totalItems}</span>
-                                <div className="flex space-x-2">
-                                    <FaAngleDoubleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange(-2)} />
-                                    <FaAngleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange(-1)} />
-                                    <FaAngleRight className={`${!hasNext ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasNext && onPageChange(1)} />
-                                    <FaAngleDoubleRight className={`${!hasNext ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasNext && onPageChange(2)} />
-                                </div>
-                            </small>
-                        </div>
-                    </div>
-                </footer>
             </div>
+            <footer className="p-4 pt-0">
+                <div className="flex flex-col items-end space-x-10 space-y-1 sm:flex-row sm:justify-end">
+                    <small className="flex items-center text-gray-500 space-x-3">
+                        <span>Filas por página</span>
+                        <div className="relative">
+                            <select className="appearance-none w-12 px-2 border" value={pageSize} onChange={onPageSizeChangedHandler}>
+                                {
+                                    (pageSizeOptions || [{
+                                        key: 1,
+                                        value: 5
+                                    }, {
+                                        key: 2,
+                                        value: 10
+                                    }, {
+                                        key: 3,
+                                        value: 25
+                                    }, {
+                                        key: 4,
+                                        value: 50
+                                    }]).map(option => (
+                                        <option key={option.key}>
+                                            {option.value}
+                                        </option>
+                                    ))
+                                }
+                            </select>
+                            <FaAngleDown size={13} className="absolute top-1 right-1 pointer-events-none" />
+                        </div>
+                    </small>
+                    <small className="flex items-center text-gray-500 space-x-3 pt-3 sm:pt-0">
+                        <span>{(currentPage - 1) * pageSize + 1} - {currentPage * pageSize} de {totalItems}</span>
+                        <div className="flex space-x-2">
+                            <FaAngleDoubleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange(-2)} />
+                            <FaAngleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange(-1)} />
+                            <FaAngleRight className={`${!hasNext ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasNext && onPageChange(1)} />
+                            <FaAngleDoubleRight className={`${!hasNext ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasNext && onPageChange(2)} />
+                        </div>
+                    </small>
+                </div>
+            </footer>
         </div>
     );
 };
