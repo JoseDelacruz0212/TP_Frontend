@@ -2,7 +2,7 @@ import React from "react";
 
 import { IoBookOutline, IoBookmarksOutline, IoPeopleOutline, IoFileTrayFullOutline, IoShieldCheckmarkOutline, IoSettingsOutline, IoPersonOutline } from "react-icons/io5";
 
-import {NavMenuItem} from "../types/components/layouts/application-layouts";
+import {NavMenuItem} from "../../types/components/layouts/application-layouts";
 
 const items: NavMenuItem[] = [
     {

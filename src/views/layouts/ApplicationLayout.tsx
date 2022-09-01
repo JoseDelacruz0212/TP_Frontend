@@ -6,8 +6,8 @@ import NavMenu from "../../components/layouts/application-layout/NavMenu";
 import Header from "../../components/layouts/application-layout/Header";
 import ProfileHeader from "../../components/layouts/application-layout/ProfileHeader";
 
-import items from "../../config/menu-options";
-import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../../config/routes";
+import items from "../../config/app/menu-options";
+import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../../config/app/routes";
 
 const ApplicationLayout = () => {
     const appName = "My Title";
