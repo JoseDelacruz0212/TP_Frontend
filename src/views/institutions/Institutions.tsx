@@ -9,9 +9,10 @@ import {withInstitutionsProvider} from "../../redux/providers/providers";
 import InstitutionService from "../../services/InstitutionService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
-import TableView from "../layouts/TableView";
 import InstitutionEditForm from "../../components/institutions/InstitutionEditForm";
 import InstitutionActions from "../../components/institutions/InstitutionActions";
+
+import TableView from "../layouts/TableView";
 
 const defaultInstitution: Institution = {
     name: '',

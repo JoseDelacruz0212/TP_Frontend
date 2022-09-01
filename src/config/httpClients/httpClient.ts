@@ -31,7 +31,7 @@ instance.interceptors.response.use(
             AuthorizationService.signOut();
         }
 
-        return Promise.reject(error);
+        return Promise.reject(error?.response?.data?.message || undefined);
     }
 );
 
