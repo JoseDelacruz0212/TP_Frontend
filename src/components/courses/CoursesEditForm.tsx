@@ -33,7 +33,7 @@ const CourseEditForm = ({ values, onChange }: FormInputs<ICourses>) => {
                           rows={2}
                           maxLength={100}
                           value={values.description}
-                          onChange={(e) => onChange && onChange({ ...values, descripcion: e.target.value })} />
+                          onChange={(e) => onChange && onChange({ ...values, description: e.target.value })} />
             </div>
             <div className="form-group">
                 <label htmlFor="edit-course-code" className="form-label">
