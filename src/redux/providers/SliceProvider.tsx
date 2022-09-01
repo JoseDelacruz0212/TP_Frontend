@@ -30,6 +30,7 @@ export const useSliceSelector = (): TableDataState<Entity, Filter> => {
     return useSelector((state: RootState) => {
         switch (name) {
             case 'institutions': return state.institutions; break;
+            case 'courses': return state.courses; break;
             default:
                 return state.institutions;
         }
