@@ -9,6 +9,7 @@ import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 
 import Institutions from "./views/institutions/Institutions";
+import Courses from "./views/courses/courses";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path="/" element={<SignInPage />} />
           <Route element={<ApplicationLayout />}>
               <Route path="/institutions" element={<Institutions />} />
-              <Route path="/courses" element={null} />
+              <Route path="/courses" element={<Courses />} />
               <Route path="/assessments" element={null} />
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
               <Route path="/assessment-creator" element={<AssessmentCreator />} />

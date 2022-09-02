@@ -1,0 +1,19 @@
+import createTableDataSlice from "./tableData";
+
+import {TableDataState} from "../../types/store/states";
+import {CourseFilter} from "../../types/communication/requests/course";
+import {Course} from "../../types/communication/responses/courses";
+
+const initialState: TableDataState<Course, CourseFilter> = {
+    filters: {
+        name: '',
+        institution: ''
+    }
+};
+
+export const coursesSlice = createTableDataSlice<Course, CourseFilter>({
+    name: 'courses',
+    initialState
+})
+
+export default coursesSlice.reducer;
