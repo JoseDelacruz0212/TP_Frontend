@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import {Entity} from "../../types/communication/responses/entity";
 import {TableViewProps} from "../../types/components/layouts/application-layouts";
@@ -19,7 +20,7 @@ const TableView = <T extends Entity, F>({
     sidePanelEditTitle,
     defaultItemSchema,
     addButtonText,
-    formInputs,
+    formInputs: FormInputs,
     onItemClick
 }: TableViewProps<T, F>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator);
@@ -55,15 +56,34 @@ const TableView = <T extends Entity, F>({
                    currentPage={tableData.pagination?.page}
                    totalItems={tableData.pagination?.totalItems}
                    onClick={onItemClick} />
-            <SidePanelForm createTitle={sidePanelCreateTitle}
-                           editTitle={sidePanelEditTitle}
+            <SidePanelForm title={tableData.item.id ? sidePanelEditTitle : sidePanelCreateTitle}
                            sidePanelId={sidePanelId}
                            isEditPanelOpen={tableData.isEditPanelOpen}
                            handleClose={tableData.onEditPanelClose}
                            onSubmit={tableData.onSaveItem}
-                           formInputs={formInputs}
-                           values={tableData.item}
-                           onFormInputChange={tableData.onItemUpdate} />
+                           formInputs={(
+                               <>
+                                   { FormInputs && tableData.item && <FormInputs values={tableData.item} onChange={tableData.onItemUpdate} /> }
+                                   <div className="flex space-x-2 justify-end">
+                                       <button type="submit" className="button-primary">
+                                           Guardar
+                                       </button>
+                                       <button className="button-secondary" onClick={tableData.onEditPanelClose}>
+                                           Cancelar
+                                       </button>
+                                   </div>
+                                   <div className="flex flex-col space-y-5">
+                                       <div>
+                                           <span className="font-bold block">Fecha de última actualización:</span>
+                                           <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
+                                       </div>
+                                       <div>
+                                           <span className="font-bold block">Actualizado por:</span>
+                                           <span>{tableData.item.updatedBy}</span>
+                                       </div>
+                                   </div>
+                               </>
+                           )} />
         </>
     );
 };

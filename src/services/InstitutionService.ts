@@ -12,7 +12,11 @@ class InstitutionService implements Service {
         id: uuid(),
         name: 'Institution ' + (index + 1),
         direction: 'Address ' + (index + 1),
-        code: 'Code ' + (index + 1)
+        code: 'Code ' + (index + 1),
+        createdBy: 'admin@gmail.com',
+        updatedBy: 'admin@gmail.com',
+        createdOn: '2022-08-22',
+        updatedOn: '2022-08-22'
     }));
 
     async getData(filters: Filter, page?: number, pageSize?: number): Promise<PaginatedResponse<Institution>> {
@@ -22,6 +26,7 @@ class InstitutionService implements Service {
             .filter((institution) => !institutionFilter.name || institution.name.toLowerCase().includes(institutionFilter.name.toLowerCase()))
             .filter((institution) => !institutionFilter.direction || institution.direction.toLowerCase().includes(institutionFilter.direction.toLowerCase()))
             .filter((institution) => !institutionFilter.code || institution.code.toLowerCase().includes(institutionFilter.code.toLowerCase()))
+            .filter((institution) => !institutionFilter.createdBy || institution.createdBy?.toLowerCase().includes(institutionFilter.createdBy.toLowerCase()))
 
         const startIndex = ((page || 1) - 1) * (pageSize || 10);
         const endIndex = startIndex + (pageSize || 10);
@@ -58,7 +63,12 @@ class InstitutionService implements Service {
         else {
             this.institutions = this.institutions.map(x => {
                 if (x.id !== existingInstitution.id) return x;
-                return institution;
+
+                return {
+                    ...institution,
+                    updatedBy: 'me',
+                    updatedOn: new Date().toString()
+                };
             });
 
             return existingInstitution.id as string;

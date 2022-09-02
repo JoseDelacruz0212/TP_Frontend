@@ -2,16 +2,13 @@ import React from 'react';
 import moment from "moment";
 import { Routes, Route } from "react-router-dom";
 
-import SignInPage from "./views/auth/SignInPage";
-
 import ApplicationLayout from "./views/layouts/ApplicationLayout";
+import SignInPage from "./views/auth/SignInPage";
 
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 
 import Institutions from "./views/institutions/Institutions";
-
-moment().locale('es');
 
 function App() {
   return (
