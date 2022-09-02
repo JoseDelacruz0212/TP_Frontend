@@ -1,39 +1,43 @@
-import ICourses from '../../types/communication/responses/courses';
-import {ConvertorCreator} from "../../types/hooks/table";
 import React from "react";
-import CourseActions from "../../components/courses/CoursesActions";
-import TableView from "../layouts/TableView";
+import moment from "moment/moment";
+
+import {ConvertorCreator} from "../../types/hooks/table";
 import {CourseFilter} from "../../types/communication/requests/course";
-import Text from "../../components/common/table/filter-renderer/elements/Text";
+import {Course} from "../../types/communication/responses/courses";
+import {Permissions} from "../../types/app/auth";
+
 import CourseService from "../../services/CourseService";
+
+import Text from "../../components/common/table/filter-renderer/elements/Text";
 import CourseEditForm from "../../components/courses/CoursesEditForm";
+import CourseActions from "../../components/courses/CoursesActions";
+
 import {withCoursesProvider} from "../../redux/providers/providers";
-const defaultCourses: ICourses = {
+
+import withPermission from "../../components/hoc/withPermission";
+
+import TableView from "../layouts/TableView";
+
+const defaultCourses: Course = {
   name: '',
   description: '',
   institution: '',
-  createdAt:new Date(),
-  updatedAt: new Date(),
-  createdBy: '',
-  updatedBy:'',
 };
 
 const Courses = () => {
-  const convertorCreator : ConvertorCreator<ICourses> = (onEdit, onDelete) => (column, rowData) => {
+  const convertorCreator : ConvertorCreator<Course> = (onEdit, onDelete) => (column, rowData) => {
     let value: React.ReactNode = null;
 
     switch (column) {
       case 1: value = <div className="py-4">{rowData.name}</div>; break;
       case 2: value = <div className="py-4">{rowData.description}</div>; break;
       case 3: value = <div className="py-4">{rowData.institution}</div>; break;
-      case 4: value = <div className="py-4">{rowData.createdAt.toDateString()}</div>; break;
-      case 5: value = <div className="py-4">{rowData.createdBy}</div>; break;
-      case 6: value = <div className="py-4">{rowData.updatedAt.toDateString()}</div>; break;
-      case 7: value = <div className="py-4">{rowData.updatedBy}</div>; break;
-      case 8: value = (
+      case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
+      case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+      case 6: value = (
           <div className="flex justify-end">
             <CourseActions onEdit={() => onEdit(rowData) }
-                                onDelete={() => onDelete(rowData.id as string)} />
+                           onDelete={() => onDelete(rowData.id as string)} />
           </div>
       );
         break;
@@ -60,7 +64,7 @@ const Courses = () => {
 
 const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFilter) => any) => ([
     {
-        id: "institution-name-filter",
+        id: "course-name-filter",
         type: Text,
         initialValue: filters.name,
         onChange: (value: string) => onFiltersUpdate({ ...filters, name: value }),
@@ -69,7 +73,7 @@ const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFi
         placeholder: 'Nombre'
     },
     {
-        id: "institution-intitution-filter",
+        id: "course-institution-filter",
         type: Text,
         initialValue: filters.institution,
         onChange: (value: string) => onFiltersUpdate({ ...filters, institution: value }),
@@ -79,6 +83,6 @@ const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFi
     },
 ])
 
-const columns = ["Nombre", "Descripción", "Institución",  "Fecha de creación","Creado por",  "Fecha de actualización", "Actualizado por", ""];
+const columns = ["Nombre", "Descripción", "Institución", "Creado por", "Fecha de creación", ""];
 
-export default withCoursesProvider(Courses)
+export default withPermission(withCoursesProvider(Courses), Permissions.COURSES);

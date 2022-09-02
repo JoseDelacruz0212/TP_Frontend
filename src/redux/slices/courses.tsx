@@ -1,16 +1,17 @@
-import ICourses from "../../types/communication/responses/courses";
-import {TableDataState} from "../../types/store/states";
-import {CourseFilter} from "../../types/communication/requests/course";
 import createTableDataSlice from "./tableData";
 
-const initialState: TableDataState<ICourses, CourseFilter> = {
+import {TableDataState} from "../../types/store/states";
+import {CourseFilter} from "../../types/communication/requests/course";
+import {Course} from "../../types/communication/responses/courses";
+
+const initialState: TableDataState<Course, CourseFilter> = {
     filters: {
         name: '',
         institution: ''
     }
 };
 
-export const coursesSlice = createTableDataSlice<ICourses, CourseFilter>({
+export const coursesSlice = createTableDataSlice<Course, CourseFilter>({
     name: 'courses',
     initialState
 })

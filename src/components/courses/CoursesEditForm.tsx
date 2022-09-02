@@ -1,7 +1,7 @@
-import ICourses from "../../types/communication/responses/courses";
 import {FormInputs} from "../../types/components/common/modal";
+import {Course} from "../../types/communication/responses/courses";
 
-const CourseEditForm = ({ values, onChange }: FormInputs<ICourses>) => {
+const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
     return (
         <>
             <div className="form-group">
@@ -23,14 +23,14 @@ const CourseEditForm = ({ values, onChange }: FormInputs<ICourses>) => {
                 <label htmlFor="edit-course-address" className="form-label">
                     <div className="flex justify-between">
                         <small>Descripción</small>
-                        <small className="text-overline">{values.description.length || '0'} / 100</small>
+                        <small className="text-overline">{values.description.length || '0'} / 255</small>
                     </div>
                 </label>
                 <textarea className="form-input"
                           id="edit-course-address"
                           name="edit-course-address"
                           placeholder="Descripción"
-                          rows={2}
+                          rows={4}
                           maxLength={100}
                           value={values.description}
                           onChange={(e) => onChange && onChange({ ...values, description: e.target.value })} />

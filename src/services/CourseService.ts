@@ -1,21 +1,22 @@
-import {Service} from "../types/communication/service";
 import {v4 as uuid} from 'uuid';
+
 import {Filter} from "../types/communication/requests/filter";
 import {Entity} from "../types/communication/responses/entity";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
-import ICourses from "../types/communication/responses/courses";
 import {CourseFilter} from "../types/communication/requests/course";
+import {Course} from "../types/communication/responses/courses";
+import {Service} from "../types/communication/service";
 
 class CourseService implements Service {
-    private courses: ICourses[] = [...Array(30)].map((x, index) => ({
+    private courses: Course[] = [...Array(30)].map((x, index) => ({
         id: uuid(),
         name: 'Course ' + (index + 1),
         institution: 'Institution ' + (index + 1),
         description: 'BLABLABLABLABL',
         createdBy: 'Person ' + (index + 1),
         updatedBy: 'Person ' + (index + 1),
-        updatedAt: new Date('08/05/2005'),
-        createdAt: new Date('07/06/2008')
+        updatedAt: '08/05/2005',
+        createdAt: '07/06/2008'
     }));
 
     async deleteItem(id: string) {
@@ -47,7 +48,7 @@ class CourseService implements Service {
     }
 
     async saveItem(item: Entity) {
-        const course: ICourses = item as ICourses;
+        const course: Course = item as Course;
 
         const existingCourse = this.courses.find(x => x.id === course.id);
 
