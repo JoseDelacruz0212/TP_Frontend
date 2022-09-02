@@ -31,7 +31,7 @@ const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
                           name="edit-course-address"
                           placeholder="Descripción"
                           rows={4}
-                          maxLength={100}
+                          maxLength={255}
                           value={values.description}
                           onChange={(e) => onChange && onChange({ ...values, description: e.target.value })} />
             </div>

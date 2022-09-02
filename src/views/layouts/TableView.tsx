@@ -72,16 +72,19 @@ const TableView = <T extends Entity, F>({
                                            Cancelar
                                        </button>
                                    </div>
-                                   <div className="flex flex-col space-y-5">
-                                       <div>
-                                           <span className="font-bold block">Fecha de última actualización:</span>
-                                           <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
+                                   {
+                                       tableData.item.id &&
+                                       <div className="flex flex-col space-y-5">
+                                           <div>
+                                               <span className="font-bold block">Fecha de última actualización:</span>
+                                               <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
+                                           </div>
+                                           <div>
+                                               <span className="font-bold block">Actualizado por:</span>
+                                               <span>{tableData.item.updatedBy}</span>
+                                           </div>
                                        </div>
-                                       <div>
-                                           <span className="font-bold block">Actualizado por:</span>
-                                           <span>{tableData.item.updatedBy}</span>
-                                       </div>
-                                   </div>
+                                   }
                                </>
                            )} />
         </>
