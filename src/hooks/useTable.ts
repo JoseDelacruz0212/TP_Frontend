@@ -4,7 +4,7 @@ import {Column, Row, RowValue} from "../types/components/common/table/table";
 import {Convertor} from "../types/hooks/table";
 import {Entity} from "../types/communication/responses/entity";
 
-const useTable = <T extends Entity>(convertor: Convertor<T>, columns: string[] = [], data: T[] = []) => {
+const useTable = <T extends Entity>(convertor: Convertor<T>, columns: string[] = [], data: T[]) => {
     const [tableColumns, setTableColumns] = useState(convertToTableColumns(columns));
     const [tableData, setTableData] = useState(convertData(data, tableColumns, convertor));
 
