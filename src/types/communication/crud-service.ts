@@ -7,8 +7,13 @@ import httpClient from "../../config/httpClients/httpClient";
 export abstract class CrudService<T extends Entity, F extends Filter> {
     public abstract getData(filters: F, page?: number, pageSize?: number): Promise<PaginatedResponse<T>>;
     public abstract deleteItem(id: string): Promise<string>;
-    public abstract saveItem(item: T): Promise<string>;
 
+    public saveItem(item: T): Promise<string> {
+        return !item.id ? this.createItem(item) : this.updateItem(item);
+    };
+
+    protected abstract updateItem(item: T): Promise<string>;
+    protected abstract createItem(item: T): Promise<string>;
     protected abstract applyFilters(data: T[], filters: F): T[];
 
     protected get<T, K>(url: string, callback: (response: T) => K): Promise<K> {
