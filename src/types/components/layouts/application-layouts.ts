@@ -2,7 +2,7 @@ import React, {ReactElement} from "react";
 import {IconType} from "react-icons";
 import {Entity} from "../../communication/responses/entity";
 import {ConvertorCreator, FilterSchemaCreator} from "../../hooks/table";
-import {Service} from "../../communication/service";
+import {CrudService} from "../../communication/crud-service";
 import {FormInputs} from "../common/modal";
 
 export type ProfileHeaderProps = {
@@ -44,7 +44,7 @@ export type TableViewProps<T extends Entity, F> = {
     filterSchemaCreator: FilterSchemaCreator<F>;
     convertorCreator: ConvertorCreator<T>
     columns: string[];
-    service: Service;
+    service: CrudService<T, F>;
     sidePanelId: string;
     sidePanelCreateTitle: string;
     sidePanelEditTitle: string;

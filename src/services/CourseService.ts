@@ -5,9 +5,9 @@ import {Entity} from "../types/communication/responses/entity";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {CourseFilter} from "../types/communication/requests/course";
 import {Course} from "../types/communication/responses/courses";
-import {Service} from "../types/communication/service";
+import {CrudService} from "../types/communication/crud-service";
 
-class CourseService implements Service {
+class CourseService {
     private courses: Course[] = [...Array(30)].map((x, index) => ({
         id: uuid(),
         name: 'Course ' + (index + 1),

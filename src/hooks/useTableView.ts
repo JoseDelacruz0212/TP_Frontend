@@ -6,9 +6,11 @@ import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvide
 import useTable from "./useTable";
 
 import {ConvertorCreator, FilterSchemaCreator} from "../types/hooks/table";
-import {Service} from "../types/communication/service";
+import {CrudService} from "../types/communication/crud-service";
+import {Entity} from "../types/communication/responses/entity";
+import {Filter} from "../types/communication/requests/filter";
 
-const useTableView = <T, F>(columns: string[] = [], service: Service, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>) => {
+const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
     const [item, setItem] = useState<T>(defaultItemSchema);
 
@@ -21,9 +23,8 @@ const useTableView = <T, F>(columns: string[] = [], service: Service, defaultIte
 
         dispatch(dataRequestStarted(null));
 
-        service.getData(filters, paginationOptions?.page, paginationOptions?.pageSize).then(
-            (response) => dispatch(dataLoaded(response)),
-            (error) => dispatch(dataFetchingFailed(error.message))
+        service.getData(filters as F, paginationOptions?.page, paginationOptions?.pageSize).then(
+            response => dispatch(dataLoaded(response)),
         );
     };
 

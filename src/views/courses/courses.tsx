@@ -47,17 +47,17 @@ const Courses = () => {
 
     return (
         <div className="flex flex-col space-y-5">
-            <TableView title="Lista de cursos"
-                       filterSchemaCreator={createFilterSchema}
-                       convertorCreator={convertorCreator}
-                       columns={columns}
-                       service={CourseService}
-                       sidePanelId="edit-course-side-panel"
-                       sidePanelEditTitle="Editar curso"
-                       sidePanelCreateTitle="Agregar curso"
-                       formInputs={CourseEditForm}
-                       defaultItemSchema={defaultCourses}
-                       addButtonText="Crear curso" />
+            {/*<TableView title="Lista de cursos"*/}
+            {/*           filterSchemaCreator={createFilterSchema}*/}
+            {/*           convertorCreator={convertorCreator}*/}
+            {/*           columns={columns}*/}
+            {/*           service={CourseService}*/}
+            {/*           sidePanelId="edit-course-side-panel"*/}
+            {/*           sidePanelEditTitle="Editar curso"*/}
+            {/*           sidePanelCreateTitle="Agregar curso"*/}
+            {/*           formInputs={CourseEditForm}*/}
+            {/*           defaultItemSchema={defaultCourses}*/}
+            {/*           addButtonText="Crear curso" />*/}
         </div>
     )
 }
