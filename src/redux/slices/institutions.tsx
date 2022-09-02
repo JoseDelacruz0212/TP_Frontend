@@ -10,7 +10,6 @@ const initialState: TableDataState<Institution, InstitutionFilter> = {
         direction: '',
         code: '',
         createdBy: '',
-        createdOn: ''
     }
 };
 
