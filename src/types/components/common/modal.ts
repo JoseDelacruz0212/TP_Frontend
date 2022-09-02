@@ -21,13 +21,11 @@ export type FormInputs<T extends Entity> = {
 };
 
 export type SidePanelFormProps<T extends Entity> = {
-    createTitle: string;
-    editTitle: string;
+    title: string;
     sidePanelId: string;
     isEditPanelOpen: boolean;
     handleClose: () => void;
     onSubmit: () => void;
-    formInputs?: React.ComponentType<FormInputs<T>>;
-    values?: T,
+    formInputs?: React.ReactNode;
     onFormInputChange?: (x: T) => void;
 };

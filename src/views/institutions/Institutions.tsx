@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import {ConvertorCreator} from "../../types/hooks/table";
 import {InstitutionFilter} from "../../types/communication/requests/institutions";
@@ -31,7 +32,9 @@ const Institutions = () => {
             case 1: value = <div className="py-4">{rowData.name}</div>; break;
             case 2: value = <div className="py-4">{rowData.direction}</div>; break;
             case 3: value = <div className="py-4">{rowData.code}</div>; break;
-            case 4: value = (
+            case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
+            case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+            case 6: value = (
                     <div className="flex justify-end">
                         <InstitutionActions onEdit={() => onEdit(rowData) }
                                             onDelete={() => onDelete(rowData.id as string)} />
@@ -87,9 +90,18 @@ const createFilterSchema = (filters: InstitutionFilter, onFiltersUpdate: (x: Ins
         withLabel: true,
         label: 'Código',
         placeholder: 'Código',
+    },
+    {
+        id: "institution-created-by-filter",
+        type: Text,
+        initialValue: filters.createdBy,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, createdBy: value }),
+        withLabel: true,
+        label: 'Creado por',
+        placeholder: 'Creado por',
     }
 ]);
 
-const columns = ["Nombre", "Dirección", "Código", ""];
+const columns = ["Nombre", "Dirección", "Código", "Creado por", "Fecha de creación", ""];
 
 export default withPermission(withInstitutionsProvider(Institutions), Permissions.INSTITUTIONS);
