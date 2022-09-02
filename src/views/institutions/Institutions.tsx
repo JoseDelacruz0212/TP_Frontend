@@ -32,9 +32,7 @@ const Institutions = () => {
             case 1: value = <div className="py-4">{rowData.name}</div>; break;
             case 2: value = <div className="py-4">{rowData.direction}</div>; break;
             case 3: value = <div className="py-4">{rowData.code}</div>; break;
-            case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
-            case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-            case 6: value = (
+            case 4: value = (
                     <div className="flex justify-end">
                         <InstitutionActions onEdit={() => onEdit(rowData) }
                                             onDelete={() => onDelete(rowData.id as string)} />
@@ -58,7 +56,8 @@ const Institutions = () => {
                        sidePanelCreateTitle="Agregar institución"
                        formInputs={InstitutionEditForm}
                        defaultItemSchema={defaultInstitution}
-                       addButtonText="Crear institución" />
+                       addButtonText="Crear institución"
+                       showAuditInfo={false} />
         </div>
     )
 };
@@ -102,6 +101,6 @@ const createFilterSchema = (filters: InstitutionFilter, onFiltersUpdate: (x: Ins
     }
 ]);
 
-const columns = ["Nombre", "Dirección", "Código", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Dirección", "Código", ""];
 
 export default withPermission(withInstitutionsProvider(Institutions), Permissions.INSTITUTIONS);

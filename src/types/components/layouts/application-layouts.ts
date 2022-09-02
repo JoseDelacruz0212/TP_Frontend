@@ -52,4 +52,5 @@ export type TableViewProps<T extends Entity, F> = {
     addButtonText: string;
     formInputs: React.ComponentType<FormInputs<T>>;
     onItemClick?: (id: number | string) => void;
+    showAuditInfo?: boolean;
 }

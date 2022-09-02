@@ -2,7 +2,7 @@ import axios from "axios";
 import AuthorizationService from "../../services/AuthorizationService";
 
 const instance = axios.create({
-    baseURL: 'http://ec2-18-206-164-108.compute-1.amazonaws.com:8080/api',
+    baseURL: 'http://ec2-18-206-164-108.compute-1.amazonaws.com:8080',
     timeout: 5000
 });
 
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
 
         config.headers = {
             ...config.headers,
-            "Authorization": token
+            "Authorization": `Bearer ${token}`
         };
 
         return config;

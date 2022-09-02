@@ -5,3 +5,7 @@ export interface Institution extends Entity {
     direction: string;
     code: string;
 };
+
+export interface InstitutionCreated {
+    newInstitution: Institution;
+}

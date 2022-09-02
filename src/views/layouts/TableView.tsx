@@ -21,7 +21,8 @@ const TableView = <T extends Entity, F>({
     defaultItemSchema,
     addButtonText,
     formInputs: FormInputs,
-    onItemClick
+    onItemClick,
+    showAuditInfo = true
 }: TableViewProps<T, F>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator);
 
@@ -73,7 +74,7 @@ const TableView = <T extends Entity, F>({
                                        </button>
                                    </div>
                                    {
-                                       tableData.item.id &&
+                                       showAuditInfo && tableData.item.id &&
                                        <div className="flex flex-col space-y-5">
                                            <div>
                                                <span className="font-bold block">Fecha de última actualización:</span>
