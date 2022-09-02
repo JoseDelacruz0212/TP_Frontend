@@ -7,7 +7,6 @@ import {Course} from "../../types/communication/responses/courses";
 const initialState: TableDataState<Course, CourseFilter> = {
     filters: {
         name: '',
-        institution: ''
     }
 };
 

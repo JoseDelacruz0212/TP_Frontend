@@ -1,7 +1,25 @@
+import React, {useEffect, useState} from "react";
+
 import {FormInputs} from "../../types/components/common/modal";
-import {Course} from "../../types/communication/responses/courses";
+import {Course, InstitutionOption} from "../../types/communication/responses/courses";
+
+import InstitutionService from "../../services/InstitutionService";
 
 const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
+    const [institutions, setInstitutions] = useState<InstitutionOption[]>();
+    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | undefined>();
+
+    const onSelectedInstitutionIdHandler = (institutionId: string) => {
+        onChange && onChange({ ...values, institutionId });
+        setSelectedInstitutionId(institutionId);
+    }
+
+    useEffect(() => {
+        InstitutionService.getInstitutionsForCombo().then(
+            values => setInstitutions(values)
+        );
+    }, []);
+
     return (
         <>
             <div className="form-group">
@@ -20,15 +38,15 @@ const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
                        onChange={(e) => onChange && onChange({ ...values, name: e.target.value })} />
             </div>
             <div className="form-group">
-                <label htmlFor="edit-course-address" className="form-label">
+                <label htmlFor="edit-course-description" className="form-label">
                     <div className="flex justify-between">
                         <small>Descripción</small>
                         <small className="text-overline">{values.description.length || '0'} / 255</small>
                     </div>
                 </label>
                 <textarea className="form-input"
-                          id="edit-course-address"
-                          name="edit-course-address"
+                          id="edit-course-description"
+                          name="edit-course-description"
                           placeholder="Descripción"
                           rows={4}
                           maxLength={255}
@@ -36,19 +54,25 @@ const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
                           onChange={(e) => onChange && onChange({ ...values, description: e.target.value })} />
             </div>
             <div className="form-group">
-                <label htmlFor="edit-course-code" className="form-label">
-                    <div className="flex justify-between">
-                        <small>Institucion</small>
-                        <small className="text-overline">{values.institution.length || '0'} / 25</small>
-                    </div>
+                <label htmlFor="edit-course-institution" className="form-label">
+                    <small>Institución</small>
                 </label>
-                <input className="form-input"
-                       id="edit-course-code"
-                       name="edit-course-code"
-                       placeholder="Institución"
-                       maxLength={25}
-                       value={values.institution}
-                       onChange={(e) => onChange && onChange({ ...values, institution: e.target.value })} />
+                <select className="form-input select"
+                        id="edit-course-institution"
+                        name="edit-course-institution"
+                        value={selectedInstitutionId || ""}
+                        placeholder="Institución"
+                        disabled={!institutions || institutions?.length === 0}
+                        onChange={(e) => onSelectedInstitutionIdHandler(e.target.value)} >
+                    <option value="" disabled>Seleccione una opción</option>
+                    {
+                        institutions && institutions.map(option => (
+                            <option key={option.id} value={option.id}>
+                                { option.name }
+                            </option>
+                        ))
+                    }
+                </select>
             </div>
         </>
     );

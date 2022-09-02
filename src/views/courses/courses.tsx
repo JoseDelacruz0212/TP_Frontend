@@ -21,7 +21,6 @@ import TableView from "../layouts/TableView";
 const defaultCourses: Course = {
   name: '',
   description: '',
-  institution: '',
 };
 
 const Courses = () => {
@@ -31,10 +30,9 @@ const Courses = () => {
     switch (column) {
       case 1: value = <div className="py-4">{rowData.name}</div>; break;
       case 2: value = <div className="py-4">{rowData.description}</div>; break;
-      case 3: value = <div className="py-4">{rowData.institution}</div>; break;
-      case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
-      case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-      case 6: value = (
+      case 3: value = <div className="py-4">{rowData.createdBy}</div>; break;
+      case 4: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+      case 5: value = (
           <div className="flex justify-end">
             <CourseActions onEdit={() => onEdit(rowData) }
                            onDelete={() => onDelete(rowData.id as string)} />
@@ -47,17 +45,17 @@ const Courses = () => {
 
     return (
         <div className="flex flex-col space-y-5">
-            {/*<TableView title="Lista de cursos"*/}
-            {/*           filterSchemaCreator={createFilterSchema}*/}
-            {/*           convertorCreator={convertorCreator}*/}
-            {/*           columns={columns}*/}
-            {/*           service={CourseService}*/}
-            {/*           sidePanelId="edit-course-side-panel"*/}
-            {/*           sidePanelEditTitle="Editar curso"*/}
-            {/*           sidePanelCreateTitle="Agregar curso"*/}
-            {/*           formInputs={CourseEditForm}*/}
-            {/*           defaultItemSchema={defaultCourses}*/}
-            {/*           addButtonText="Crear curso" />*/}
+            <TableView title="Lista de cursos"
+                       filterSchemaCreator={createFilterSchema}
+                       convertorCreator={convertorCreator}
+                       columns={columns}
+                       service={CourseService}
+                       sidePanelId="edit-course-side-panel"
+                       sidePanelEditTitle="Editar curso"
+                       sidePanelCreateTitle="Agregar curso"
+                       formInputs={CourseEditForm}
+                       defaultItemSchema={defaultCourses}
+                       addButtonText="Crear curso" />
         </div>
     )
 }
@@ -71,18 +69,9 @@ const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFi
         withLabel: true,
         label: 'Nombre',
         placeholder: 'Nombre'
-    },
-    {
-        id: "course-institution-filter",
-        type: Text,
-        initialValue: filters.institution,
-        onChange: (value: string) => onFiltersUpdate({ ...filters, institution: value }),
-        withLabel: true,
-        label: 'Intitución',
-        placeholder: 'Intitución'
-    },
+    }
 ])
 
-const columns = ["Nombre", "Descripción", "Institución", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Descripción", "Creado por", "Fecha de creación", ""];
 
 export default withPermission(withCoursesProvider(Courses), Permissions.COURSES);
