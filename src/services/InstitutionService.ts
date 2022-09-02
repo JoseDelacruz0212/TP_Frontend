@@ -34,7 +34,6 @@ class InstitutionService extends CrudService<Institution, InstitutionFilter> {
             .filter((institution) => !filters.name || institution.name.toLowerCase().includes(filters.name.toLowerCase()))
             .filter((institution) => !filters.direction || institution.direction.toLowerCase().includes(filters.direction.toLowerCase()))
             .filter((institution) => !filters.code || institution.code.toLowerCase().includes(filters.code.toLowerCase()))
-            .filter((institution) => !filters.createdBy || institution.createdBy?.toLowerCase().includes(filters.createdBy.toLowerCase()))
     }
 }
 

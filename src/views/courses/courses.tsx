@@ -33,7 +33,7 @@ const Courses = () => {
       case 3: value = <div className="py-4">{rowData.createdBy}</div>; break;
       case 4: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
       case 5: value = (
-          <div className="flex justify-end">
+          <div className="flex justify-end px-5">
             <CourseActions onEdit={() => onEdit(rowData) }
                            onDelete={() => onDelete(rowData.id as string)} />
           </div>

@@ -9,7 +9,6 @@ const initialState: TableDataState<Institution, InstitutionFilter> = {
         name: '',
         direction: '',
         code: '',
-        createdBy: '',
     }
 };
 

@@ -89,15 +89,6 @@ const createFilterSchema = (filters: InstitutionFilter, onFiltersUpdate: (x: Ins
         withLabel: true,
         label: 'Código',
         placeholder: 'Código',
-    },
-    {
-        id: "institution-created-by-filter",
-        type: Text,
-        initialValue: filters.createdBy,
-        onChange: (value: string) => onFiltersUpdate({ ...filters, createdBy: value }),
-        withLabel: true,
-        label: 'Creado por',
-        placeholder: 'Creado por',
     }
 ]);
 
