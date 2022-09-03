@@ -31,9 +31,10 @@ const Courses = () => {
     switch (column) {
       case 1: value = <div className="py-4">{rowData.name}</div>; break;
       case 2: value = <div className="py-4">{rowData.description}</div>; break;
-      case 3: value = <div className="py-4">{rowData.createdBy}</div>; break;
-      case 4: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-      case 5: value = (
+      case 3: value = <div className="py-4">{rowData.institution?.name}</div>; break;
+      case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
+      case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+      case 6: value = (
           <div className="flex justify-end px-5">
               <MenuOptions options={getMenuOptions<Course>(onEdit, onDelete, rowData)} />
           </div>
@@ -69,10 +70,19 @@ const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFi
         withLabel: true,
         label: 'Nombre',
         placeholder: 'Nombre'
+    },
+    {
+        id: "course-institution-filter",
+        type: Text,
+        initialValue: filters.institution,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, institution: value }),
+        withLabel: true,
+        label: 'Institución',
+        placeholder: 'Institución'
     }
 ])
 
-const columns = ["Nombre", "Descripción", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Descripción", "Institution", "Creado por", "Fecha de creación", ""];
 
 const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => [
     <div role="button" className="menu-option">

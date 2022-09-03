@@ -29,6 +29,7 @@ class CourseService extends CrudService<Course, CourseFilter> {
     protected applyFilters(data: Course[], filters: CourseFilter) {
         return data
             .filter((institution) => !filters.name || institution.name.toLowerCase().includes(filters.name.toLowerCase()))
+            .filter((institution) => !filters.institution || institution.institution!.name.toLowerCase().includes(filters.institution.toLowerCase()))
     }
 }
 
