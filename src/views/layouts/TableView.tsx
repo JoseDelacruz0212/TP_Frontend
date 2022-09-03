@@ -65,7 +65,7 @@ const TableView = <T extends Entity, F>({
                            formInputs={(
                                <>
                                    { FormInputs && tableData.item && <FormInputs values={tableData.item} onChange={tableData.onItemUpdate} /> }
-                                   <div className="flex space-x-2 justify-end">
+                                   <div className="flex space-x-2 justify-end pt-5">
                                        <button type="submit" className="button-primary">
                                            Guardar
                                        </button>

@@ -16,7 +16,7 @@ import withPermission from "../../components/hoc/withPermission";
 import {withCoursesProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import {IoDocumentOutline, IoPencilOutline, IoPeopleOutline, IoTrashOutline} from "react-icons/io5";
+import {IoBarChartOutline, IoDocumentOutline, IoPencilOutline, IoPeopleOutline, IoTrashOutline} from "react-icons/io5";
 import {Entity} from "../../types/communication/responses/entity";
 
 const defaultCourses: Course = {
@@ -92,6 +92,10 @@ const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: 
     <div role="button" className="menu-option">
         <div><IoDocumentOutline /></div>
         <span>Ver evaluaciones</span>
+    </div>,
+    <div role="button" className="menu-option">
+        <div><IoBarChartOutline /></div>
+        <span>Ver objetivos</span>
     </div>,
     <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
         <div><IoPencilOutline /></div>

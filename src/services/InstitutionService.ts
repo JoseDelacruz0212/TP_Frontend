@@ -1,8 +1,7 @@
-import {Institution, InstitutionCreated} from "../types/communication/responses/institutions";
+import {Institution, InstitutionCreated, InstitutionOption} from "../types/communication/responses/institutions";
 import {CrudService} from "../types/communication/crud-service";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {InstitutionFilter} from "../types/communication/requests/institutions";
-import {InstitutionOption} from "../types/communication/responses/courses";
 
 class InstitutionService extends CrudService<Institution, InstitutionFilter> {
     public async getData(filters: InstitutionFilter, page: number = 1, pageSize: number = 10) {

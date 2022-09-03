@@ -1,12 +1,17 @@
 import {CrudService} from "../types/communication/crud-service";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
-import {Course} from "../types/communication/responses/courses";
+import {Course, CourseCreated, CourseOption} from "../types/communication/responses/courses";
 import {CourseFilter} from "../types/communication/requests/course";
 
 class CourseService extends CrudService<Course, CourseFilter> {
     public async getData(filters: CourseFilter, page: number = 1, pageSize: number = 10) {
         const filter = (i: Course[]) => this.getPaginatedData(i, filters, page, pageSize);
         return this.get<Course[], PaginatedResponse<Course>>('/course', filter);
+    }
+
+    public async getCoursesForCombo() {
+        return this.get<CourseOption[], CourseOption[]>('/course',
+            courses => courses);
     }
 
     public async deleteItem(id: string) {
@@ -18,11 +23,8 @@ class CourseService extends CrudService<Course, CourseFilter> {
     }
 
     protected createItem(item: Course) {
-        return this.post<any, Course, string>('/course', item,
-            response => {
-                console.log(response);
-                return "";
-            }
+        return this.post<CourseCreated, Course, string>('/course', item,
+            response => response.course.id!
         );
     }
 

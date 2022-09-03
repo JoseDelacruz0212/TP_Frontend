@@ -8,7 +8,7 @@ export const getTitleForCurrentLocation = (location: string, params?: object) =>
         case '/institutions': return 'Instituciones';
         case '/courses': return 'Cursos';
         case '/assessments': return 'Evaluaciones';
-        case '/students': return 'Estudiantes';
+        case '/users': return 'Usuarios';
         case '/requests': return 'Reclamos';
         case '/verification': return 'Verificación';
         case '/administration': return 'Administración';

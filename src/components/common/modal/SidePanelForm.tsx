@@ -29,7 +29,7 @@ const SidePanelForm = <T extends Entity>({
                         <IoCloseOutline size={20} />
                     </button>
                 </div>
-                <form onSubmit={onSubmitHandler} className="flex flex-col space-y-10">
+                <form onSubmit={onSubmitHandler} className="flex flex-col space-y-5">
                     {formInputs}
                 </form>
             </div>

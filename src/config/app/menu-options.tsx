@@ -44,10 +44,10 @@ const items: NavMenuItem[] = [
     },
     {
         key: 4,
-        label: "Alumnos",
+        label: "Usuarios",
         icon: <IoPeopleOutline size={30} />,
         order: 4,
-        link: '/students',
+        link: '/users',
         permission: Permissions.USERS,
         type: 'link'
     },

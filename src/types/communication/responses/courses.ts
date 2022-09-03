@@ -8,7 +8,11 @@ export interface Course extends Entity {
     institution?: Institution;
 }
 
-export interface InstitutionOption {
+export interface CourseOption {
     id: string;
     name: string;
+}
+
+export interface CourseCreated {
+    course: Course;
 }

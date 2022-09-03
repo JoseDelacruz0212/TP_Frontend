@@ -6,6 +6,11 @@ export interface Institution extends Entity {
     code: string;
 };
 
+export interface InstitutionOption {
+    id: string;
+    name: string;
+};
+
 export interface InstitutionCreated {
     newInstitution: Institution;
-}
+};

@@ -10,6 +10,7 @@ import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 
 import Institutions from "./views/table-views/Institutions";
 import Courses from "./views/table-views/courses";
+import Assessments from "./views/table-views/Assessments";
 
 function App() {
   return (
@@ -18,11 +19,11 @@ function App() {
           <Route element={<ApplicationLayout />}>
               <Route path="/institutions" element={<Institutions />} />
               <Route path="/courses" element={<Courses />} />
-              <Route path="/assessments" element={null} />
+              <Route path="/assessments" element={<Assessments />} />
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
               <Route path="/assessment-creator" element={<AssessmentCreator />} />
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
-              <Route path="/students" element={null} />
+              <Route path="/users" element={null} />
               <Route path="/requests" element={null} />
               <Route path="/verification" element={null} />
               <Route path="/administration" element={null} />

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 
 import {FormInputs} from "../../types/components/common/modal";
-import {Course, InstitutionOption} from "../../types/communication/responses/courses";
+import {Course} from "../../types/communication/responses/courses";
+import {InstitutionOption} from "../../types/communication/responses/institutions";
 
 import InstitutionService from "../../services/InstitutionService";
 
