@@ -51,33 +51,33 @@ const items: NavMenuItem[] = [
         permission: Permissions.USERS,
         type: 'link'
     },
-    {
-        key: 5,
-        label: "Reclamos",
-        icon: <IoFileTrayFullOutline size={30} />,
-        order: 5,
-        link: '/requests',
-        permission: Permissions.REQUEST,
-        type: 'link'
-    },
-    {
-        key: 6,
-        label: "Verificación",
-        icon: <IoShieldCheckmarkOutline size={30} />,
-        order: 6,
-        link: '/verification',
-        permission: Permissions.VERIFICATION,
-        type: 'link'
-    },
-    {
-        key: 7,
-        label: "Administración",
-        icon: <IoSettingsOutline size={30} />,
-        order: 7,
-        link: '/administration',
-        permission: Permissions.MANAGEMENT,
-        type: 'link'
-    },
+    // {
+    //     key: 5,
+    //     label: "Reclamos",
+    //     icon: <IoFileTrayFullOutline size={30} />,
+    //     order: 5,
+    //     link: '/requests',
+    //     permission: Permissions.REQUEST,
+    //     type: 'link'
+    // },
+    // {
+    //     key: 6,
+    //     label: "Verificación",
+    //     icon: <IoShieldCheckmarkOutline size={30} />,
+    //     order: 6,
+    //     link: '/verification',
+    //     permission: Permissions.VERIFICATION,
+    //     type: 'link'
+    // },
+    // {
+    //     key: 7,
+    //     label: "Administración",
+    //     icon: <IoSettingsOutline size={30} />,
+    //     order: 7,
+    //     link: '/administration',
+    //     permission: Permissions.MANAGEMENT,
+    //     type: 'link'
+    // },
     {
         key: 8,
         label: "Cuenta",

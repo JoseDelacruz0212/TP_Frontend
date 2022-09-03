@@ -23,7 +23,7 @@ const MenuOptions = ({ options }: MenuOptionsProps) => {
                         {
                             options.map(
                                 (option, index) =>
-                                    <li key={index}>
+                                    <li key={index} onClick={() => setIsMenuOpen(false)}>
                                         {option}
                                     </li>
                             )

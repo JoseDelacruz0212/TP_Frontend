@@ -68,7 +68,7 @@ const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: 
     </div>,
     <div role="button" className="menu-option">
         <div><IoCreateOutline /></div>
-        <span>Editar preguntas</span>
+        <span>Diseñar examen</span>
     </div>,
     <div role="button" className="menu-option">
         <div><IoRocketOutline /></div>

@@ -26,6 +26,14 @@ class UserService extends CrudService<User, UserFilter> {
         );
     }
 
+    public approveUser(id: string) {
+        return this.put(`/user/${id}`, { status: true }, () => id)
+    }
+
+    public revokeUser(id: string) {
+        return this.put(`/user/${id}`, { status: false }, () => id)
+    }
+
     protected applyFilters(data: User[], filters: UserFilter) {
         const newData = data.map(x => ({ ...x, id: x.idUser }) as User);
 

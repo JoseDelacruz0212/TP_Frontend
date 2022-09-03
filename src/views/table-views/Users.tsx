@@ -1,6 +1,9 @@
 import React from "react";
 import moment from "moment/moment";
 
+import {useSliceActions} from "../../redux/providers/SliceProvider";
+import {useDispatch} from "react-redux";
+
 import {ConvertorCreator} from "../../types/hooks/table";
 import {UserFilter} from "../../types/communication/requests/user";
 import {User} from "../../types/communication/responses/user";
@@ -27,6 +30,16 @@ const defaultUser: User = {
 };
 
 const Users = () => {
+    const dispatch = useDispatch();
+    const { userStatusChanged } = useSliceActions();
+
+    const approveUser = (id: string) => UserService.approveUser(id).then(
+        () => dispatch(userStatusChanged(null))
+    )
+    const revokeUser = (id: string) => UserService.revokeUser(id).then(
+        () => dispatch(userStatusChanged(null))
+    )
+
     const convertorCreator : ConvertorCreator<User> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;
 
@@ -39,7 +52,36 @@ const Users = () => {
             case 6: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 7: value = (
                     <div className="flex justify-end px-5">
-                        <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
+                        <MenuOptions options={[
+                            <If condition={!rowData.status}>
+                                <HasPermission permission={Permissions.USERS_APPROVE}>
+                                    <div role="button" className="menu-option" onClick={() => approveUser(rowData.id!)}>
+                                        <div><IoCheckboxOutline /></div>
+                                        <span>Aprobar usuario</span>
+                                    </div>
+                                </HasPermission>
+                            </If>,
+                            <If condition={rowData.status === true}>
+                                <HasPermission permission={Permissions.USERS_REVOKE}>
+                                    <div role="button" className="menu-option" onClick={() => revokeUser(rowData.id!)}>
+                                        <div><IoLockClosedOutline /></div>
+                                        <span>Desaprobar usuario</span>
+                                    </div>
+                                </HasPermission>
+                            </If>,
+                            <HasPermission permission={Permissions.USERS_EDIT}>
+                                <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+                                    <div><IoPencilOutline /></div>
+                                    <span>Editar</span>
+                                </div>
+                            </HasPermission>,
+                            <HasPermission permission={Permissions.USERS_DELETE}>
+                                <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+                                    <div><IoTrashOutline /></div>
+                                    <span>Eliminar</span>
+                                </div>
+                            </HasPermission>
+                        ]} />
                     </div>
                 );
                 break;
@@ -78,36 +120,5 @@ const createFilterSchema = (filters: UserFilter, onFiltersUpdate: (x: UserFilter
 ])
 
 const columns = ["Nombre", "Apellido", "Correo", "Estado", "Creado por", "Fecha de creación", ""];
-
-const getMenuOptions = (onEdit: (x: User) => void, onDelete: (x: string) => void, rowData: User) => [
-    <If condition={!rowData.status}>
-        <HasPermission permission={Permissions.USERS_APPROVE}>
-            <div role="button" className="menu-option">
-                <div><IoCheckboxOutline /></div>
-                <span>Aprobar usuario</span>
-            </div>
-        </HasPermission>
-    </If>,
-    <If condition={rowData.status === true}>
-        <HasPermission permission={Permissions.USERS_REVOKE}>
-            <div role="button" className="menu-option">
-                <div><IoLockClosedOutline /></div>
-                <span>Desaprobar usuario</span>
-            </div>
-        </HasPermission>
-    </If>,
-    <HasPermission permission={Permissions.USERS_EDIT}>
-        <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-            <div><IoPencilOutline /></div>
-            <span>Editar</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.USERS_DELETE}>
-        <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-            <div><IoTrashOutline /></div>
-            <span>Eliminar</span>
-        </div>
-    </HasPermission>,
-];
 
 export default withPermission(withUsersProvider(Users), Permissions.USERS);
