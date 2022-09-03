@@ -9,9 +9,9 @@ import {Permissions} from "../../types/app/auth";
 import AssessmentService from "../../services/AssessmentService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
-import AssessmentEditForm from "../../components/edit-forms/AssessmentEditForm";
+import AssessmentEditForm from "../../containers/edit-forms/AssessmentEditForm";
 import MenuOptions from "../../components/common/menu/MenuOptions";
-import withPermission from "../../components/hoc/withPermission";
+import withPermission from "../../hoc/with-permission/withPermission";
 
 import {withAssessmentsProvider} from "../../redux/providers/providers";
 

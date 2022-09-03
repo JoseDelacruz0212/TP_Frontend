@@ -9,12 +9,12 @@ import {Permissions} from "../../types/app/auth";
 import InstitutionService from "../../services/InstitutionService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
-import InstitutionEditForm from "../../components/edit-forms/InstitutionEditForm";
+import InstitutionEditForm from "../../containers/edit-forms/InstitutionEditForm";
 import MenuOptions from "../../components/common/menu/MenuOptions";
 
 import {withInstitutionsProvider} from "../../redux/providers/providers";
 
-import withPermission from "../../components/hoc/withPermission";
+import withPermission from "../../hoc/with-permission/withPermission";
 
 import TableView from "../layouts/TableView";
 import {IoPencilOutline, IoTrashOutline} from "react-icons/io5";

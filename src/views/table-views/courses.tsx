@@ -9,15 +9,15 @@ import {Permissions} from "../../types/app/auth";
 import CourseService from "../../services/CourseService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
-import CourseEditForm from "../../components/edit-forms/CoursesEditForm";
+import CourseEditForm from "../../containers/edit-forms/CoursesEditForm";
 import MenuOptions from "../../components/common/menu/MenuOptions";
-import withPermission from "../../components/hoc/withPermission";
+import withPermission from "../../hoc/with-permission/withPermission";
+import HasPermission from "../../hoc/with-permission/HasPermission";
 
 import {withCoursesProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
 import {IoBarChartOutline, IoDocumentOutline, IoPencilOutline, IoPeopleOutline, IoTrashOutline} from "react-icons/io5";
-import {Entity} from "../../types/communication/responses/entity";
 
 const defaultCourses: Course = {
   name: '',
@@ -36,7 +36,7 @@ const Courses = () => {
       case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
       case 6: value = (
           <div className="flex justify-end px-5">
-              <MenuOptions options={getMenuOptions<Course>(onEdit, onDelete, rowData)} />
+              <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
           </div>
       );
         break;
@@ -84,27 +84,37 @@ const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFi
 
 const columns = ["Nombre", "Descripción", "Institution", "Creado por", "Fecha de creación", ""];
 
-const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => [
-    <div role="button" className="menu-option">
-        <div><IoPeopleOutline /></div>
-        <span>Ver usuarios</span>
-    </div>,
-    <div role="button" className="menu-option">
-        <div><IoDocumentOutline /></div>
-        <span>Ver evaluaciones</span>
-    </div>,
-    <div role="button" className="menu-option">
-        <div><IoBarChartOutline /></div>
-        <span>Ver objetivos</span>
-    </div>,
-    <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-        <div><IoPencilOutline /></div>
-        <span>Editar</span>
-    </div>,
-    <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-        <div><IoTrashOutline /></div>
-        <span>Eliminar</span>
-    </div>
+const getMenuOptions = (onEdit: (x: Course) => void, onDelete: (x: string) => void, rowData: Course) => [
+    <HasPermission permission={Permissions.COURSES_USERS}>
+        <div role="button" className="menu-option">
+            <div><IoPeopleOutline /></div>
+            <span>Ver usuarios</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission={Permissions.COURSES_ASSESSMENTS}>
+        <div role="button" className="menu-option">
+            <div><IoDocumentOutline /></div>
+            <span>Ver evaluaciones</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission={Permissions.COURSES_OBJECTIVES}>
+        <div role="button" className="menu-option">
+            <div><IoBarChartOutline /></div>
+            <span>Ver objetivos</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission={Permissions.COURSES_EDIT}>
+        <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+            <div><IoPencilOutline /></div>
+            <span>Editar</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission={Permissions.COURSES_DELETE}>
+        <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+            <div><IoTrashOutline /></div>
+            <span>Eliminar</span>
+        </div>
+    </HasPermission>,
 ];
 
 export default withPermission(withCoursesProvider(Courses), Permissions.COURSES);

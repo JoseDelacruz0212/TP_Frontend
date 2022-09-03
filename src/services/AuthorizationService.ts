@@ -9,7 +9,8 @@ class AuthorizationService {
     private permissions: {
         [x: string]: string[]
     } = {
-        [Roles.ADMIN]: ['*'],
+        [Roles.ADMIN]: ["*"],
+        [Roles.INSTITUTION]: ["COURSES-*"],
     };
 
     private authEventAction?: () => void = undefined;
