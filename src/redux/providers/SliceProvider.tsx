@@ -22,17 +22,8 @@ export const useSliceActions = () => useContext(SliceContext).actions;
 
 export const useSliceSelector = (): TableDataState<Entity, Filter> => {
     const { name } = useContext(SliceContext);
-
-    return useSelector((state: RootState) => {
-        switch (name) {
-            case 'institutions': return state.institutions; break;
-            case 'courses': return state.courses; break;
-            case 'assessments': return state.assessments; break;
-            case 'users': return state.users; break;
-            default:
-                return state.institutions;
-        }
-    });
+    // @ts-ignore
+    return useSelector((state: RootState) => state[name]);
 };
 
 export default withSliceProvider;
