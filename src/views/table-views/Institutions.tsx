@@ -37,7 +37,7 @@ const Institutions = () => {
             case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
             case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 6: value = (
-                    <div className="flex justify-end">
+                    <div className="flex justify-end px-5">
                         <MenuOptions options={getMenuOptions<Institution>(onEdit, onDelete, rowData)} />
                     </div>
                 );
