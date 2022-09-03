@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from "moment";
 import { Routes, Route } from "react-router-dom";
 
 import ApplicationLayout from "./views/layouts/ApplicationLayout";
@@ -11,6 +10,7 @@ import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 import Institutions from "./views/table-views/Institutions";
 import Courses from "./views/table-views/courses";
 import Assessments from "./views/table-views/Assessments";
+import Users from "./views/table-views/Users";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
               <Route path="/assessment-creator" element={<AssessmentCreator />} />
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
-              <Route path="/users" element={null} />
+              <Route path="/users" element={<Users />} />
               <Route path="/requests" element={null} />
               <Route path="/verification" element={null} />
               <Route path="/administration" element={null} />

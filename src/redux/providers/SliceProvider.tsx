@@ -28,6 +28,7 @@ export const useSliceSelector = (): TableDataState<Entity, Filter> => {
             case 'institutions': return state.institutions; break;
             case 'courses': return state.courses; break;
             case 'assessments': return state.assessments; break;
+            case 'users': return state.users; break;
             default:
                 return state.institutions;
         }
