@@ -21,7 +21,7 @@ const SidePanelForm = <T extends Entity>({
     }
 
     return (
-        <SidePanel id={sidePanelId} isOpen={isEditPanelOpen}>
+        <SidePanel id={sidePanelId} isOpen={isEditPanelOpen} handleClose={handleClose}>
             <div className="flex flex-col space-y-10 p-2">
                 <div className="flex justify-between items-end">
                     <h6>{ title }</h6>

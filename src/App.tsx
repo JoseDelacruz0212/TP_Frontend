@@ -8,8 +8,8 @@ import SignInPage from "./views/auth/SignInPage";
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 
-import Institutions from "./views/institutions/Institutions";
-import Courses from "./views/courses/courses";
+import Institutions from "./views/table-views/Institutions";
+import Courses from "./views/table-views/courses";
 
 function App() {
   return (

@@ -126,4 +126,8 @@
     .button-error {
         @apply bg-error text-on-error py-1 px-2 rounded-md hover:bg-red-600
     }
+
+    .menu-option {
+        @apply px-2 py-1 flex items-center space-x-2 hover:bg-gray-100
+    }
 }
