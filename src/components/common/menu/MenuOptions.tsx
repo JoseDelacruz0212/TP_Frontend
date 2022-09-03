@@ -18,7 +18,7 @@ const MenuOptions = ({ options }: MenuOptionsProps) => {
             </button>
             {
                 isMenuOpen &&
-                <div className="relative -right-3 top-3 bg-surface border rounded-md shadow-md z-20">
+                <div className="relative -right-3 top-3 bg-surface border rounded-md shadow-md z-20 min-w-[150px]">
                     <ul>
                         {
                             options.map(
