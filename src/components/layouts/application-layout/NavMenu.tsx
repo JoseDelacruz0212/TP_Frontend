@@ -19,7 +19,7 @@ const NavMenu = ({ items, selected, onOptionSelected }: NavMenuProps) => {
                         )
                         :
                         (
-                            <div key={item.key} onClick={() => onOptionSelected(item.key)} className={`${selected && selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
+                            <div role="button" key={item.key} onClick={() => onOptionSelected(item.key)} className={`${selected && selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
                                 <NavMenuItemComponent item={item} />
                             </div>
                         )
