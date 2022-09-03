@@ -8,7 +8,7 @@ import {CourseOption} from "../../types/communication/responses/courses";
 import CourseService from "../../services/CourseService";
 
 const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
-    const [courses, setCourses] = useState<CourseOption[]>();
+    const [courses, setCourses] = useState<CourseOption[]>([]);
     const [selectedCourseId, setSelectedCourseId] = useState<string | undefined>();
 
     const onSelectedCourseIdHandler = (courseId: string) => {

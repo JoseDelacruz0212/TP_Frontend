@@ -7,8 +7,8 @@ import {InstitutionOption} from "../../types/communication/responses/institution
 import InstitutionService from "../../services/InstitutionService";
 
 const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
-    const [institutions, setInstitutions] = useState<InstitutionOption[]>();
-    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | undefined>();
+    const [institutions, setInstitutions] = useState<InstitutionOption[]>([]);
+    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | undefined>(values.institution?.id);
 
     const onSelectedInstitutionIdHandler = (institutionId: string) => {
         onChange && onChange({ ...values, institutionId });
