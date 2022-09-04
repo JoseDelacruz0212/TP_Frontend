@@ -4,7 +4,7 @@ import {Course} from "./courses";
 export interface Assessment extends Entity {
     name: string;
     availableOn: string;
-    status?: number;
+    status: number;
     duration?: number;
     numberQuestions?: number;
     courseId?: string;

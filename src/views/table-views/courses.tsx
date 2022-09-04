@@ -20,8 +20,9 @@ import TableView from "../layouts/TableView";
 import {IoBarChartOutline, IoDocumentOutline, IoPencilOutline, IoPeopleOutline, IoTrashOutline} from "react-icons/io5";
 
 const defaultCourses: Course = {
-  name: '',
-  description: '',
+    name: '',
+    description: '',
+    institutionId: ''
 };
 
 const Courses = () => {

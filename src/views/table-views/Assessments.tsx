@@ -23,6 +23,7 @@ import HasPermission from "../../hoc/with-permission/HasPermission";
 const defaultAssessment: Assessment = {
     name: '',
     availableOn: '',
+    status: 0
 };
 
 const Assessments = () => {

@@ -25,7 +25,6 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     protected createItem(item: Assessment) {
         const newItem = {
             ...item,
-            status: 0,
             availableOn: moment(item.availableOn).toISOString()
         };
 

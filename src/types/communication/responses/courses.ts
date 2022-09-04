@@ -4,7 +4,7 @@ import {Institution} from "./institutions";
 export interface Course extends Entity {
     name: string;
     description: string;
-    institutionId?: string;
+    institutionId: string;
     institution?: Institution;
 }
 
