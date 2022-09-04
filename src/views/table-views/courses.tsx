@@ -18,6 +18,7 @@ import {withCoursesProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
 import {IoBarChartOutline, IoDocumentOutline, IoPencilOutline, IoPeopleOutline, IoTrashOutline} from "react-icons/io5";
+import {Link} from "react-router-dom";
 
 const defaultCourses: Course = {
     name: '',
@@ -38,17 +39,21 @@ const Courses = () => {
       case 6: value = (
           <div className="flex justify-end px-5">
               <MenuOptions options={[
-                  <HasPermission permission={Permissions.COURSES_USERS}>
-                      <div role="button" className="menu-option">
-                          <div><IoPeopleOutline /></div>
-                          <span>Ver usuarios</span>
-                      </div>
-                  </HasPermission>,
                   <HasPermission permission={Permissions.COURSES_ASSESSMENTS}>
-                      <div role="button" className="menu-option">
-                          <div><IoDocumentOutline /></div>
-                          <span>Ver evaluaciones</span>
-                      </div>
+                      <Link to="/assessments" state={{ courseId: rowData.id! }}>
+                          <div role="button" className="menu-option">
+                              <div><IoDocumentOutline /></div>
+                              <span>Ver evaluaciones</span>
+                          </div>
+                      </Link>
+                  </HasPermission>,
+                  <HasPermission permission={Permissions.COURSES_USERS}>
+                      <Link to="/users" state={{ courseId: rowData.id! }}>
+                          <div role="button" className="menu-option">
+                              <div><IoPeopleOutline /></div>
+                              <span>Ver usuarios</span>
+                          </div>
+                      </Link>
                   </HasPermission>,
                   <HasPermission permission={Permissions.COURSES_OBJECTIVES}>
                       <div role="button" className="menu-option">

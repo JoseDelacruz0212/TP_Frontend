@@ -22,6 +22,8 @@ import {withUsersProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
 import {IoCheckboxOutline, IoLockClosedOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
+import {useLocation} from "react-router-dom";
+import {WithCourseLocationState} from "../../types/location/state";
 
 const defaultUser: User = {
     name: '',
@@ -30,6 +32,9 @@ const defaultUser: User = {
 };
 
 const Users = () => {
+    const location = useLocation();
+    const state = location.state as WithCourseLocationState;
+
     const dispatch = useDispatch();
     const { userStatusChanged } = useSliceActions();
 

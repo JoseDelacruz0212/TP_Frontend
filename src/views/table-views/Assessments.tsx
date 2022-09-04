@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment/moment";
+import {useLocation} from "react-router-dom";
 
 import {ConvertorCreator} from "../../types/hooks/table";
 import {AssessmentFilter} from "../../types/communication/requests/asessments";
@@ -19,6 +20,7 @@ import TableView from "../layouts/TableView";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoRocketOutline, IoTrashOutline} from "react-icons/io5";
 import {Entity} from "../../types/communication/responses/entity";
 import HasPermission from "../../hoc/with-permission/HasPermission";
+import {WithCourseLocationState} from "../../types/location/state";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -27,6 +29,9 @@ const defaultAssessment: Assessment = {
 };
 
 const Assessments = () => {
+    const location = useLocation();
+    const state = location.state as WithCourseLocationState;
+
     const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;
 
@@ -34,8 +39,8 @@ const Assessments = () => {
             case 1: value = <div className="py-4">{rowData.name}</div>; break;
             case 2: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
             case 3: value = <div className="py-4">{rowData.duration} minutos</div>; break;
-            case 4: value = <div className="py-4">{rowData.courses?.name}</div>; break;
-            case 5: value = <div className="py-4">{rowData.courses?.institution?.name}</div>; break;
+            case 4: value = <div className="py-4">{rowData.courses?.institution?.name}</div>; break;
+            case 5: value = <div className="py-4">{rowData.courses?.name}</div>; break;
             case 6: value = <div className="py-4">{rowData.createdBy}</div>; break;
             case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 8: value = (
