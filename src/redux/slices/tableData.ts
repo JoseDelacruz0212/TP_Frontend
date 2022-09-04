@@ -21,6 +21,7 @@ const createTableDataSlice = <T extends Entity, F extends Filter>({ name, initia
         items: undefined,
         error: null,
         isFilterActivated: false,
+        initialFiltersApplied: false,
         paginationOptions: {
             page: 1,
             pageSize: 10,

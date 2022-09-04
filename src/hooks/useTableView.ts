@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 import {useAppDispatch} from "../redux/store";
 import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvider";
@@ -16,7 +16,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: string[] = []
 
     const dispatch = useAppDispatch();
     const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
-    const { items, filters, paginationOptions } = useSliceSelector();
+    const { items, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
 
     const getData = async () => {
         if (!filters) return;
@@ -38,20 +38,10 @@ const useTableView = <T extends Entity, F extends Filter>(columns: string[] = []
         }
     }, [defaultFilters]);
 
-    const firstRender = useRef(true);
-
     useEffect(() => {
-        const isFirstRender = firstRender.current;
-
-        if (isFirstRender) {
-            firstRender.current = false;
+        if (!defaultFilters || initialFiltersApplied) {
+            getData().then();
         }
-
-        if (isFirstRender && defaultFilters) {
-            return;
-        }
-
-        getData().then();
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {
