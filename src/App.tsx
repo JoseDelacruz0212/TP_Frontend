@@ -8,7 +8,7 @@ import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 
 import Institutions from "./views/table-views/Institutions";
-import Courses from "./views/table-views/courses";
+import Courses from "./views/table-views/Courses";
 import Assessments from "./views/table-views/Assessments";
 import Users from "./views/table-views/Users";
 

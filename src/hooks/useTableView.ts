@@ -10,7 +10,7 @@ import {CrudService} from "../types/communication/crud-service";
 import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 
-const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>) => {
+const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
     const [item, setItem] = useState<T>(defaultItemSchema);
 
@@ -18,18 +18,25 @@ const useTableView = <T extends Entity, F extends Filter>(columns: string[] = []
     const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated } = useSliceActions();
     const { items, filters, paginationOptions } = useSliceSelector();
 
-    const getData = async () => {
-        if (!filters) return;
+    const getData = async (correctFilters: F) => {
+        if (!correctFilters) return;
 
         dispatch(dataRequestStarted(null));
 
-        service.getData(filters as F, paginationOptions?.page, paginationOptions?.pageSize).then(
+        service.getData(correctFilters, paginationOptions?.page, paginationOptions?.pageSize).then(
             response => dispatch(dataLoaded(response)),
         );
     };
 
     useEffect(() => {
-        getData().then();
+        const correctFilters: F = { ...filters, ...defaultFilters } as F;
+
+        dispatch(filtersUpdated(correctFilters));
+        getData(correctFilters).then();
+    }, [defaultFilters]);
+
+    useEffect(() => {
+        getData(filters as F).then();
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {

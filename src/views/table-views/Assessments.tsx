@@ -65,7 +65,8 @@ const Assessments = () => {
                        sidePanelCreateTitle="Agregar evaluación"
                        formInputs={AssessmentEditForm}
                        defaultItemSchema={defaultAssessment}
-                       addButtonText="Crear evaluación" />
+                       addButtonText="Crear evaluación"
+                       defaultFilters={{ courseId: state?.courseId || '' }} />
         </div>
     )
 }

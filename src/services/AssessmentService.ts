@@ -8,7 +8,12 @@ import {AssessmentFilter} from "../types/communication/requests/asessments";
 class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     public async getData(filters: AssessmentFilter, page: number = 1, pageSize: number = 10) {
         const filter = (i: Assessment[]) => this.getPaginatedData(i, filters, page, pageSize);
-        return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation', filter);
+
+        if (!filters.courseId) {
+            return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation', filter);
+        } else {
+            return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation/byCourse/' + filters.courseId, filter);
+        }
     }
 
     public async deleteItem(id: string) {

@@ -54,4 +54,5 @@ export type TableViewProps<T extends Entity, F> = {
     onItemClick?: (id: number | string) => void;
     showAuditInfo?: boolean;
     canAddPermission?: string;
+    defaultFilters?: object;
 }

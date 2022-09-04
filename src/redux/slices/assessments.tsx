@@ -7,6 +7,7 @@ import {AssessmentFilter} from "../../types/communication/requests/asessments";
 const initialState: TableDataState<Assessment, AssessmentFilter> = {
     filters: {
         name: '',
+        courseId: ''
     }
 };
 

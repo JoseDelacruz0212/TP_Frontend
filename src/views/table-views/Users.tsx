@@ -108,7 +108,8 @@ const Users = () => {
                        sidePanelCreateTitle="Agregar usuario"
                        formInputs={UserEditForm}
                        defaultItemSchema={defaultUser}
-                       addButtonText="Crear usuario" />
+                       addButtonText="Crear usuario"
+                       defaultFilters={{ courseId: state?.courseId || '' }} />
         </div>
     )
 }

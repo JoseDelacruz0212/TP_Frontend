@@ -5,6 +5,8 @@ import {UserFilter} from "../types/communication/requests/user";
 
 class UserService extends CrudService<User, UserFilter> {
     public async getData(filters: UserFilter, page: number = 1, pageSize: number = 10) {
+        console.log(filters);
+
         const filter = (i: User[]) => this.getPaginatedData(i, filters, page, pageSize);
         return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
     }
