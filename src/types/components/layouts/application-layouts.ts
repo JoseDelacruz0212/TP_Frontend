@@ -53,4 +53,5 @@ export type TableViewProps<T extends Entity, F> = {
     formInputs: React.ComponentType<FormInputs<T>>;
     onItemClick?: (id: number | string) => void;
     showAuditInfo?: boolean;
+    canAddPermission?: string;
 }

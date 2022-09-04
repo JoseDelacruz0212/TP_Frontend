@@ -8,6 +8,7 @@ import useTableView from "../../hooks/useTableView";
 
 import Table from "../../components/common/table/Table";
 import SidePanelForm from "../../components/common/modal/SidePanelForm";
+import HasPermission from "../../hoc/with-permission/HasPermission";
 
 const TableView = <T extends Entity, F>({
     title,
@@ -22,7 +23,8 @@ const TableView = <T extends Entity, F>({
     addButtonText,
     formInputs: FormInputs,
     onItemClick,
-    showAuditInfo = true
+    showAuditInfo = true,
+    canAddPermission
 }: TableViewProps<T, F>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator);
 
@@ -39,11 +41,13 @@ const TableView = <T extends Entity, F>({
 
     return (
         <>
-            <div className="flex justify-end">
-                <button className="button-default" onClick={tableData.onEditPanelOpen}>
-                    + {addButtonText}
-                </button>
-            </div>
+            <HasPermission permission={canAddPermission}>
+                <div className="flex justify-end">
+                    <button className="button-default" onClick={tableData.onEditPanelOpen}>
+                        + {addButtonText}
+                    </button>
+                </div>
+            </HasPermission>
             <Table title={title}
                    columns ={tableData.tableColumns}
                    rows={tableData.tableData}
@@ -69,7 +73,7 @@ const TableView = <T extends Entity, F>({
                                        <button type="submit" className="button-primary">
                                            Guardar
                                        </button>
-                                       <button className="button-secondary" onClick={tableData.onEditPanelClose}>
+                                       <button type="button" className="button-secondary" onClick={tableData.onEditPanelClose}>
                                            Cancelar
                                        </button>
                                    </div>

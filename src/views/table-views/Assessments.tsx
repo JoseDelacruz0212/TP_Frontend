@@ -18,6 +18,7 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 import TableView from "../layouts/TableView";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoRocketOutline, IoTrashOutline} from "react-icons/io5";
 import {Entity} from "../../types/communication/responses/entity";
+import HasPermission from "../../hoc/with-permission/HasPermission";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -64,26 +65,36 @@ const Assessments = () => {
 }
 
 const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => [
-    <div role="button" className="menu-option">
-        <div><IoEyeOutline /></div>
-        <span>Visualizar</span>
-    </div>,
-    <div role="button" className="menu-option">
-        <div><IoCreateOutline /></div>
-        <span>Diseñar examen</span>
-    </div>,
-    <div role="button" className="menu-option">
-        <div><IoRocketOutline /></div>
-        <span>Publicar</span>
-    </div>,
-    <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-        <div><IoPencilOutline /></div>
-        <span>Editar</span>
-    </div>,
-    <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-        <div><IoTrashOutline /></div>
-        <span>Eliminar</span>
-    </div>
+    <HasPermission permission="ASSESSMENT-VISUALIZE">
+        <div role="button" className="menu-option">
+            <div><IoEyeOutline /></div>
+            <span>Visualizar</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission="ASSESSMENT-DESIGN">
+        <div role="button" className="menu-option">
+            <div><IoCreateOutline /></div>
+            <span>Diseñar examen</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission="ASSESSMENT-PUBLISH">
+        <div role="button" className="menu-option">
+            <div><IoRocketOutline /></div>
+            <span>Publicar</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission="ASSESSMENT-EDIT">
+        <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+            <div><IoPencilOutline /></div>
+            <span>Editar</span>
+        </div>
+    </HasPermission>,
+    <HasPermission permission="ASSESSMENT-DELETE">
+        <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+            <div><IoTrashOutline /></div>
+            <span>Eliminar</span>
+        </div>
+    </HasPermission>,
 ];
 
 const createFilterSchema = (filters: AssessmentFilter, onFiltersUpdate: (x: AssessmentFilter) => any) => ([

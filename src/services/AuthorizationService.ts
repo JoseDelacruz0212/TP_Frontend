@@ -10,9 +10,9 @@ class AuthorizationService {
         [x: string]: string[]
     } = {
         [Roles.ADMIN]: ["*"],
-        [Roles.INSTITUTION]: ["COURSES-*"],
-        [Roles.TEACHER]: ["COURSES-*"],
-        [Roles.STUDENT]: ["COURSES-*"]
+        [Roles.INSTITUTION]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "COURSES-ADD", "COURSES-EDIT", "COURSES-DELETE", "ASSESSMENT-*"],
+        [Roles.TEACHER]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "ASSESSMENT", "ASSESSMENT-ADD", "ASSESSMENT-VISUALIZE", "ASSESSMENT-DESIGN", "ASSESSMENT-PUBLISH"],
+        [Roles.STUDENT]: ["COURSES", "COURSES-ASSESSMENTS", "ASSESSMENT", "ASSESSMENT-START"]
     };
 
     private authEventAction?: () => void = undefined;

@@ -36,7 +36,38 @@ const Courses = () => {
       case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
       case 6: value = (
           <div className="flex justify-end px-5">
-              <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
+              <MenuOptions options={[
+                  <HasPermission permission={Permissions.COURSES_USERS}>
+                      <div role="button" className="menu-option">
+                          <div><IoPeopleOutline /></div>
+                          <span>Ver usuarios</span>
+                      </div>
+                  </HasPermission>,
+                  <HasPermission permission={Permissions.COURSES_ASSESSMENTS}>
+                      <div role="button" className="menu-option">
+                          <div><IoDocumentOutline /></div>
+                          <span>Ver evaluaciones</span>
+                      </div>
+                  </HasPermission>,
+                  <HasPermission permission={Permissions.COURSES_OBJECTIVES}>
+                      <div role="button" className="menu-option">
+                          <div><IoBarChartOutline /></div>
+                          <span>Ver objetivos</span>
+                      </div>
+                  </HasPermission>,
+                  <HasPermission permission={Permissions.COURSES_EDIT}>
+                      <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+                          <div><IoPencilOutline /></div>
+                          <span>Editar</span>
+                      </div>
+                  </HasPermission>,
+                  <HasPermission permission={Permissions.COURSES_DELETE}>
+                      <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+                          <div><IoTrashOutline /></div>
+                          <span>Eliminar</span>
+                      </div>
+                  </HasPermission>
+              ]} />
           </div>
       );
         break;
@@ -56,7 +87,8 @@ const Courses = () => {
                        sidePanelCreateTitle="Agregar curso"
                        formInputs={CourseEditForm}
                        defaultItemSchema={defaultCourses}
-                       addButtonText="Crear curso" />
+                       addButtonText="Crear curso"
+                       canAddPermission={Permissions.COURSES_ADD} />
         </div>
     )
 }
@@ -82,39 +114,6 @@ const createFilterSchema = (filters: CourseFilter, onFiltersUpdate: (x: CourseFi
     }
 ])
 
-const columns = ["Nombre", "Descripción", "Institution", "Creado por", "Fecha de creación", ""];
-
-const getMenuOptions = (onEdit: (x: Course) => void, onDelete: (x: string) => void, rowData: Course) => [
-    <HasPermission permission={Permissions.COURSES_USERS}>
-        <div role="button" className="menu-option">
-            <div><IoPeopleOutline /></div>
-            <span>Ver usuarios</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_ASSESSMENTS}>
-        <div role="button" className="menu-option">
-            <div><IoDocumentOutline /></div>
-            <span>Ver evaluaciones</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_OBJECTIVES}>
-        <div role="button" className="menu-option">
-            <div><IoBarChartOutline /></div>
-            <span>Ver objetivos</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_EDIT}>
-        <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-            <div><IoPencilOutline /></div>
-            <span>Editar</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_DELETE}>
-        <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-            <div><IoTrashOutline /></div>
-            <span>Eliminar</span>
-        </div>
-    </HasPermission>,
-];
+const columns = ["Nombre", "Descripción", "Institution", "Creado por", "Fecha de creación", ""];;
 
 export default withPermission(withCoursesProvider(Courses), Permissions.COURSES);

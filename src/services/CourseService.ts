@@ -23,7 +23,9 @@ class CourseService extends CrudService<Course, CourseFilter> {
     }
 
     protected createItem(item: Course) {
-        return this.post<CourseCreated, Course, string>('/course', item,
+        const newCourse = { ...item, institutionId: '' };
+
+        return this.post<CourseCreated, Course, string>('/course', newCourse,
             response => response.course.id!
         );
     }
