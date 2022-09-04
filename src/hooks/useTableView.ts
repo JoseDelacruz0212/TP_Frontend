@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
 import {useAppDispatch} from "../redux/store";
 import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvider";
@@ -15,28 +15,43 @@ const useTableView = <T extends Entity, F extends Filter>(columns: string[] = []
     const [item, setItem] = useState<T>(defaultItemSchema);
 
     const dispatch = useAppDispatch();
-    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated } = useSliceActions();
+    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
     const { items, filters, paginationOptions } = useSliceSelector();
 
-    const getData = async (correctFilters: F) => {
-        if (!correctFilters) return;
+    const getData = async () => {
+        if (!filters) return;
 
         dispatch(dataRequestStarted(null));
 
-        service.getData(correctFilters, paginationOptions?.page, paginationOptions?.pageSize).then(
+        service.getData(filters as F, paginationOptions?.page, paginationOptions?.pageSize).then(
             response => dispatch(dataLoaded(response)),
         );
     };
 
     useEffect(() => {
-        const correctFilters: F = { ...filters, ...defaultFilters } as F;
+        if (defaultFilters) {
+            dispatch(filtersUpdated({...filters, ...defaultFilters}));
+        }
 
-        dispatch(filtersUpdated(correctFilters));
-        getData(correctFilters).then();
+        return () => {
+            dispatch(reset(null));
+        }
     }, [defaultFilters]);
 
+    const firstRender = useRef(true);
+
     useEffect(() => {
-        getData(filters as F).then();
+        const isFirstRender = firstRender.current;
+
+        if (isFirstRender) {
+            firstRender.current = false;
+        }
+
+        if (isFirstRender && defaultFilters) {
+            return;
+        }
+
+        getData().then();
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {
