@@ -32,9 +32,11 @@ const Assessments = () => {
             case 1: value = <div className="py-4">{rowData.name}</div>; break;
             case 2: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
             case 3: value = <div className="py-4">{rowData.duration} minutos</div>; break;
-            case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
-            case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-            case 6: value = (
+            case 4: value = <div className="py-4">{rowData.courses?.name}</div>; break;
+            case 5: value = <div className="py-4">{rowData.courses?.institution?.name}</div>; break;
+            case 6: value = <div className="py-4">{rowData.createdBy}</div>; break;
+            case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+            case 8: value = (
                 <div className="flex justify-end px-5">
                     <MenuOptions options={getMenuOptions<Assessment>(onEdit, onDelete, rowData)} />
                 </div>
@@ -96,6 +98,6 @@ const createFilterSchema = (filters: AssessmentFilter, onFiltersUpdate: (x: Asse
     }
 ])
 
-const columns = ["Nombre", "Fecha de disponibilidad", "Duración", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Fecha de disponibilidad", "Duración", "Institución", "Curso", "Creado por", "Fecha de creación", ""];
 
 export default withPermission(withAssessmentsProvider(Assessments), Permissions.ASSESSMENT);

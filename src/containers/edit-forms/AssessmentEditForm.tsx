@@ -9,7 +9,7 @@ import CourseService from "../../services/CourseService";
 
 const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
     const [courses, setCourses] = useState<CourseOption[]>([]);
-    const [selectedCourseId, setSelectedCourseId] = useState<string | undefined>();
+    const [selectedCourseId, setSelectedCourseId] = useState<string | undefined>(values.courses?.id);
 
     const onSelectedCourseIdHandler = (courseId: string) => {
         onChange && onChange({ ...values, courseId });
@@ -48,9 +48,9 @@ const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
                        id="edit-assessment-available-on"
                        name="edit-assessment-available-on"
                        placeholder="Fecha de disponibilidad"
-                       min={moment(new Date()).format('YYYY-MM-DD')}
-                       value={values.availableOn}
-                       onChange={(e) => onChange && onChange({ ...values, availableOn: e.target.value })} />
+                       min={moment(new Date()).format('yyyy-MM-DDTHH:mm')}
+                       value={moment(values.availableOn).format('yyyy-MM-DDTHH:mm')}
+                       onChange={(e) => onChange && onChange({ ...values, availableOn: moment.utc(e.target.value).format('yyyy-MM-DDTHH:mm') })} />
             </div>
             <div className="form-group">
                 <label htmlFor="edit-assessment-duration" className="form-label">
@@ -63,18 +63,6 @@ const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
                        placeholder="Duración"
                        value={values.duration || ''}
                        onChange={(e) => onChange && onChange({ ...values, duration: parseInt(e.target.value) })} />
-            </div>
-            <div className="form-group">
-                <label htmlFor="edit-assessment-number-of-questions" className="form-label">
-                    <small>Número de preguntas</small>
-                </label>
-                <input className="form-input"
-                       type="number"
-                       id="edit-assessment-number-of-questions"
-                       name="edit-assessment-number-of-questions"
-                       placeholder="Número de preguntas"
-                       value={values.numberQuestions || ''}
-                       onChange={(e) => onChange && onChange({ ...values, numberQuestions: parseInt(e.target.value) })} />
             </div>
             <div className="form-group">
                 <label htmlFor="edit-assessment-course" className="form-label">

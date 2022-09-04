@@ -1,19 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {FormInputs} from "../../types/components/common/modal";
 import {User} from "../../types/communication/responses/user";
+import {InstitutionOption} from "../../types/communication/responses/institutions";
+import InstitutionService from "../../services/InstitutionService";
 
 const UserEditForm = ({ values, onChange }: FormInputs<User>) => {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>(values.roles || []);
+    const [institutions, setInstitutions] = useState<InstitutionOption[]>([]);
+    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | undefined>(values.institution?.id);
+    const [selectedRole, setSelectedRole] = useState<string>((values.roles && values.roles[0]) || "");
 
-    const onSelectedOptionsChangeHandler = (selectedOptions: HTMLCollectionOf<HTMLOptionElement>) => {
-        const selectedValues = [];
-        for (let i = 0; i < selectedOptions.length; i++) {
-            selectedValues.push(selectedOptions[i].value);
-        }
-        onChange && onChange({ ...values, roles: [...selectedValues] });
-        setSelectedOptions(selectedValues);
+    useEffect(() => {
+        InstitutionService.getInstitutionsForCombo().then(
+            values => setInstitutions(values)
+        );
+    }, []);
+
+    const onSelectedRoleChanged = (option: string) => {
+        onChange && onChange({ ...values, roles: [option] });
+        setSelectedRole(option);
     };
+
+    const onSelectedInstitutionIdHandler = (insitutionId: string) => {
+        onChange && onChange({ ...values, insitutionId });
+        setSelectedInstitutionId(insitutionId);
+    }
 
     return (
         <>
@@ -81,19 +92,40 @@ const UserEditForm = ({ values, onChange }: FormInputs<User>) => {
             </div>
             <div className="form-group">
                 <label htmlFor="edit-user-roles" className="form-label">
-                    <small>Roles</small>
+                    <small>Rol</small>
                 </label>
                 <select className="form-input select"
                         id="edit-user-roles"
                         name="edit-user-roles"
-                        placeholder="Roles"
-                        value={selectedOptions}
-                        onChange={(e) => onSelectedOptionsChangeHandler(e.target.selectedOptions)}
-                        multiple>
+                        placeholder="Rol"
+                        value={selectedRole}
+                        onChange={(e) => onSelectedRoleChanged(e.target.value)}>
+                    <option value="">Seleccione una opción</option>
                     <option value="admin">Administrador</option>
                     <option value="institution">Institución</option>
                     <option value="teacher">Profesor</option>
                     <option value="user">Estudiante</option>
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="edit-course-institution" className="form-label">
+                    <small>Institución</small>
+                </label>
+                <select className="form-input select"
+                        id="edit-course-institution"
+                        name="edit-course-institution"
+                        value={selectedInstitutionId || ""}
+                        placeholder="Institución"
+                        disabled={!institutions || institutions?.length === 0}
+                        onChange={(e) => onSelectedInstitutionIdHandler(e.target.value)} >
+                    <option value="" disabled>Seleccione una opción</option>
+                    {
+                        institutions && institutions.map(option => (
+                            <option key={option.id} value={option.id}>
+                                { option.name }
+                            </option>
+                        ))
+                    }
                 </select>
             </div>
         </>

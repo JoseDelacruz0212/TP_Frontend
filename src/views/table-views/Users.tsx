@@ -47,10 +47,11 @@ const Users = () => {
             case 1: value = <div className="py-4">{rowData.name}</div>; break;
             case 2: value = <div className="py-4">{rowData.lastName}</div>; break;
             case 3: value = <div className="py-4">{rowData.email}</div>; break;
-            case 4: value = <div className="py-4">{rowData.status ? "Aprobado" : "Desaprobado"}</div>; break;
-            case 5: value = <div className="py-4">{rowData.createdBy}</div>; break;
-            case 6: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-            case 7: value = (
+            case 4: value = <div className="py-4">{rowData.institution?.name}</div>; break;
+            case 5: value = <div className="py-4">{rowData.status ? "Aprobado" : "Desaprobado"}</div>; break;
+            case 6: value = <div className="py-4">{rowData.createdBy}</div>; break;
+            case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+            case 8: value = (
                     <div className="flex justify-end px-5">
                         <MenuOptions options={[
                             <If condition={!rowData.status}>
@@ -119,6 +120,6 @@ const createFilterSchema = (filters: UserFilter, onFiltersUpdate: (x: UserFilter
     }
 ])
 
-const columns = ["Nombre", "Apellido", "Correo", "Estado", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Apellido", "Correo", "Institución", "Estado", "Creado por", "Fecha de creación", ""];
 
 export default withPermission(withUsersProvider(Users), Permissions.USERS);

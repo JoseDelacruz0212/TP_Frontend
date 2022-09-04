@@ -8,6 +8,7 @@ export interface User extends Entity {
     roles?: string[];
     password?: string;
     status?: boolean;
+    insitutionId?: string;
     institution?: Institution;
     idUser?: string;
 };

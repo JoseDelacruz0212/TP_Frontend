@@ -1,6 +1,8 @@
+import moment from "moment";
+
 import {CrudService} from "../types/communication/crud-service";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
-import {Assessment} from "../types/communication/responses/assessment";
+import {Assessment, AssessmentCreated} from "../types/communication/responses/assessment";
 import {AssessmentFilter} from "../types/communication/requests/asessments";
 
 class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
@@ -14,16 +16,21 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     }
 
     protected updateItem(item: Assessment) {
-        return this.put(`/evaluation/${item.id}`, item, () => item.id!);
+        return this.put(`/evaluation/${item.id}`, {
+            ...item,
+            availableOn: moment(item.availableOn).toISOString()
+        }, () => item.id!);
     }
 
     protected createItem(item: Assessment) {
-        console.log(item);
-        return this.post<any, Assessment, string>('/evaluation', item,
-            response => {
-                console.log(response);
-                return "";
-            }
+        const newItem = {
+            ...item,
+            status: 0,
+            availableOn: moment(item.availableOn).toISOString()
+        };
+
+        return this.post<AssessmentCreated, Assessment, string>('/evaluation', newItem,
+            response => response.newEvaluation.id!
         );
     }
 
