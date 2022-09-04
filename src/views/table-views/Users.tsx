@@ -109,6 +109,7 @@ const Users = () => {
                        formInputs={UserEditForm}
                        defaultItemSchema={defaultUser}
                        addButtonText="Crear usuario"
+                       canAddPermission={Permissions.USERS_ADD}
                        defaultFilters={{ courseId: state?.courseId || '' }} />
         </div>
     )

@@ -1,29 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 import {FormInputs} from "../../types/components/common/modal";
 import {User} from "../../types/communication/responses/user";
-import {InstitutionOption} from "../../types/communication/responses/institutions";
-import InstitutionService from "../../services/InstitutionService";
+import HasPermission from "../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../types/app/auth";
+import InstitutionsSelect from "./selects/InstitutionsSelect";
 
 const UserEditForm = ({ values, onChange }: FormInputs<User>) => {
-    const [institutions, setInstitutions] = useState<InstitutionOption[]>([]);
-    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | undefined>(values.institution?.id);
     const [selectedRole, setSelectedRole] = useState<string>((values.roles && values.roles[0]) || "");
-
-    useEffect(() => {
-        InstitutionService.getInstitutionsForCombo().then(
-            values => setInstitutions(values)
-        );
-    }, []);
 
     const onSelectedRoleChanged = (option: string) => {
         onChange && onChange({ ...values, roles: [option] });
         setSelectedRole(option);
     };
 
-    const onSelectedInstitutionIdHandler = (insitutionId: string) => {
+    const onInstitutionChanged = (insitutionId: string) => {
         onChange && onChange({ ...values, insitutionId });
-        setSelectedInstitutionId(insitutionId);
     }
 
     return (
@@ -107,27 +99,9 @@ const UserEditForm = ({ values, onChange }: FormInputs<User>) => {
                     <option value="user">Estudiante</option>
                 </select>
             </div>
-            <div className="form-group">
-                <label htmlFor="edit-course-institution" className="form-label">
-                    <small>Institución</small>
-                </label>
-                <select className="form-input select"
-                        id="edit-course-institution"
-                        name="edit-course-institution"
-                        value={selectedInstitutionId || ""}
-                        placeholder="Institución"
-                        disabled={!institutions || institutions?.length === 0}
-                        onChange={(e) => onSelectedInstitutionIdHandler(e.target.value)} >
-                    <option value="" disabled>Seleccione una opción</option>
-                    {
-                        institutions && institutions.map(option => (
-                            <option key={option.id} value={option.id}>
-                                { option.name }
-                            </option>
-                        ))
-                    }
-                </select>
-            </div>
+            <HasPermission permission={Permissions.USERS_SELECT_INSTITUTION}>
+                <InstitutionsSelect institutionId={values.institution?.id} onInstitutionChanged={onInstitutionChanged} />
+            </HasPermission>
         </>
     );
 }
