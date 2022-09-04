@@ -11,6 +11,8 @@ class AuthorizationService {
     } = {
         [Roles.ADMIN]: ["*"],
         [Roles.INSTITUTION]: ["COURSES-*"],
+        [Roles.TEACHER]: ["COURSES-*"],
+        [Roles.STUDENT]: ["COURSES-*"]
     };
 
     private authEventAction?: () => void = undefined;

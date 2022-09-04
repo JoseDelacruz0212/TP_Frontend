@@ -18,7 +18,6 @@ import withPermission from "../../hoc/with-permission/withPermission";
 
 import TableView from "../layouts/TableView";
 import {IoPencilOutline, IoTrashOutline} from "react-icons/io5";
-import {Entity} from "../../types/communication/responses/entity";
 
 const defaultInstitution: Institution = {
     name: '',
@@ -38,7 +37,16 @@ const Institutions = () => {
             case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 6: value = (
                     <div className="flex justify-end px-5">
-                        <MenuOptions options={getMenuOptions<Institution>(onEdit, onDelete, rowData)} />
+                        <MenuOptions options={[
+                            <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+                                <div><IoPencilOutline /></div>
+                                <span>Editar</span>
+                            </div>,
+                            // <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+                            //     <div><IoTrashOutline /></div>
+                            //     <span>Eliminar</span>
+                            // </div>
+                        ]} />
                     </div>
                 );
                 break;
@@ -95,16 +103,5 @@ const createFilterSchema = (filters: InstitutionFilter, onFiltersUpdate: (x: Ins
 ]);
 
 const columns = ["Nombre", "Dirección", "Código", "Creado por", "Fecha de creación", ""];
-
-const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => [
-    <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-        <div><IoPencilOutline /></div>
-        <span>Editar</span>
-    </div>,
-    <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-        <div><IoTrashOutline /></div>
-        <span>Eliminar</span>
-    </div>
-];
 
 export default withPermission(withInstitutionsProvider(Institutions), Permissions.INSTITUTIONS);

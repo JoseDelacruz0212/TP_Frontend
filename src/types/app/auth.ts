@@ -1,6 +1,8 @@
 export const Roles = Object.freeze({
    ADMIN: "admin",
-   INSTITUTION: "institution"
+   INSTITUTION: "institution",
+   TEACHER: "teacher",
+   STUDENT: "user"
 });
 
 export const Permissions = Object.freeze({
