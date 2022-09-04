@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import NavMenuItemComponent, { NavMenuItem } from "./NavMenuItem";
+import NavMenuItemComponent  from "./NavMenuItem";
 
-interface NavMenuProps {
-    items: NavMenuItem[];
-    selected: number;
-    onOptionSelected: (newOption: number) => void;
-}
+import {NavMenuProps} from "../../../types/components/layouts/application-layouts";
 
 const NavMenu = ({ items, selected, onOptionSelected }: NavMenuProps) => {
     return (
@@ -15,10 +11,17 @@ const NavMenu = ({ items, selected, onOptionSelected }: NavMenuProps) => {
             {
                 items
                     .sort((a, b) => a.order - b.order)
-                    .map(item => (
-                            <Link key={item.key} to={item.link} onClick={() => onOptionSelected(item.key)} className={`${selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
+                    .map(item => item.link ?
+                        (
+                            <Link key={item.key} to={item.link} onClick={() => onOptionSelected(item.key)} className={`${selected && selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
                                 <NavMenuItemComponent item={item} />
                             </Link>
+                        )
+                        :
+                        (
+                            <div role="button" key={item.key} onClick={() => onOptionSelected(item.key)} className={`${selected && selected === item.key ? 'bg-surface text-on-surface' : 'hover:bg-surface hover:text-on-surface hover:bg-opacity-50'}`}>
+                                <NavMenuItemComponent item={item} />
+                            </div>
                         )
                     )
             }

@@ -1,9 +1,14 @@
+import menuOptions from "./menu-options";
+
 export const getTitleForCurrentLocation = (location: string, params?: object) => {
+    if (location.includes('/assessment-creator')) return 'Diseñador de evaluación';
+    if (location.includes('/assessment-visualizer')) return 'Evaluación';
+
     switch (location) {
+        case '/institutions': return 'Instituciones';
         case '/courses': return 'Cursos';
         case '/assessments': return 'Evaluaciones';
-        case '/assessment-creator': return 'Diseñador de evaluación';
-        case '/students': return 'Estudiantes';
+        case '/users': return 'Usuarios';
         case '/requests': return 'Reclamos';
         case '/verification': return 'Verificación';
         case '/administration': return 'Administración';
@@ -14,15 +19,5 @@ export const getTitleForCurrentLocation = (location: string, params?: object) =>
 }
 
 export const getActiveOptionForCurrentLocation = (location: string) => {
-    switch (location) {
-        case '/courses': return 1;
-        case '/assessments': return 2;
-        case '/students': return 3;
-        case '/requests': return 4;
-        case '/verification': return 5;
-        case '/administration': return 6;
-        case '/profile': return 7;
-        default:
-            return -1;
-    }
+    return menuOptions.find(x => x.link && location.includes(x.link));
 }

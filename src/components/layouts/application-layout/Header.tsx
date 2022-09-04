@@ -1,18 +1,12 @@
-import React, { ReactElement } from "react";
-import { IconType } from "react-icons";
+import React  from "react";
 
 import { IoClose, IoMenu } from "react-icons/io5";
 
-interface SideBarProps {
-    titleIcon: ReactElement<IconType>;
-    title: string;
-    isMenuOpen: boolean;
-    toggleOpen: () => void;
-}
+import {SideBarProps} from "../../../types/components/layouts/application-layouts";
 
 const Header = ({ titleIcon, title, isMenuOpen, toggleOpen }: SideBarProps) => {
     return (
-        <header className="flex justify-between items-center lg:block lg:static lg:w-60 p-2">
+        <header className="flex justify-between items-center lg:block lg:static lg:w-52 p-2">
             <div className="flex justify-center items-center space-x-3">
                 {titleIcon}
                 <h5>{title}</h5>

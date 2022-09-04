@@ -1,9 +1,6 @@
 import React from "react";
 
-interface ChipProps {
-    label: string;
-    className: string;
-}
+import {ChipProps} from "../../../types/components/common/chip";
 
 const Chip = ({ label, className }: ChipProps) => {
     return (

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import { FilterProps } from "../Filter";
+import {FilterProps} from "../../../../../types/components/common/table/filters";
 
 const Text = (props: FilterProps) => {
     const [value, setValue] = useState(props.schema.initialValue || '');
