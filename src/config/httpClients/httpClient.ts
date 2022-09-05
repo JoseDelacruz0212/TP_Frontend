@@ -28,7 +28,7 @@ instance.interceptors.response.use(
         if (!error || !error.response) return Promise.reject(error);
 
         if (error.response.status === 401) {
-            AuthorizationService.signOut();
+            // AuthorizationService.signOut();
         }
 
         return Promise.reject(error?.response?.data?.message || undefined);

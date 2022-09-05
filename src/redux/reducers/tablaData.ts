@@ -27,6 +27,7 @@ export const dataFetchingFailed = <T extends  Entity, F extends Filter>(state: T
 export const filtersUpdated = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>, action: PayloadAction<F>): TableDataState<T, F> => ({
     ...state,
     filters: action.payload,
+    initialFiltersApplied: true,
     paginationOptions: {
         ...state.paginationOptions,
         page: 1

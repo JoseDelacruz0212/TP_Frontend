@@ -24,9 +24,10 @@ const TableView = <T extends Entity, F>({
     formInputs: FormInputs,
     onItemClick,
     showAuditInfo = true,
-    canAddPermission
+    canAddPermission,
+    defaultFilters
 }: TableViewProps<T, F>) => {
-    const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator);
+    const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator, defaultFilters);
 
     const getNewPage = (option: number) => {
         if (!tableData.pagination) return undefined;

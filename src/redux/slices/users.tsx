@@ -10,7 +10,8 @@ const initialState: TableDataState<User, UserFilter> = {
         name: '',
         lastName: '',
         email: '',
-        institution: ''
+        institution: '',
+        courseId: ''
     }
 };
 

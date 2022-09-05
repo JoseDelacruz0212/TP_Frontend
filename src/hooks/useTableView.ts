@@ -10,13 +10,13 @@ import {CrudService} from "../types/communication/crud-service";
 import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 
-const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>) => {
+const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
     const [item, setItem] = useState<T>(defaultItemSchema);
 
     const dispatch = useAppDispatch();
-    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated } = useSliceActions();
-    const { items, filters, paginationOptions } = useSliceSelector();
+    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
+    const { items, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
 
     const getData = async () => {
         if (!filters) return;
@@ -29,7 +29,19 @@ const useTableView = <T extends Entity, F extends Filter>(columns: string[] = []
     };
 
     useEffect(() => {
-        getData().then();
+        if (defaultFilters) {
+            dispatch(filtersUpdated({...filters, ...defaultFilters}));
+        }
+
+        return () => {
+            dispatch(reset(null));
+        }
+    }, [defaultFilters]);
+
+    useEffect(() => {
+        if (!defaultFilters || initialFiltersApplied) {
+            getData().then();
+        }
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {

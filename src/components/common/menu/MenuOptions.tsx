@@ -12,23 +12,25 @@ const MenuOptions = ({ options }: MenuOptionsProps) => {
     const elementRef = useClickOutside<HTMLDivElement>(() => setIsMenuOpen(false));
 
     return (
-        <div className="absolute" ref={elementRef}>
-            <button className="hover:bg-gray-100 p-1 rounded-full absolute -top-3 -right-3" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <div className="relative" ref={elementRef}>
+            <button className="hover:bg-gray-100 p-1 rounded-full" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 <IoEllipsisVerticalOutline />
             </button>
             {
                 isMenuOpen &&
-                <div className="relative -right-3 top-3 bg-surface border rounded-md shadow-md z-20 min-w-[150px]">
-                    <ul>
-                        {
-                            options.map(
-                                (option, index) =>
-                                    <li key={index} onClick={() => setIsMenuOpen(false)}>
-                                        {option}
-                                    </li>
-                            )
-                        }
-                    </ul>
+                <div className="absolute bg-surface right-0 border rounded-md shadow-md z-20">
+                    <div className="min-w-[150px] w-max">
+                        <ul>
+                            {
+                                options.map(
+                                    (option, index) =>
+                                        <li key={index} onClick={() => setIsMenuOpen(false)}>
+                                            {option}
+                                        </li>
+                                )
+                            }
+                        </ul>
+                    </div>
                 </div>
             }
         </div>

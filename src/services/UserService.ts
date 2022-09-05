@@ -6,7 +6,21 @@ import {UserFilter} from "../types/communication/requests/user";
 class UserService extends CrudService<User, UserFilter> {
     public async getData(filters: UserFilter, page: number = 1, pageSize: number = 10) {
         const filter = (i: User[]) => this.getPaginatedData(i, filters, page, pageSize);
-        return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
+
+        if (!filters.courseId) {
+            return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
+        } else {
+            return this.get<User[], PaginatedResponse<User>>('/user-course/getAllByCourse/' + filters.courseId, filter);
+        }
+    }
+
+    public async assignUserToCourse(userId: string, courseId: string) {
+        return this.post<any, any, string>('/user-course', { userId, courseId },
+            response => {
+                console.log(response);
+                return "";
+            }
+        );
     }
 
     public async deleteItem(id: string) {

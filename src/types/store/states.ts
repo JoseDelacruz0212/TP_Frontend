@@ -12,4 +12,5 @@ export type TableDataState<T, F> = {
     error?: string | null;
     isFilterActivated?: boolean;
     paginationOptions?: PaginationOptions;
+    initialFiltersApplied?: boolean;
 }
