@@ -4,7 +4,7 @@ import {FormInputs} from "../../types/components/common/modal";
 import {Course} from "../../types/communication/responses/courses";
 import {Permissions} from "../../types/app/auth";
 
-import InstitutionsSelect from "./selects/InstitutionsSelect";
+import InstitutionsSelect from "../selects/InstitutionsSelect";
 
 import HasPermission from "../../hoc/with-permission/HasPermission";
 

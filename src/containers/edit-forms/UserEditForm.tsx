@@ -4,7 +4,7 @@ import {FormInputs} from "../../types/components/common/modal";
 import {User} from "../../types/communication/responses/user";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {Permissions} from "../../types/app/auth";
-import InstitutionsSelect from "./selects/InstitutionsSelect";
+import InstitutionsSelect from "../selects/InstitutionsSelect";
 
 const UserEditForm = ({ values, onChange }: FormInputs<User>) => {
     const [selectedRole, setSelectedRole] = useState<string>((values.roles && values.roles[0]) || "");

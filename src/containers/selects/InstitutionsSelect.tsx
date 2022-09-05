@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 
-import {InstitutionOption} from "../../../types/communication/responses/institutions";
+import {InstitutionOption} from "../../types/communication/responses/institutions";
 
-import InstitutionService from "../../../services/InstitutionService";
+import InstitutionService from "../../services/InstitutionService";
 
 const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x: string) => void }) => {
     const [institutions, setInstitutions] = useState<InstitutionOption[]>([]);

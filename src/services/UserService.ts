@@ -14,6 +14,15 @@ class UserService extends CrudService<User, UserFilter> {
         }
     }
 
+    public async assignUserToCourse(userId: string, courseId: string) {
+        return this.post<any, any, string>('/user-course', { userId, courseId },
+            response => {
+                console.log(response);
+                return "";
+            }
+        );
+    }
+
     public async deleteItem(id: string) {
         return this.delete(`/user/${id}`, () => id);
     }

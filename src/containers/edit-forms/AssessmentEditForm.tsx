@@ -1,26 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import moment from "moment";
 
 import {FormInputs} from "../../types/components/common/modal";
 import {Assessment} from "../../types/communication/responses/assessment";
-import {CourseOption} from "../../types/communication/responses/courses";
-
-import CourseService from "../../services/CourseService";
+import CoursesSelect from "../selects/CoursesSelect";
 
 const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
-    const [courses, setCourses] = useState<CourseOption[]>([]);
-    const [selectedCourseId, setSelectedCourseId] = useState<string | undefined>(values.courses?.id);
-
-    const onSelectedCourseIdHandler = (courseId: string) => {
+    const onCourseChanged = (courseId: string) => {
         onChange && onChange({ ...values, courseId });
-        setSelectedCourseId(courseId);
     }
-
-    useEffect(() => {
-        CourseService.getCoursesForCombo().then(
-            values => setCourses(values)
-        );
-    }, []);
 
     return (
         <>
@@ -64,27 +52,7 @@ const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
                        value={values.duration || ''}
                        onChange={(e) => onChange && onChange({ ...values, duration: parseInt(e.target.value) })} />
             </div>
-            <div className="form-group">
-                <label htmlFor="edit-assessment-course" className="form-label">
-                    <small>Curso</small>
-                </label>
-                <select className="form-input select"
-                        id="edit-assessment-course"
-                        name="edit-assessment-course"
-                        value={selectedCourseId || ""}
-                        placeholder="Institución"
-                        disabled={!courses || courses?.length === 0}
-                        onChange={(e) => onSelectedCourseIdHandler(e.target.value)} >
-                    <option value="" disabled>Seleccione una opción</option>
-                    {
-                        courses && courses.map(option => (
-                            <option key={option.id} value={option.id}>
-                                { option.name }
-                            </option>
-                        ))
-                    }
-                </select>
-            </div>
+            <CoursesSelect onCourseChanged={onCourseChanged} />
         </>
     );
 }
