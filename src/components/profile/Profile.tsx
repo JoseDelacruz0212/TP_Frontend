@@ -61,33 +61,17 @@ const Profile = ({ firstName, lastName, email, rol, image, onSelectedImageChange
                         <div className="grid grid-cols-6">
                             <div className="flex justify-center items-center">
                                 <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full bg-red-500 focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("1")}></div>
+                                     className="h-12 w-12 rounded-full focus:border-2 border-primary-dark"
+                                     onClick={() => setSelectedImage("1")}>
+                                    <img src="/assets/female_avatar.svg" alt="profile" className="w-full h-full" />
+                                </div>
                             </div>
                             <div className="flex justify-center items-center">
                                 <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full bg-yellow-500 focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("2")}></div>
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full bg-emerald-500 focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("3")}></div>
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full bg-sky-500 focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("4")}></div>
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full bg-violet-500 focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("5")}></div>
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full bg-pink-500 focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("6")}></div>
+                                     className="h-12 w-12 rounded-full focus:border-2 border-primary-dark"
+                                     onClick={() => setSelectedImage("2")}>
+                                    <img src="/assets/male_avatar.svg" alt="profile" className="w-full h-full" />
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-end space-x-2">

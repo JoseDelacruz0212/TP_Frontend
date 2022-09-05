@@ -29,7 +29,7 @@ class UserService extends CrudService<User, UserFilter> {
     }
 
     updateUserAvatar(userId: string, user: User) {
-        return httpClient.patch('user/updateAvatar', user)
+        return httpClient.patch('user/updateAvatar/' + userId, user)
             .then(
                 () => userId,
                 error => Promise.reject(error)
