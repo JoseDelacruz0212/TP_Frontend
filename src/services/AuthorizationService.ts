@@ -12,7 +12,7 @@ class AuthorizationService {
         [Roles.ADMIN]: ["*"],
         [Roles.INSTITUTION]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "COURSES-ADD", "COURSES-EDIT", "COURSES-DELETE", "ASSESSMENT-*", "USERS", "USERS-APPROVE", "USERS-REVOKE", "USERS-EDIT", "USERS-DELETE", "USERS-ADD", "USERS-ASSIGN-COURSE", "PROFILE"],
         [Roles.TEACHER]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "ASSESSMENT", "ASSESSMENT-ADD", "ASSESSMENT-VISUALIZE", "ASSESSMENT-DESIGN", "ASSESSMENT-PUBLISH", "USERS", "PROFILE"],
-        [Roles.STUDENT]: ["COURSES", "COURSES-ASSESSMENTS", "ASSESSMENT", "ASSESSMENT-START", "USERS", "PROFILE"]
+        [Roles.STUDENT]: ["COURSES", "COURSES-ASSESSMENTS", "ASSESSMENT", "ASSESSMENT-START", "PROFILE"]
     };
 
     private authEventAction?: () => void = undefined;
@@ -68,6 +68,14 @@ class AuthorizationService {
         if (!user) return "";
 
         return `${user.name} ${user.lastName}`;
+    }
+
+    getUserImage() {
+        const user = this.getUserData();
+
+        if (!user) return "";
+
+        return user.avatarUrl;
     }
 
     getAccessToken() {

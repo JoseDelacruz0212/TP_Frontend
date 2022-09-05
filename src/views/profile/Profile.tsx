@@ -19,13 +19,18 @@ const Profile = () => {
        getProfile().then();
     }, []);
 
-    console.log(userData);
+    const onSelectedImageChange = (image: string) => {
+        const updatedUser = { ...userData, avatarUrl: image } as User;
+        UserService.updateUserAvatar(userData?.idUser!, updatedUser).then();
+    };
 
     return (
         <ProfileComponent firstName={userData?.name || ""}
                           lastName={userData?.lastName || ""}
                           email={userData?.email || ""}
-                          rol={userData?.roles && userData.roles [0] || ""} />
+                          rol={userData?.roles && userData.roles [0] || ""}
+                          image={userData?.avatarUrl}
+                          onSelectedImageChange={onSelectedImageChange} />
     )
 };
 

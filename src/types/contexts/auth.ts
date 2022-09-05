@@ -7,6 +7,7 @@ export type AuthProviderContext = {
     getUserName: () => string;
     hasPermissionFor: (permission?: string) => boolean;
     goToFirstAllowedView: () => void;
+    getUserImage: () => string;
 };
 
 export type AuthProviderProps = {

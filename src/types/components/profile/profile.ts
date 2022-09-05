@@ -3,6 +3,6 @@ export type ProfileProps = {
     lastName: string;
     email: string;
     rol: string;
-    image?: number;
-    onSelectedImageChange?: (x: number) => void;
+    image?: string;
+    onSelectedImageChange?: (x: string) => void;
 }
