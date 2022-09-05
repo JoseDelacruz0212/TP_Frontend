@@ -19,11 +19,11 @@ const SignInPage = () => {
     }
 
     return (
-        <div className="min-h-screen p-10 flex">
-            <div className="flex-1 hidden lg:block">
-
+        <div className="min-h-screen flex">
+            <div className="flex-1 hidden lg:block h-screen">
+                <img className="h-screen opacity-60" src="/assets/login_image.jpg" alt="login" />
             </div>
-            <div className="flex justify-center items-center w-full lg:w-96">
+            <div className="flex justify-center items-center w-full lg:w-96 mx-10">
                 <div className="flex flex-col space-y-10 shadow-md w-full p-3 sm:w-96">
                     <div className="flex justify-center items-center space-x-3">
                         <div><IoSchool size={30} /></div>
