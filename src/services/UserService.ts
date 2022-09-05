@@ -1,7 +1,9 @@
 import {CrudService} from "../types/communication/crud-service";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
-import {User} from "../types/communication/responses/user";
+import {Profile, User} from "../types/communication/responses/user";
 import {UserFilter} from "../types/communication/requests/user";
+
+import httpClient from "../config/httpClients/httpClient";
 
 class UserService extends CrudService<User, UserFilter> {
     public async getData(filters: UserFilter, page: number = 1, pageSize: number = 10) {
@@ -12,6 +14,22 @@ class UserService extends CrudService<User, UserFilter> {
         } else {
             return this.get<User[], PaginatedResponse<User>>('/user-course/getAllByCourse/' + filters.courseId, filter);
         }
+    }
+
+    getCurrentProfile() {
+        return httpClient.get<Profile>('auth/profile')
+            .then(
+                response => response.data.user,
+                error => Promise.reject(error)
+            )
+    }
+
+    updateUserAvatar(userId: string, user: User) {
+        return httpClient.patch('user/updateAvatar/' + userId, user)
+            .then(
+                () => userId,
+                error => Promise.reject(error)
+            )
     }
 
     public async assignUserToCourse(userId: string, courseId: string) {

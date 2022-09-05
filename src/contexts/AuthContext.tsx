@@ -12,7 +12,8 @@ const AuthContext = createContext<AuthProviderContext>({
     isLoggedIn: false,
     getUserName: () => "",
     hasPermissionFor: () => false,
-    goToFirstAllowedView: () => {}
+    goToFirstAllowedView: () => {},
+    getUserImage: () => ""
 });
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -55,6 +56,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     const getUserName = () => AuthorizationService.getUserName();
+    const getUserImage = () => AuthorizationService.getUserImage();
     const hasPermissionFor = (permission?: string) => AuthorizationService.hasPermissionFor(permission);
 
     return (
@@ -64,7 +66,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             isLoggedIn,
             getUserName,
             hasPermissionFor,
-            goToFirstAllowedView
+            goToFirstAllowedView,
+            getUserImage
         }}>
                 { children }
         </AuthContext.Provider>
