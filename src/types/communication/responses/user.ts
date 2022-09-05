@@ -12,3 +12,8 @@ export interface User extends Entity {
     institution?: Institution;
     idUser?: string;
 };
+
+export type Profile = {
+    message: string;
+    user: User;
+}
