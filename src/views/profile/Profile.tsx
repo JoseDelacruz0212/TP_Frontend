@@ -9,19 +9,21 @@ import {User} from "../../types/communication/responses/user";
 const Profile = () => {
     const [userData, setUserData] = useState<User | null>(null);
 
-    useEffect(() => {
-       const getProfile = async () => {
-           UserService.getCurrentProfile().then(
-               userData => setUserData(userData)
-           );
-       }
+    const getProfile = async () => {
+        UserService.getCurrentProfile().then(
+            userData => setUserData(userData)
+        );
+    }
 
+    useEffect(() => {
        getProfile().then();
     }, []);
 
     const onSelectedImageChange = (image: string) => {
         const updatedUser = { ...userData, avatarUrl: image } as User;
-        UserService.updateUserAvatar(userData?.idUser!, updatedUser).then();
+        UserService.updateUserAvatar(userData?.idUser!, updatedUser).then(
+            () => getProfile(),
+        );
     };
 
     return (
