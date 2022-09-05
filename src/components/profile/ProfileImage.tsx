@@ -16,7 +16,7 @@ const ProfileImage = ({ imageOption }: { imageOption?: string }) => {
             {
                 image ?
                     <img src={image} alt="profile" className="w-full h-full" /> :
-                    <div role="img" className="w-full h-full border">
+                    <div role="img" className="w-full h-full">
                         <IoPersonOutline className="w-full h-full " />
                     </div>
             }

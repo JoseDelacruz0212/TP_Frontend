@@ -26,7 +26,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             navigate("/", { replace: true });
         });
         return () => AuthorizationService.removeAuthListener();
-    }, []);
+    }, [navigate]);
 
 
     const signIn = (username: string, password: string) => {

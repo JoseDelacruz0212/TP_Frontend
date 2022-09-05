@@ -12,7 +12,11 @@ class UserService extends CrudService<User, UserFilter> {
         if (!filters.courseId) {
             return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
         } else {
-            return this.get<User[], PaginatedResponse<User>>('/user-course/getAllByCourse/' + filters.courseId, filter);
+            return httpClient.get('/user-course/getAllByCourse/' + filters.courseId)
+                .then(
+                    response => filter(response.data.map((x: any) => x.user)),
+                    error => Promise.reject(error)
+                );
         }
     }
 
@@ -25,7 +29,7 @@ class UserService extends CrudService<User, UserFilter> {
     }
 
     updateUserAvatar(userId: string, user: User) {
-        return httpClient.patch('user/updateAvatar/' + userId, user)
+        return httpClient.patch('user/updateAvatar', user)
             .then(
                 () => userId,
                 error => Promise.reject(error)
@@ -34,10 +38,7 @@ class UserService extends CrudService<User, UserFilter> {
 
     public async assignUserToCourse(userId: string, courseId: string) {
         return this.post<any, any, string>('/user-course', { userId, courseId },
-            response => {
-                console.log(response);
-                return "";
-            }
+            () => userId
         );
     }
 
