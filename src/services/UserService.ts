@@ -10,7 +10,7 @@ class UserService extends CrudService<User, UserFilter> {
         if (!filters.courseId) {
             return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
         } else {
-            return this.get<User[], PaginatedResponse<User>>('/user-course/' + filters.courseId, filter);
+            return this.get<User[], PaginatedResponse<User>>('/user-course/getAllByCourse/' + filters.courseId, filter);
         }
     }
 

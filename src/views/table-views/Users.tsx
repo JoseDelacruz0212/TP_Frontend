@@ -5,7 +5,7 @@ import moment from "moment/moment";
 import {useSliceActions} from "../../redux/providers/SliceProvider";
 import {useDispatch} from "react-redux";
 
-import {ConvertorCreator} from "../../types/hooks/table";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {UserFilter} from "../../types/communication/requests/user";
 import {User} from "../../types/communication/responses/user";
 import {WithCourseLocationState} from "../../types/location/state";
@@ -182,7 +182,7 @@ const Users = () => {
     )
 }
 
-const createFilterSchema = (filters: UserFilter, onFiltersUpdate: (x: UserFilter) => any) => ([
+const createFilterSchema: FilterSchemaCreator<UserFilter> = (filters, onFiltersUpdate) => ([
     {
         id: "course-name-filter",
         type: Text,

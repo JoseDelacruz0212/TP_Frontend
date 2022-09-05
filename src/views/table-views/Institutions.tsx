@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-import {ConvertorCreator} from "../../types/hooks/table";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {InstitutionFilter} from "../../types/communication/requests/institutions";
 import {Institution} from "../../types/communication/responses/institutions";
 import {Permissions} from "../../types/app/auth";
@@ -17,7 +17,7 @@ import {withInstitutionsProvider} from "../../redux/providers/providers";
 import withPermission from "../../hoc/with-permission/withPermission";
 
 import TableView from "../layouts/TableView";
-import {IoPencilOutline, IoTrashOutline} from "react-icons/io5";
+import {IoPencilOutline} from "react-icons/io5";
 
 const defaultInstitution: Institution = {
     name: '',
@@ -37,16 +37,7 @@ const Institutions = () => {
             case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 6: value = (
                     <div className="flex justify-end px-5">
-                        <MenuOptions options={[
-                            <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-                                <div><IoPencilOutline /></div>
-                                <span>Editar</span>
-                            </div>,
-                            // <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-                            //     <div><IoTrashOutline /></div>
-                            //     <span>Eliminar</span>
-                            // </div>
-                        ]} />
+                        <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
                     </div>
                 );
                 break;
@@ -72,7 +63,18 @@ const Institutions = () => {
     )
 };
 
-const createFilterSchema = (filters: InstitutionFilter, onFiltersUpdate: (x: InstitutionFilter) => any) => ([
+const getMenuOptions: MenuOptionsCreator<Institution> = (onEdit, onDelete, rowData) => [
+    <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+        <div><IoPencilOutline /></div>
+        <span>Editar</span>
+    </div>,
+    // <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+    //     <div><IoTrashOutline /></div>
+    //     <span>Eliminar</span>
+    // </div>
+];
+
+const createFilterSchema: FilterSchemaCreator<InstitutionFilter> = (filters, onFiltersUpdate) => ([
     {
         id: "institution-name-filter",
         type: Text,

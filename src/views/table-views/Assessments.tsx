@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment/moment";
 import {Link, useLocation} from "react-router-dom";
 
-import {ConvertorCreator} from "../../types/hooks/table";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {AssessmentFilter} from "../../types/communication/requests/asessments";
 import {Assessment} from "../../types/communication/responses/assessment";
 import {Permissions} from "../../types/app/auth";
@@ -18,7 +18,6 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoRocketOutline, IoTrashOutline} from "react-icons/io5";
-import {Entity} from "../../types/communication/responses/entity";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {WithCourseLocationState} from "../../types/location/state";
 
@@ -45,7 +44,7 @@ const Assessments = () => {
             case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 8: value = (
                 <div className="flex justify-end px-5">
-                    <MenuOptions options={getMenuOptions<Assessment>(onEdit, onDelete, rowData)} />
+                    <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
                 </div>
             );
                 break;
@@ -72,7 +71,7 @@ const Assessments = () => {
     )
 }
 
-const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => [
+const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
     <HasPermission permission={Permissions.ASSESSMENT_VISUALIZE}>
         <Link to="/assessment-creator">
             <div role="button" className="menu-option">
@@ -109,7 +108,7 @@ const getMenuOptions = <T extends Entity>(onEdit: (x: T) => void, onDelete: (x: 
     </HasPermission>,
 ];
 
-const createFilterSchema = (filters: AssessmentFilter, onFiltersUpdate: (x: AssessmentFilter) => any) => ([
+const createFilterSchema: FilterSchemaCreator<AssessmentFilter> = (filters, onFiltersUpdate) => ([
     {
         id: "course-name-filter",
         type: Text,
