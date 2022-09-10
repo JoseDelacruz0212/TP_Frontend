@@ -1,7 +1,10 @@
 import React from "react";
-import {useNode} from "@craftjs/core";
+import {useEditor, useNode} from "@craftjs/core";
 
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
+import HasPermission from "../../../../../hoc/with-permission/HasPermission";
+
+import {Permissions} from "../../../../../types/app/auth";
 
 interface FreeTextProps {
     question?: string;
@@ -11,9 +14,12 @@ interface FreeTextProps {
     hasAnswer?: boolean;
     isCaseSensitive?: boolean;
     longAnswer?: boolean;
+    assignedPoints?: number;
+    hasPointsToAssign?: boolean;
 }
 
-const FreeText = ({ question, answerInput, longAnswer, points }: FreeTextProps) => {
+const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, hasPointsToAssign }: FreeTextProps) => {
+    const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     return (
@@ -47,6 +53,25 @@ const FreeText = ({ question, answerInput, longAnswer, points }: FreeTextProps) 
                         <small className="text-overline self-end">{answerInput?.length || '0'} / 50</small>
                     </div>
             }
+            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+            {
+                !enabled && hasPointsToAssign &&
+                <div className="flex justify-end">
+                    <small>Asignar puntos:</small>
+                    <div className="flex items-center space-x-2">
+                        <input type="number"
+                               className="form-input"
+                               id="free-text-question-assigned-points"
+                               min={0}
+                               max={points}
+                               name="free-text-question-assigned-points"
+                               value={assignedPoints || ""}
+                               onChange={(e) => setProp((props: FreeTextProps) => props.assignedPoints = parseInt(e.target.value || "0"))} />
+                        <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
+                    </div>
+                </div>
+            }
+            </HasPermission>
         </div>
     )
 };

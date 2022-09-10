@@ -1,9 +1,11 @@
 import React, {useState} from "react";
-import {useNode} from "@craftjs/core";
+import {useEditor, useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
 import {Option} from "../../../../../types/components/common/options";
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
+import {Permissions} from "../../../../../types/app/auth";
+import HasPermission from "../../../../../hoc/with-permission/HasPermission";
 
 interface MultipleOptionProps {
     question?: string;
@@ -12,9 +14,12 @@ interface MultipleOptionProps {
     answer?: string;
     points?: number;
     answerInput?: string;
+    assignedPoints?: number;
+    hasPointsToAssign?: boolean;
 }
 
-const MultipleOption = ({ question, options, multiple, points, answerInput }: MultipleOptionProps) => {
+const MultipleOption = ({ question, options, multiple, points, answerInput, assignedPoints, hasPointsToAssign }: MultipleOptionProps) => {
+    const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     return (
@@ -44,6 +49,25 @@ const MultipleOption = ({ question, options, multiple, points, answerInput }: Mu
                 }
                 </ul>
             }
+            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+            {
+                !enabled && hasPointsToAssign &&
+                <div className="flex justify-end">
+                    <div className="flex items-center space-x-2">
+                        <small>Asignar puntos:</small>
+                        <input type="number"
+                               className="form-input"
+                               id="free-text-question-assigned-points"
+                               min={0}
+                               max={points}
+                               name="free-text-question-assigned-points"
+                               value={assignedPoints || ""}
+                               onChange={(e) => setProp((props: MultipleOptionProps) => props.assignedPoints = parseInt(e.target.value || "0"))} />
+                        <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
+                    </div>
+                </div>
+            }
+            </HasPermission>
         </div>
     )
 };
