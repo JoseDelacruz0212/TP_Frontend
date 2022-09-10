@@ -23,12 +23,20 @@ const AssessmentCreator = () => {
         console.log(design);
     };
 
+    const onVisualizeClick = (design: string) => {
+        console.log(design);
+    };
+
+    const onDesignPublish = (design: string) => {
+        console.log(design);
+    };
+
     return (
         <Editor resolver={{MultipleOption, FreeText, Image, Canvas}}>
             <div className="grid grid-cols-3 gap-5 min-h-full">
                 <div className="order-2 col-span-4 lg:order-1 lg:col-span-2 min-h-full">
                     <div className="rounded-md shadow-md min-h-full p-2 flex flex-col space-y-5">
-                        <TopBar onDesignSave={onDesignSave} />
+                        <TopBar onDesignSave={onDesignSave} onVisualizeClick={onVisualizeClick} onDesignPublish={onDesignPublish} />
                         <Frame>
                             <Element id="canvas" is={Canvas} canvas>
 

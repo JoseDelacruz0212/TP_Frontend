@@ -26,7 +26,7 @@ const SettingsPanel = () => {
                 <span className="subtitle">Configuración</span>
                 {
                     selected.isDeletable &&
-                    <button className="button-secondary text-on-secondary" onClick={() => actions.delete(selected.id)}>
+                    <button className="button-error text-on-error p-2" onClick={() => actions.delete(selected.id)}>
                         <IoTrashOutline />
                     </button>
                 }
