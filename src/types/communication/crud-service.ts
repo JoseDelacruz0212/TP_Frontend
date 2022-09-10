@@ -5,7 +5,7 @@ import {Filter} from "./requests/filter";
 import httpClient from "../../config/httpClients/httpClient";
 
 export abstract class CrudService<T extends Entity, F extends Filter> {
-    public abstract getData(filters: F, page?: number, pageSize?: number): Promise<PaginatedResponse<T>>;
+    public abstract getData(filters: F, page?: number, pageSize?: number): Promise<T[] | PaginatedResponse<T>>;
     public abstract deleteItem(id: string): Promise<string>;
 
     public saveItem(item: T): Promise<string> {
@@ -16,9 +16,9 @@ export abstract class CrudService<T extends Entity, F extends Filter> {
     protected abstract createItem(item: T): Promise<string>;
     protected abstract applyFilters(data: T[], filters: F): T[];
 
-    protected get<T, K>(url: string, callback: (response: T) => K): Promise<K> {
+    protected get<T, K = {}>(url: string, callback?: (response: T) => K): Promise<any> {
         return httpClient.get<T>(url).then(
-            response => callback(response.data),
+            response => (callback ? callback(response.data) : response.data) as (any),
             error => Promise.reject(error)
         );
     }

@@ -1,11 +1,11 @@
-import React     from "react";
+import React from "react";
 import {IconType} from "react-icons";
 
-interface ToolboxButton {
+interface ToolboxButtonProps {
     icon?: React.ReactElement<IconType>,
 }
 
-const ToolboxButton = React.forwardRef<HTMLButtonElement, ToolboxButton>(({ icon }, ref) => (
+const ToolboxButton = React.forwardRef<HTMLButtonElement, ToolboxButtonProps>(({ icon }, ref) => (
     <button ref={ref} className="rounded-md border shadow-md p-2 flex justify-center items-center">
         {icon}
     </button>

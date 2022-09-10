@@ -17,7 +17,7 @@ import withPermission from "../../hoc/with-permission/withPermission";
 import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoRocketOutline, IoTrashOutline} from "react-icons/io5";
+import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {WithCourseLocationState} from "../../types/location/state";
 
@@ -73,7 +73,7 @@ const Assessments = () => {
 
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
     <HasPermission permission={Permissions.ASSESSMENT_VISUALIZE}>
-        <Link to="/assessment-creator">
+        <Link to={`/assessment-visualizer/${rowData.id}`}>
             <div role="button" className="menu-option">
                 <div><IoEyeOutline /></div>
                 <span>Visualizar</span>
@@ -81,7 +81,7 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
         </Link>
     </HasPermission>,
     <HasPermission permission={Permissions.ASSESSMENT_DESIGN}>
-        <Link to="/assessment-creator">
+        <Link to={`/assessment-creator/${rowData.id}`}>
             <div role="button" className="menu-option">
                 <div><IoCreateOutline /></div>
                 <span>Diseñar examen</span>

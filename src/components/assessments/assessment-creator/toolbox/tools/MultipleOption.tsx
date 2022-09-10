@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import {useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
-import {Option} from "../../../../types/components/common/options";
+import {Option} from "../../../../../types/components/common/options";
+import {addZerosToPoints} from "../../../../../util/assessment-creator";
 
 interface MultipleOptionProps {
     question?: string;
@@ -10,16 +11,17 @@ interface MultipleOptionProps {
     multiple?: boolean;
     answer?: string;
     points?: number;
+    answerInput?: string;
 }
 
-const MultipleOption = ({ question, options, multiple, points }: MultipleOptionProps) => {
-    const { connectors: { connect, drag } } = useNode();
+const MultipleOption = ({ question, options, multiple, points, answerInput }: MultipleOptionProps) => {
+    const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     return (
-        <div className="p-2 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
+        <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
             {
                 question ?
-                    <p className="break-words"><small className="text-overline">({points} puntos)</small> {question}</p>
+                    <p className="break-words"><small className="text-overline">({addZerosToPoints(points)} puntos)</small> {question}</p>
                     :
                     <small>Haga click aqui para editar la pregunta de opción múltiple</small>
             }
@@ -30,7 +32,11 @@ const MultipleOption = ({ question, options, multiple, points }: MultipleOptionP
                     options.map((option: Option) => (
                         <li key={option.key}>
                             <label className="flex space-x-2 items-center">
-                                <input type={multiple ? "checkbox" : "radio"} id="id" name="id" value={option.key} />
+                                <input checked={option.key === answerInput}
+                                       type={multiple ? "checkbox" : "radio"}
+                                       name="multiple-option-answer-input"
+                                       value={option.key}
+                                       onChange={(e) => setProp((props: MultipleOptionProps) => props.answerInput = e.target.value)} />
                                 <span>{option.value}</span>
                             </label>
                         </li>

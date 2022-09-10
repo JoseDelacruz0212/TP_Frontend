@@ -10,6 +10,7 @@ import Assessments from "./views/table-views/Assessments";
 import Users from "./views/table-views/Users";
 import Profile from "./views/profile/Profile";
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
+import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 
 function App() {
   return (
@@ -19,9 +20,9 @@ function App() {
               <Route path="/institutions" element={<Institutions />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/assessments" element={<Assessments />} />
-              <Route path="/assessment-creator/:id" element={null} />
+              <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
               <Route path="/assessment-creator" element={<AssessmentCreator />} />
-              <Route path="/assessment-visualizer/:id" element={null} />
+              <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
               <Route path="/users" element={<Users />} />
               <Route path="/requests" element={null} />
               <Route path="/verification" element={null} />

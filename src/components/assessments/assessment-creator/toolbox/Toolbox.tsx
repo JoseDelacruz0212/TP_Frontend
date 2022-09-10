@@ -1,11 +1,10 @@
 import React from "react";
 import {useEditor} from "@craftjs/core";
-import {IoImageOutline, IoRadioButtonOnOutline, IoTextOutline} from "react-icons/io5";
+import {IoRadioButtonOnOutline, IoTextOutline} from "react-icons/io5";
 
 import ToolboxButton from "./ToolboxButton";
 import MultipleOption from "./tools/MultipleOption";
 import FreeText from "./tools/FreeTextOption";
-import Image from "./tools/Image";
 
 const Toolbox = () => {
     const { connectors } = useEditor();
@@ -16,7 +15,7 @@ const Toolbox = () => {
             <div className="grid grid-cols-5 gap-3">
                 <ToolboxButton ref={ref => connectors.create(ref!, <MultipleOption />)} icon={<IoRadioButtonOnOutline />} />
                 <ToolboxButton ref={ref => connectors.create(ref!, <FreeText />)} icon={<IoTextOutline />} />
-                <ToolboxButton ref={ref => connectors.create(ref!, <Image />)} icon={<IoImageOutline />} />
+                {/*<ToolboxButton ref={ref => connectors.create(ref!, <Image />)} icon={<IoImageOutline />} />*/}
             </div>
         </div>
     );

@@ -20,7 +20,7 @@ const Image = ({ width, height, alignment, src }: ImageProps) => {
     const { connectors: { connect, drag } } = useNode();
 
     return (
-        <div className={`p-2 overflow-hidden flex justify-${alignment === 3 ? 'end' : (alignment === 2 ? 'center' : 'start')}`}>
+        <div className={`px-2 py-4 overflow-hidden flex justify-${alignment === 3 ? 'end' : (alignment === 2 ? 'center' : 'start')}`}>
             <div ref={ref => connect(drag(ref!))} style={{
                 width,
                 height

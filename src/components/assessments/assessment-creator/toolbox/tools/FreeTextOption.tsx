@@ -1,6 +1,8 @@
 import React from "react";
 import {useNode} from "@craftjs/core";
 
+import {addZerosToPoints} from "../../../../../util/assessment-creator";
+
 interface FreeTextProps {
     question?: string;
     answerInput?: string;
@@ -15,10 +17,10 @@ const FreeText = ({ question, answerInput, longAnswer, points }: FreeTextProps) 
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     return (
-        <div className="p-2 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
+        <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
             {
                 question ?
-                    <p className="break-words"><small className="text-overline">({points} puntos)</small> {question}</p>
+                    <p className="break-words"><small className="text-overline">({addZerosToPoints(points)} puntos)</small> {question}</p>
                     :
                     <small>Haga click aqui para editar la pregunta</small>
             }

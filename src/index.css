@@ -130,4 +130,8 @@
     .menu-option {
         @apply px-2 py-1 flex items-center space-x-2 hover:bg-gray-100
     }
+
+    #canvas {
+        @apply flex-1
+    }
 }
