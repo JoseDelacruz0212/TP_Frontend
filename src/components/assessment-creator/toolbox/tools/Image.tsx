@@ -13,6 +13,7 @@ interface ImageProps {
     height?: number | string;
     alignment?: number;
     src?: string;
+    base64scr?: string;
 }
 
 const Image = ({ width, height, alignment, src }: ImageProps) => {
@@ -41,7 +42,7 @@ const ImageSettings = () => {
     const { width, height, actions: { setProp } } = useNode(node => ({
         width: node.data.props.width,
         height: node.data.props.height,
-        alignment: node.data.props.alignment
+        alignment: node.data.props.alignment,
     }));
 
     return (
@@ -76,7 +77,7 @@ const ImageSettings = () => {
                            name="image-width"
                            min={0}
                            placeholder="Ancho"
-                           value={width || 0}
+                           value={width || ""}
                            onChange={(e) => setProp((props: ImageProps) => props.width = parseInt(e.target.value || "0"))} />
                     <button onClick={(e) => setProp((props: ImageProps) => props.width = '100%')}
                             className="rounded-md border shadow-md p-2 flex justify-center items-center">
@@ -94,13 +95,21 @@ const ImageSettings = () => {
                        name="image-height"
                        min={0}
                        placeholder="Alto"
-                       value={height || 0}
+                       value={height || ""}
                        onChange={(e) => setProp((props: ImageProps) => props.height = parseInt(e.target.value || "0"))} />
             </div>
             <div>
                 <Dropzone onDrop={acceptedFiles => {
                     acceptedFiles.forEach((file) => {
-                        setProp((props: ImageProps) => props.src = URL.createObjectURL(file));
+                        const reader = new FileReader();
+
+                        reader.readAsDataURL(file);
+
+                        reader.onload = () => {
+                            setProp((props: ImageProps) => props.src = URL.createObjectURL(file));
+                            setProp((props: ImageProps) => props.base64scr = reader.result as string);
+                        };
+
                     });
                 }} maxFiles={1} accept={{
                     'image/*': ['.jpeg', '.png']

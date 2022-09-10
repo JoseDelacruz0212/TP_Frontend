@@ -103,7 +103,7 @@ const MultipleOptionSettings = () => {
                        name="multiple-option-points"
                        min={0}
                        placeholder="Puntos"
-                       value={points || 0}
+                       value={points || ""}
                        onChange={(e) => setProp((props: MultipleOptionProps) => props.points = parseInt(e.target.value || "0"))} />
             </div>
             <div className="form-group-row">
