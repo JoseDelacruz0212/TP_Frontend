@@ -19,7 +19,6 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 import TableView from "../layouts/TableView";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
 import HasPermission from "../../hoc/with-permission/HasPermission";
-import {WithCourseLocationState} from "../../types/location/state";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -27,9 +26,13 @@ const defaultAssessment: Assessment = {
     status: 0
 };
 
+interface LocationState {
+    courseId: string | undefined;
+}
+
 const Assessments = () => {
     const location = useLocation();
-    const state = location.state as WithCourseLocationState;
+    const state = location.state as LocationState;
 
     const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;

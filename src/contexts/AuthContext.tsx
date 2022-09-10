@@ -1,10 +1,22 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {AuthProviderContext, AuthProviderProps} from "../types/contexts/auth";
-
 import AuthorizationService from "../services/AuthorizationService";
 import menuOptions from "../config/app/menu-options";
+
+interface AuthProviderContext {
+    signIn: (username: string, password: string) => void;
+    signOut: () => void;
+    isLoggedIn: boolean;
+    getUserName: () => string;
+    hasPermissionFor: (permission?: string) => boolean;
+    goToFirstAllowedView: () => void;
+    getUserImage: () => string;
+};
+
+interface AuthProviderProps {
+    children: React.ReactNode;
+};
 
 const AuthContext = createContext<AuthProviderContext>({
     signIn: () => {},

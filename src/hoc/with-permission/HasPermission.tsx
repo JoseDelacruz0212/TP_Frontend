@@ -1,8 +1,12 @@
 import React from "react";
 import {useAuthContext} from "../../contexts/AuthContext";
-import {HasPermissionPros} from "../../types/hoc/with-permission";
 
-const HasPermission = ({ children, permission }: HasPermissionPros) => {
+export type HasPermissionProps = {
+    children: React.ReactNode;
+    permission?: string
+};
+
+const HasPermission = ({ children, permission }: HasPermissionProps) => {
     const { hasPermissionFor } = useAuthContext();
 
 

@@ -27,8 +27,8 @@ const Select = (props: FilterProps) => {
                 <option value="">Todos</option>
                 {
                     props.schema.options && props.schema.options.map(option => (
-                        <option key={option.key} value={option.key}>
-                            { option.value }
+                        <option key={option.value} value={option.value}>
+                            { option.label }
                         </option>
                     ))
                 }

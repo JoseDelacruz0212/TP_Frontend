@@ -2,13 +2,33 @@ import React from "react";
 import moment from "moment";
 
 import {Entity} from "../../types/communication/responses/entity";
-import {TableViewProps} from "../../types/components/layouts/application-layouts";
+import {ConvertorCreator, FilterSchemaCreator} from "../../types/hooks/table";
+import {CrudService} from "../../services/CrudService";
+import {FormInputProps} from "../../types/components/common/modal";
 
 import useTableView from "../../hooks/useTableView";
 
 import Table from "../../components/common/table/Table";
 import SidePanelForm from "../../components/common/modal/SidePanelForm";
 import HasPermission from "../../hoc/with-permission/HasPermission";
+
+interface TableViewProps<T extends Entity, F> {
+    title: string;
+    filterSchemaCreator: FilterSchemaCreator<F>;
+    convertorCreator: ConvertorCreator<T>
+    columns: string[];
+    service: CrudService<T, F>;
+    sidePanelId: string;
+    sidePanelCreateTitle: string;
+    sidePanelEditTitle: string;
+    defaultItemSchema: T;
+    addButtonText: string;
+    formInputs: React.ComponentType<FormInputProps<T>>;
+    onItemClick?: (id: number | string) => void;
+    showAuditInfo?: boolean;
+    canAddPermission?: string;
+    defaultFilters?: object;
+}
 
 const TableView = <T extends Entity, F>({
     title,

@@ -1,4 +1,4 @@
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "./CrudService";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Profile, User} from "../types/communication/responses/user";
 import {UserFilter} from "../types/communication/requests/user";

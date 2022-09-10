@@ -1,8 +1,8 @@
-import {PaginatedResponse} from "./responses/pagination";
-import {Entity} from "./responses/entity";
-import {Filter} from "./requests/filter";
+import {PaginatedResponse} from "../types/communication/responses/pagination";
+import {Entity} from "../types/communication/responses/entity";
+import {Filter} from "../types/communication/requests/filter";
 
-import httpClient from "../../config/httpClients/httpClient";
+import httpClient from "../config/httpClients/httpClient";
 
 export abstract class CrudService<T extends Entity, F extends Filter> {
     public abstract getData(filters: F, page?: number, pageSize?: number): Promise<T[] | PaginatedResponse<T>>;

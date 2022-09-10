@@ -1,9 +1,9 @@
 import React from "react";
 
-import {FormInputs} from "../../types/components/common/modal";
+import {FormInputProps} from "../../types/components/common/modal";
 import {Institution} from "../../types/communication/responses/institutions";
 
-const InstitutionEditForm = ({ values, onChange }: FormInputs<Institution>) => {
+const InstitutionEditForm = ({ values, onChange }: FormInputProps<Institution>) => {
     return (
         <>
             <div className="form-group">

@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 
-import {FormInputs} from "../../types/components/common/modal";
+import {FormInputProps} from "../../types/components/common/modal";
 import {User} from "../../types/communication/responses/user";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {Permissions} from "../../types/app/auth";
 import InstitutionsSelect from "../selects/InstitutionsSelect";
 
-const UserEditForm = ({ values, onChange }: FormInputs<User>) => {
+const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
     const [selectedRole, setSelectedRole] = useState<string>((values.roles && values.roles[0]) || "");
 
     const onSelectedRoleChanged = (option: string) => {

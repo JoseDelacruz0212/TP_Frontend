@@ -12,7 +12,26 @@ import {
 
 import FilterRenderer from "./filter-renderer/FilterRenderer";
 
-import {TableProps} from "../../../types/components/common/table/table";
+import {Column, Row} from "../../../types/components/common/table/table";
+import {Option} from "../../../types/components/common/options";
+import {FilterSchema} from "../../../types/components/common/table/filters";
+
+interface TableProps {
+    title: string;
+    columns: Column[];
+    rows: Row[];
+    onPageChange: (direction: -2 | -1 | 1 | 2) => void;
+    pageSizeOptions?: Option[];
+    onPageSizeChanged: (pageSize: number) => void;
+    filterSchemas: FilterSchema[];
+    pageSize?: number;
+    hasNext?: boolean;
+    hasPrev?: boolean;
+    currentPage?: number;
+    totalItems?: number;
+    onClick?: (id: number | string) => void;
+    onFiltersClosed?: () => void;
+}
 
 const Table = ({
     title,
@@ -107,20 +126,20 @@ const Table = ({
                             <select className="appearance-none w-12 px-2 border" value={pageSize} onChange={onPageSizeChangedHandler}>
                                 {
                                     (pageSizeOptions || [{
-                                        key: 1,
-                                        value: 5
+                                        value: 1,
+                                        label: 5
                                     }, {
-                                        key: 2,
-                                        value: 10
+                                        value: 2,
+                                        label: 10
                                     }, {
-                                        key: 3,
-                                        value: 25
+                                        value: 3,
+                                        label: 25
                                     }, {
-                                        key: 4,
-                                        value: 50
+                                        value: 4,
+                                        label: 50
                                     }]).map(option => (
-                                        <option key={option.key}>
-                                            {option.value}
+                                        <option key={option.value}>
+                                            {option.label}
                                         </option>
                                     ))
                                 }

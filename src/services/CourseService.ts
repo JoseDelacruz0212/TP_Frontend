@@ -1,4 +1,4 @@
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "./CrudService";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Course, CourseCreated, CourseOption} from "../types/communication/responses/courses";
 import {CourseFilter} from "../types/communication/requests/course";

@@ -1,5 +1,5 @@
 import {Institution, InstitutionCreated, InstitutionOption} from "../types/communication/responses/institutions";
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "./CrudService";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {InstitutionFilter} from "../types/communication/requests/institutions";
 

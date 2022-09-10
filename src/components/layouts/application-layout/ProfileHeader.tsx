@@ -1,7 +1,13 @@
 import React from "react";
 
-import {ProfileHeaderProps} from "../../../types/components/layouts/application-layouts";
 import ProfileImage from "../../profile/ProfileImage";
+
+interface ProfileHeaderProps {
+    title: string;
+    username: string;
+    userImage?: string;
+    onProfileClicked: () => void;
+}
 
 const ProfileHeader = ({ title, username, userImage, onProfileClicked }: ProfileHeaderProps) => {
     return (

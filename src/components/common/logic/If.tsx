@@ -1,6 +1,9 @@
 import React from "react";
 
-import {IfProps} from "../../../types/components/common/logic";
+interface IfProps {
+    children: React.ReactNode;
+    condition: boolean;
+}
 
 const If = ({ children, condition }: IfProps) => !condition ? null : <>{children}</>;
 

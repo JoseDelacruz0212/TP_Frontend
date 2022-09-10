@@ -5,7 +5,7 @@ import useClickOutside from "../../../hooks/useClickOutside";
 
 export type MenuOptionsProps = {
     options: ReactElement[]
-};
+}
 
 const MenuOptions = ({ options }: MenuOptionsProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

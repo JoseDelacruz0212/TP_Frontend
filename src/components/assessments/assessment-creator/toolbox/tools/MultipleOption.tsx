@@ -35,14 +35,14 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                 <ul>
                 {
                     options.map((option: Option) => (
-                        <li key={option.key}>
+                        <li key={option.value}>
                             <label className="flex space-x-2 items-center">
-                                <input checked={option.key === answerInput}
+                                <input checked={option.value === answerInput}
                                        type={multiple ? "checkbox" : "radio"}
                                        name="multiple-option-answer-input"
-                                       value={option.key}
+                                       value={option.value}
                                        onChange={(e) => setProp((props: MultipleOptionProps) => props.answerInput = e.target.value)} />
-                                <span>{option.value}</span>
+                                <span>{option.label}</span>
                             </label>
                         </li>
                     ))
@@ -86,7 +86,7 @@ const MultipleOptionSettings = () => {
     const onNewOptionClicked = () => {
         setNewOption("");
 
-        const newOptionsItem = { key: newOption, value: newOption };
+        const newOptionsItem = { value: newOption, label: newOption };
 
         setProp((props: MultipleOptionProps) => {
             if (props.options) {
@@ -100,7 +100,7 @@ const MultipleOptionSettings = () => {
     const removeOption = (key: string) => {
         setProp((props: MultipleOptionProps) => {
             if (props.options) {
-                props.options = props.options.filter(option => option.key !== key);
+                props.options = props.options.filter(option => option.value !== key);
             }
         });
     }
@@ -170,11 +170,11 @@ const MultipleOptionSettings = () => {
                     <div className="p-2 border rounded-md flex flex-col space-y-3">
                         {
                             options.map((option: Option) => (
-                                <div key={option.key} className="flex justify-between">
-                                    <small>{option.value}</small>
+                                <div key={option.value} className="flex justify-between">
+                                    <small>{option.label}</small>
                                     <IoTrashOutline className="text-error"
                                                     role="button"
-                                                    onClick={() => removeOption(option.key as string)}/>
+                                                    onClick={() => removeOption(option.value as string)}/>
                                 </div>
                             ))
                         }
@@ -195,8 +195,8 @@ const MultipleOptionSettings = () => {
                     { options && options.length > 0 && <option value="">Seleccione una opción</option> }
                     {
                         options && options.map((option: Option) => (
-                            <option key={option.key} value={option.key}>
-                                {option.value}
+                            <option key={option.value} value={option.value}>
+                                {option.label}
                             </option>
                         ))
                     }

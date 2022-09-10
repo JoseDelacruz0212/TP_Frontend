@@ -4,9 +4,6 @@ import {
     IoBookOutline,
     IoBookmarksOutline,
     IoPeopleOutline,
-    IoFileTrayFullOutline,
-    IoShieldCheckmarkOutline,
-    IoSettingsOutline,
     IoPersonOutline,
     IoSchoolOutline, IoExitOutline
 } from "react-icons/io5";

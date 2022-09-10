@@ -13,7 +13,14 @@ import {
 
 import {Entity} from "../../types/communication/responses/entity";
 import {Filter} from "../../types/communication/requests/filter";
-import {DataSliceProps} from "../../types/store/slices";
+import {TableDataState} from "../../types/store/states";
+
+interface DataSliceProps<T, F> {
+    name: string;
+    initialState: TableDataState<T, F>;
+    reducers?: any;
+    extraReducers?: any;
+};
 
 const createTableDataSlice = <T extends Entity, F extends Filter>({ name, initialState, reducers, extraReducers }: DataSliceProps<T, F>) => {
     initialState = {

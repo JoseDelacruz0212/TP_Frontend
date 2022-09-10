@@ -20,8 +20,3 @@ export type FilterProps = {
     schema: FilterSchema;
     onChange: (value: string) => void;
 }
-
-export type FilterRendererProps = {
-    schemas: FilterSchema[];
-};
-

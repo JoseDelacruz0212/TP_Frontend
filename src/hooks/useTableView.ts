@@ -6,7 +6,7 @@ import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvide
 import useTable from "./useTable";
 
 import {ConvertorCreator, FilterSchemaCreator} from "../types/hooks/table";
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "../services/CrudService";
 import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 

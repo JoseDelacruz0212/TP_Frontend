@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "./CrudService";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Assessment, AssessmentCreated} from "../types/communication/responses/assessment";
 import {AssessmentFilter} from "../types/communication/requests/asessments";
