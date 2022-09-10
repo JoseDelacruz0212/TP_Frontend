@@ -12,7 +12,7 @@ const Canvas = ({ children }: { children: React.ReactNode }) => {
     const { connectors: { connect } } = useNode();
 
     return (
-        <div ref={connect as LegacyRef<HTMLDivElement>} className="flex-1">
+        <div ref={connect as LegacyRef<HTMLDivElement>} className="flex-1 border rounded-md">
             {children}
         </div>
     );
