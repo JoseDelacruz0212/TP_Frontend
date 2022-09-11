@@ -2,16 +2,17 @@ import React from 'react';
 import { Routes, Route } from "react-router-dom";
 
 import ApplicationLayout from "./views/layouts/ApplicationLayout";
+import ExternalLayout from "./views/layouts/ExternalLayout";
 import SignInPage from "./views/auth/SignInPage";
 
 import Institutions from "./views/table-views/Institutions";
 import Courses from "./views/table-views/Courses";
 import Assessments from "./views/table-views/Assessments";
 import Users from "./views/table-views/Users";
-import Profile from "./views/profile/Profile";
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 import Verification from "./views/verification/Verification";
+import Profile from "./views/profile/Profile";
 
 function App() {
   return (
@@ -30,7 +31,9 @@ function App() {
               <Route path="/administration" element={null} />
               <Route path="/profile" element={<Profile />} />
           </Route>
-          {/*<Route path="/verification-external" element={<Verification />} />*/}
+          <Route element={<ExternalLayout />}>
+              <Route path="/verification-external" element={<Verification />} />
+          </Route>
       </Routes>
   );
 }
