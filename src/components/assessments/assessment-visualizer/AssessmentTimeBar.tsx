@@ -40,7 +40,7 @@ const AssessmentTimeBar = ({ status, availableOn, duration }: AssessmentTimeBarP
         }
 
         return () => interval && clearInterval(interval);
-    }, []);
+    }, [status, availableOn, duration]);
 
     if (!duration) return null;
 
