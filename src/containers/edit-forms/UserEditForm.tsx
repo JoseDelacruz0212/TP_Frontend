@@ -95,8 +95,12 @@ const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
                         value={selectedRole}
                         onChange={(e) => onSelectedRoleChanged(e.target.value)}>
                     <option value="">Seleccione una opción</option>
-                    <option value="admin">Administrador</option>
-                    <option value="institution">Institución</option>
+                    <HasPermission permission={Permissions.USERS_ADD_ADMINISTRATOR}>
+                        <option value="admin">Administrador</option>
+                    </HasPermission>
+                    <HasPermission permission={Permissions.USERS_ADD_INSTITUTION}>
+                        <option value="institution">Institución</option>
+                    </HasPermission>
                     <option value="teacher">Profesor</option>
                     <option value="user">Estudiante</option>
                 </select>
