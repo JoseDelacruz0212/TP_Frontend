@@ -1,7 +1,31 @@
-import React from "react";
+import React, {FormEvent, useState} from "react";
+import VerificationData from "../table-views/VerificationData";
 
 const Verification = () => {
-    return null;
+    const [userIdentifier, setUserIdentifier] = useState("");
+
+    const verifyUserHandler = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(userIdentifier);
+    }
+
+    return (
+        <div className="flex flex-col space-y-10">
+            <form className="flex space-x-5" onSubmit={verifyUserHandler}>
+                <input className="form-input flex-1"
+                       id="verification-user-identifier"
+                       name="verification-user-identifier"
+                       placeholder="Ingrese el identificador del usuario"
+                       maxLength={100}
+                       value={userIdentifier}
+                       onChange={(e) => setUserIdentifier(e.target.value)} />
+                <button type="submit" className="button-primary">
+                    Verificar
+                </button>
+            </form>
+            <VerificationData />
+        </div>
+    )
 };
 
 export default Verification;

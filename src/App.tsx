@@ -30,6 +30,7 @@ function App() {
               <Route path="/administration" element={null} />
               <Route path="/profile" element={<Profile />} />
           </Route>
+          {/*<Route path="/verification-external" element={<Verification />} />*/}
       </Routes>
   );
 }

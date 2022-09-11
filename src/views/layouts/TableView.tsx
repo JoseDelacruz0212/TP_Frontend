@@ -12,18 +12,21 @@ import Table from "../../components/common/table/Table";
 import SidePanelForm from "../../components/common/modal/SidePanelForm";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 
+const defaultFilterSchemaCreator = () => [];
+const defaultConvertorCreator = () => () => null;
+
 interface TableViewProps<T extends Entity, F> {
     title: string;
-    filterSchemaCreator: FilterSchemaCreator<F>;
-    convertorCreator: ConvertorCreator<T>
+    filterSchemaCreator?: FilterSchemaCreator<F>;
+    convertorCreator?: ConvertorCreator<T>
     columns: React.ReactNode[];
     service: CrudService<T, F>;
-    sidePanelId: string;
-    sidePanelCreateTitle: string;
-    sidePanelEditTitle: string;
-    defaultItemSchema: T;
-    addButtonText: string;
-    formInputs: React.ComponentType<FormInputProps<T>>;
+    sidePanelId?: string;
+    sidePanelCreateTitle?: string;
+    sidePanelEditTitle?: string;
+    defaultItemSchema?: T;
+    addButtonText?: string;
+    formInputs?: React.ComponentType<FormInputProps<T>>;
     onItemClick?: (id: number | string) => void;
     showAuditInfo?: boolean;
     canAddPermission?: string;
@@ -33,15 +36,15 @@ interface TableViewProps<T extends Entity, F> {
 
 const TableView = <T extends Entity, F>({
     title,
-    filterSchemaCreator,
-    convertorCreator,
+    filterSchemaCreator = defaultFilterSchemaCreator,
+    convertorCreator = defaultConvertorCreator,
     columns,
     service,
-    sidePanelId,
-    sidePanelCreateTitle,
-    sidePanelEditTitle,
-    defaultItemSchema,
-    addButtonText,
+    sidePanelId = "",
+    sidePanelCreateTitle = "",
+    sidePanelEditTitle = "",
+    defaultItemSchema = {} as T,
+    addButtonText = "",
     formInputs: FormInputs,
     onItemClick,
     showAuditInfo = true,
