@@ -2,10 +2,9 @@ import React from "react";
 import moment from "moment/moment";
 import {Link, useLocation} from "react-router-dom";
 
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {AssessmentFilter} from "../../types/communication/requests/asessments";
 import {Assessment} from "../../types/communication/responses/assessment";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
 
 import AssessmentService from "../../services/AssessmentService";
 
@@ -19,6 +18,7 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 import TableView from "../layouts/TableView";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
 import HasPermission from "../../hoc/with-permission/HasPermission";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
 
 const defaultAssessment: Assessment = {
     name: '',

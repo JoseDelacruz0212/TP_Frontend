@@ -4,7 +4,7 @@ import {useEditor, useNode} from "@craftjs/core";
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
 import HasPermission from "../../../../../hoc/with-permission/HasPermission";
 
-import {Permissions} from "../../../../../types/app/auth";
+import {Permissions} from "../../../../../types/auth";
 
 interface FreeTextProps {
     question?: string;

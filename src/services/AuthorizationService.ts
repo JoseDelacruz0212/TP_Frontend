@@ -3,7 +3,7 @@ import authorizationClient from "../config/httpClients/authorizationClient";
 import {AuthorizationResponse, UserAuthorizationResponse} from "../types/communication/responses/authorization";
 import StorageService from "./StorageService";
 
-import {Roles} from "../types/app/auth";
+import {Roles} from "../types/auth";
 
 class AuthorizationService {
     private permissions: {

@@ -5,10 +5,9 @@ import moment from "moment/moment";
 import {useSliceActions} from "../../redux/providers/SliceProvider";
 import {useDispatch} from "react-redux";
 
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {UserFilter} from "../../types/communication/requests/user";
 import {User} from "../../types/communication/responses/user";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
 
 import UserService from "../../services/UserService";
 
@@ -33,6 +32,7 @@ import {
     IoPencilOutline,
     IoTrashOutline
 } from "react-icons/io5";
+import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 
 const defaultUser: User = {
     name: '',

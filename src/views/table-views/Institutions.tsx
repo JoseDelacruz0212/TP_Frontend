@@ -1,10 +1,9 @@
 import React from "react";
 import moment from "moment";
 
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {InstitutionFilter} from "../../types/communication/requests/institutions";
 import {Institution} from "../../types/communication/responses/institutions";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
 
 import InstitutionService from "../../services/InstitutionService";
 
@@ -18,6 +17,7 @@ import withPermission from "../../hoc/with-permission/withPermission";
 
 import TableView from "../layouts/TableView";
 import {IoPencilOutline} from "react-icons/io5";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
 
 const defaultInstitution: Institution = {
     name: '',

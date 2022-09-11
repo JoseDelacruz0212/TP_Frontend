@@ -2,9 +2,9 @@ import React from "react";
 import moment from "moment";
 
 import {Entity} from "../../types/communication/responses/entity";
-import {ConvertorCreator, FilterSchemaCreator} from "../../types/hooks/table";
+import {ConvertorCreator, FilterSchemaCreator, FormInputProps} from "../../types/common";
+
 import {CrudService} from "../../services/CrudService";
-import {FormInputProps} from "../../types/components/common/modal";
 
 import useTableView from "../../hooks/useTableView";
 

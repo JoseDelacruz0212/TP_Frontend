@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import {useEditor, useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
-import {Option} from "../../../../../types/components/common/options";
+import {Option} from "../../../../../types/common";
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
-import {Permissions} from "../../../../../types/app/auth";
+import {Permissions} from "../../../../../types/auth";
 import HasPermission from "../../../../../hoc/with-permission/HasPermission";
 
 interface MultipleOptionProps {

@@ -13,7 +13,22 @@ import {
 
 import {Entity} from "../../types/communication/responses/entity";
 import {Filter} from "../../types/communication/requests/filter";
-import {TableDataState} from "../../types/store/states";
+import {PaginatedResponse} from "../../types/communication/responses/pagination";
+
+interface PaginationOptions {
+    page?: number;
+    pageSize?: number;
+}
+
+export interface TableDataState<T, F> {
+    filters: F;
+    isLoading?: boolean;
+    items?: PaginatedResponse<T>;
+    error?: string | null;
+    isFilterActivated?: boolean;
+    paginationOptions?: PaginationOptions;
+    initialFiltersApplied?: boolean;
+}
 
 interface DataSliceProps<T, F> {
     name: string;

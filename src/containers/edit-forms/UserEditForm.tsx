@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 
-import {FormInputProps} from "../../types/components/common/modal";
 import {User} from "../../types/communication/responses/user";
+import {FormInputProps} from "../../types/common";
+import {Permissions} from "../../types/auth";
+
 import HasPermission from "../../hoc/with-permission/HasPermission";
-import {Permissions} from "../../types/app/auth";
+
 import InstitutionsSelect from "../selects/InstitutionsSelect";
 
 const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {

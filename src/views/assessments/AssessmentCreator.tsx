@@ -8,7 +8,7 @@ import TopBar from "../../components/assessments/assessment-creator/TopBar";
 import FreeText from "../../components/assessments/assessment-creator/toolbox/tools/FreeTextOption";
 import withPermission from "../../hoc/with-permission/withPermission";
 
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
 
 const AssessmentCreator = () => {
     const onDesignSave = (design: string) => {

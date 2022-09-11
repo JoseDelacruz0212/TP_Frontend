@@ -12,9 +12,7 @@ import {
 
 import FilterRenderer from "./filter-renderer/FilterRenderer";
 
-import {Column, Row} from "../../../types/components/common/table/table";
-import {Option} from "../../../types/components/common/options";
-import {FilterSchema} from "../../../types/components/common/table/filters";
+import {Column, FilterSchema, Option, Row} from "../../../types/common";
 
 interface TableProps {
     title: string;

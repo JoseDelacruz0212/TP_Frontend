@@ -1,8 +1,8 @@
 import React from "react";
 
-import {FilterSchema} from "../../../../types/components/common/table/filters";
-
 import Filter  from "./Filter";
+
+import {FilterSchema} from "../../../../types/common";
 
 interface FilterRendererProps {
     schemas: FilterSchema[];

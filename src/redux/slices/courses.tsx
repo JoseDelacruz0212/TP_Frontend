@@ -1,6 +1,5 @@
-import createTableDataSlice from "./tableData";
+import createTableDataSlice, {TableDataState} from "./tableData";
 
-import {TableDataState} from "../../types/store/states";
 import {CourseFilter} from "../../types/communication/requests/course";
 import {Course} from "../../types/communication/responses/courses";
 

@@ -1,9 +1,10 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 
-import {TableDataState} from "../../types/store/states";
 import {PaginatedResponse} from "../../types/communication/responses/pagination";
 import {Entity} from "../../types/communication/responses/entity";
 import {Filter} from "../../types/communication/requests/filter";
+
+import {TableDataState} from "../slices/tableData";
 
 export const dataLoaded = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>, action: PayloadAction<PaginatedResponse<T>>): TableDataState<T, F> => ({
     ...state,

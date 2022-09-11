@@ -1,7 +1,7 @@
 import React from "react";
 
-import {FormInputProps} from "../../types/components/common/modal";
 import {Institution} from "../../types/communication/responses/institutions";
+import {FormInputProps} from "../../types/common";
 
 const InstitutionEditForm = ({ values, onChange }: FormInputProps<Institution>) => {
     return (

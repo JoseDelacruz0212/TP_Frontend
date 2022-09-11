@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import NavMenuItemComponent  from "./NavMenuItem";
 
-import {NavMenuItem} from "../../../types/components/layouts/application-layouts";
+import {NavMenuItem} from "../../../types/common";
 
 interface NavMenuProps {
     items: NavMenuItem[];

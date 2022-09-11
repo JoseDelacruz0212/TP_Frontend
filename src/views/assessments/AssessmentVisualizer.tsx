@@ -3,7 +3,7 @@ import React from "react";
 import {useAuthContext} from "../../contexts/AuthContext";
 import AssessmentVisualizerEditor from "../../components/assessments/assessment-visualizer/AssessmentVisualizerEditor";
 
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
 
 const AssessmentVisualizer = () => {
     const { hasPermissionFor } = useAuthContext();

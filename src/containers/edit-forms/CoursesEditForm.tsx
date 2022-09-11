@@ -1,8 +1,8 @@
 import React from "react";
 
-import {FormInputProps} from "../../types/components/common/modal";
 import {Course} from "../../types/communication/responses/courses";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
+import {FormInputProps} from "../../types/common";
 
 import InstitutionsSelect from "../selects/InstitutionsSelect";
 

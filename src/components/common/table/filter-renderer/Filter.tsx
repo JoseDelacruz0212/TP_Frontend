@@ -1,6 +1,6 @@
 import React from "react";
 
-import {FilterProps} from "../../../../types/components/common/table/filters";
+import {FilterProps} from "../../../../types/common";
 
 const Filter = ({ schema, onChange }: FilterProps) => {
     const ComponentType = schema.type;
