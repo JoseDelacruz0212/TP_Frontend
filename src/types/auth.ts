@@ -18,6 +18,7 @@ export const Permissions = Object.freeze({
    ASSESSMENT: "ASSESSMENT",
    ASSESSMENT_CREATOR: "ASSESSMENT-CREATOR",
    ASSESSMENT_SUBMIT: "ASSESSMENT-SUBMIT",
+   ASSESSMENT_START: "ASSESSMENT-START",
    ASSESSMENT_ASSIGN_POINTS: "ASSESSMENT-ASSIGN-POINTS",
    ASSESSMENT_VISUALIZE: "ASSESSMENT-VISUALIZE",
    ASSESSMENT_DESIGN: "ASSESSMENT-DESIGN",
@@ -37,3 +38,54 @@ export const Permissions = Object.freeze({
    MANAGEMENT: "MANAGEMENT",
    PROFILE: "PROFILE"
 });
+
+export const permissionsByRole: { [x: string]: string[] } = {
+   [Roles.ADMIN]: ["*"],
+   [Roles.INSTITUTION]: [
+      "COURSES",
+      "COURSES-USERS",
+      "COURSES-ASSESSMENTS",
+      "COURSES-OBJECTIVES",
+      "COURSES-ADD",
+      "COURSES-EDIT",
+      "COURSES-DELETE",
+      "ASSESSMENT",
+      "ASSESSMENT-CREATOR",
+      "ASSESSMENT-DESIGN",
+      "ASSESSMENT-EDIT",
+      "ASSESSMENT-DELETE",
+      "ASSESSMENT-ADD",
+      "USERS",
+      "USERS-APPROVE",
+      "USERS-REVOKE",
+      "USERS-EDIT",
+      "USERS-DELETE",
+      "USERS-ADD",
+      "USERS-ASSIGN-COURSE",
+      "PROFILE"
+   ],
+   [Roles.TEACHER]: [
+      "COURSES",
+      "COURSES-USERS",
+      "COURSES-ASSESSMENTS",
+      "COURSES-OBJECTIVES",
+      "ASSESSMENT",
+      "ASSESSMENT-ADD",
+      "ASSESSMENT-DESIGN",
+      "ASSESSMENT-PUBLISH",
+      "ASSESSMENT-CREATOR",
+      "ASSESSMENT-VISUALIZE",
+      "ASSESSMENT-ASSIGN-POINTS",
+      "USERS",
+      "PROFILE"
+   ],
+   [Roles.STUDENT]: [
+      "COURSES",
+      "COURSES-ASSESSMENTS",
+      "ASSESSMENT",
+      "ASSESSMENT-START",
+      "ASSESSMENT-VISUALIZE",
+      "ASSESSMENT-SUBMIT",
+      "PROFILE"
+   ]
+};

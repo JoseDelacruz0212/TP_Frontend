@@ -19,7 +19,8 @@ const items: NavMenuItem[] = [
         order: 1,
         link: '/institutions',
         permission: Permissions.INSTITUTIONS,
-        type: 'link'
+        type: 'link',
+        title: "Instituciones"
     },
     {
         key: 2,
@@ -28,7 +29,8 @@ const items: NavMenuItem[] = [
         order: 2,
         link: '/courses',
         permission: Permissions.COURSES,
-        type: 'link'
+        type: 'link',
+        title: "Cursos"
     },
     {
         key: 3,
@@ -37,7 +39,8 @@ const items: NavMenuItem[] = [
         order: 3,
         link: '/assessments',
         permission: Permissions.ASSESSMENT,
-        type: 'link'
+        type: 'link',
+        title: "Evaluaciones"
     },
     {
         key: 4,
@@ -46,7 +49,8 @@ const items: NavMenuItem[] = [
         order: 4,
         link: '/users',
         permission: Permissions.USERS,
-        type: 'link'
+        type: 'link',
+        title: "Usuarios"
     },
     // {
     //     key: 5,
@@ -55,7 +59,8 @@ const items: NavMenuItem[] = [
     //     order: 5,
     //     link: '/requests',
     //     permission: Permissions.REQUEST,
-    //     type: 'link'
+    //     type: 'link',
+    //     title: "Reclamos"
     // },
     // {
     //     key: 6,
@@ -64,7 +69,8 @@ const items: NavMenuItem[] = [
     //     order: 6,
     //     link: '/verification',
     //     permission: Permissions.VERIFICATION,
-    //     type: 'link'
+    //     type: 'link',
+    //     title: "Verificación"
     // },
     // {
     //     key: 7,
@@ -73,7 +79,8 @@ const items: NavMenuItem[] = [
     //     order: 7,
     //     link: '/administration',
     //     permission: Permissions.MANAGEMENT,
-    //     type: 'link'
+    //     type: 'link',
+    //     title: "Administración"
     // },
     {
         key: 8,
@@ -82,7 +89,8 @@ const items: NavMenuItem[] = [
         order: 8,
         link: '/profile',
         permission: Permissions.PROFILE,
-        type: 'link'
+        type: 'link',
+        title: "Cuenta"
     },
     {
         key: 9,

@@ -3,7 +3,7 @@ import React from "react";
 import ProfileImage from "../../profile/ProfileImage";
 
 interface ProfileHeaderProps {
-    title: string;
+    title: React.ReactNode;
     username: string;
     userImage?: string;
     onProfileClicked: () => void;

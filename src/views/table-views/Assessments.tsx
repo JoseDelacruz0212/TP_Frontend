@@ -7,6 +7,7 @@ import {AssessmentFilter} from "../../types/communication/requests/asessments";
 import {Assessment} from "../../types/communication/responses/assessment";
 import {Permissions} from "../../types/auth";
 import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
+import {AssessmentStatus as AssessmentStatusOptions} from '../../types/assessment-status';
 
 import AssessmentService from "../../services/AssessmentService";
 
@@ -20,6 +21,7 @@ import HasPermission from "../../hoc/with-permission/HasPermission";
 import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
+import If from "../../components/common/logic/If";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -77,40 +79,52 @@ const Assessments = () => {
 }
 
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
-    <HasPermission permission={Permissions.ASSESSMENT_VISUALIZE}>
-        <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessment: rowData }}>
-            <div role="button" className="menu-option">
-                <div><IoEyeOutline /></div>
-                <span>Visualizar</span>
+    <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
+        <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+            <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessment: rowData, subtitle: rowData.name }}>
+                <div role="button" className="menu-option">
+                    <div><IoEyeOutline /></div>
+                    <span>Calificar evaluación</span>
+                </div>
+            </Link>
+        </HasPermission>
+    </If>,
+    <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
+        <HasPermission permission={Permissions.ASSESSMENT_START}>
+            <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessment: rowData, subtitle: rowData.name }}>
+                <div role="button" className="menu-option">
+                    <div><IoEyeOutline /></div>
+                    <span>Iniciar evaluación</span>
+                </div>
+            </Link>
+        </HasPermission>
+    </If>,
+    <If condition={rowData.status === AssessmentStatusOptions.DRAFT}>
+        <HasPermission permission={Permissions.ASSESSMENT_DESIGN}>
+            <Link to={`/assessment-creator/${rowData.id}`}>
+                <div role="button" className="menu-option">
+                    <div><IoCreateOutline /></div>
+                    <span>Diseñar evaluación</span>
+                </div>
+            </Link>
+        </HasPermission>
+    </If>,
+    <If condition={rowData.status === AssessmentStatusOptions.DRAFT}>
+        <HasPermission permission={Permissions.ASSESSMENT_EDIT}>
+            <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
+                <div><IoPencilOutline /></div>
+                <span>Editar</span>
             </div>
-        </Link>
-    </HasPermission>,
-    <HasPermission permission={Permissions.ASSESSMENT_DESIGN}>
-        <Link to={`/assessment-creator/${rowData.id}`}>
-            <div role="button" className="menu-option">
-                <div><IoCreateOutline /></div>
-                <span>Diseñar examen</span>
+        </HasPermission>
+    </If>,
+    <If condition={rowData.status === AssessmentStatusOptions.DRAFT || rowData.status === AssessmentStatusOptions.PUBLISHED}>
+        <HasPermission permission={Permissions.ASSESSMENT_DELETE}>
+            <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
+                <div><IoTrashOutline /></div>
+                <span>Eliminar</span>
             </div>
-        </Link>
-    </HasPermission>,
-    // <HasPermission permission="ASSESSMENT-PUBLISH">
-    //     <div role="button" className="menu-option">
-    //         <div><IoRocketOutline /></div>
-    //         <span>Publicar</span>
-    //     </div>
-    // </HasPermission>,
-    <HasPermission permission={Permissions.ASSESSMENT_EDIT}>
-        <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-            <div><IoPencilOutline /></div>
-            <span>Editar</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.ASSESSMENT_DELETE}>
-        <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-            <div><IoTrashOutline /></div>
-            <span>Eliminar</span>
-        </div>
-    </HasPermission>,
+        </HasPermission>
+    </If>,
 ];
 
 const createFilterSchema: FilterSchemaCreator<AssessmentFilter> = (filters, onFiltersUpdate) => ([

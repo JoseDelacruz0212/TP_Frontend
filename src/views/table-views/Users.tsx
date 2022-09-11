@@ -156,6 +156,7 @@ const Users = () => {
                        formInputs={UserEditForm}
                        defaultItemSchema={defaultUser}
                        addButtonText="Crear usuario"
+                       hideAddButton={courseId !== undefined}
                        canAddPermission={Permissions.USERS_ADD}
                        defaultFilters={defaultFilters} />
             <Modal id="user-course-assignation-modal"

@@ -18,19 +18,19 @@ const AssessmentStatus = ({ status }: AssessmentStatusProps) => {
     switch (status) {
         case AssessmentStatusOption.DRAFT:
             statusChipValues.color = "bg-red-500 text-white";
-            statusChipValues.statusName = "Borrador";
+            statusChipValues.statusName = "Plantilla";
             break;
         case AssessmentStatusOption.PUBLISHED:
             statusChipValues.color = "bg-yellow-500";
-            statusChipValues.statusName = "Publicado";
+            statusChipValues.statusName = "Publicada";
             break;
         case AssessmentStatusOption.STARTED:
             statusChipValues.color = "bg-green-500 text-white";
-            statusChipValues.statusName = "Iniciado";
+            statusChipValues.statusName = "Iniciada";
             break;
         case AssessmentStatusOption.FINISHED:
             statusChipValues.color = "bg-blue-500 text-white";
-            statusChipValues.statusName = "Finalizado";
+            statusChipValues.statusName = "Finalizada";
             break;
     }
 

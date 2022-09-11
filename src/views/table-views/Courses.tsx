@@ -72,7 +72,7 @@ const Courses = () => {
 
 const getMenuOptions: MenuOptionsCreator<Course> = (onEdit, onDelete, rowData) => [
     <HasPermission permission={Permissions.COURSES_ASSESSMENTS}>
-        <Link to="/assessments" state={{ courseId: rowData.id! }}>
+        <Link to="/assessments" state={{ courseId: rowData.id!, subtitle: rowData.name }}>
             <div role="button" className="menu-option">
                 <div><IoDocumentOutline /></div>
                 <span>Ver evaluaciones</span>
@@ -80,7 +80,7 @@ const getMenuOptions: MenuOptionsCreator<Course> = (onEdit, onDelete, rowData) =
         </Link>
     </HasPermission>,
     <HasPermission permission={Permissions.COURSES_USERS}>
-        <Link to="/users" state={{ courseId: rowData.id! }}>
+        <Link to="/users" state={{ courseId: rowData.id!, subtitle: rowData.name }}>
             <div role="button" className="menu-option">
                 <div><IoPeopleOutline /></div>
                 <span>Ver usuarios</span>
