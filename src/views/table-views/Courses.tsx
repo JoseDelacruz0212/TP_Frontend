@@ -29,6 +29,9 @@ import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../t
 const defaultCourses: Course = {
     name: '',
     description: '',
+    code: '',
+    grade: '',
+    section: '',
     institutionId: ''
 };
 
@@ -38,11 +41,14 @@ const Courses = () => {
 
     switch (column) {
       case 1: value = <div className="py-4">{rowData.name}</div>; break;
-      case 2: value = <div className="py-4">{rowData.description}</div>; break;
-      case 3: value = <div className="py-4">{rowData.institution?.name}</div>; break;
-      case 4: value = <div className="py-4">{rowData.createdBy}</div>; break;
-      case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-      case 6: value = (
+      case 2: value = <div className="py-4">{rowData.code}</div>; break;
+      case 3: value = <div className="py-4">{rowData.description}</div>; break;
+      case 4: value = <div className="py-4">{rowData.grade}</div>; break;
+      case 5: value = <div className="py-4">{rowData.section}</div>; break;
+      case 6: value = <div className="py-4">{rowData.institution?.name}</div>; break;
+      case 7: value = <div className="py-4">{rowData.createdBy}</div>; break;
+      case 8: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+      case 9: value = (
           <div className="flex justify-end px-5">
               <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
           </div>
@@ -128,6 +134,6 @@ const createFilterSchema: FilterSchemaCreator<CourseFilter> = (filters, onFilter
     }
 ])
 
-const columns = ["Nombre", "Descripción", "Institution", "Creado por", "Fecha de creación", ""];;
+const columns = ["Nombre", "Código", "Descripción", "Grado", "Sección", "Institution", "Creado por", "Fecha de creación", ""];;
 
 export default withPermission(withCoursesProvider(Courses), Permissions.COURSES);
