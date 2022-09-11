@@ -3,9 +3,14 @@ import {useEditor, useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
 import {Option} from "../../../../../types/common";
-import {addZerosToPoints} from "../../../../../util/assessment-creator";
+import {AssessmentStatus} from "../../../../../types/assessment-status";
 import {Permissions} from "../../../../../types/auth";
+
+import {addZerosToPoints} from "../../../../../util/assessment-creator";
+
 import HasPermission from "../../../../../hoc/with-permission/HasPermission";
+
+import {useAssessmentContext} from "../../../../../contexts/AssessmentContext";
 
 interface MultipleOptionProps {
     question?: string;
@@ -21,6 +26,8 @@ interface MultipleOptionProps {
 const MultipleOption = ({ question, options, multiple, points, answerInput, assignedPoints, hasPointsToAssign }: MultipleOptionProps) => {
     const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
+
+    const { status } = useAssessmentContext();
 
     return (
         <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
@@ -40,6 +47,7 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                                 <input checked={option.value === answerInput}
                                        type={multiple ? "checkbox" : "radio"}
                                        name="multiple-option-answer-input"
+                                       disabled={status === AssessmentStatus.FINISHED}
                                        value={option.value}
                                        onChange={(e) => setProp((props: MultipleOptionProps) => props.answerInput = e.target.value)} />
                                 <span>{option.label}</span>
@@ -49,25 +57,25 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                 }
                 </ul>
             }
-            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
             {
-                !enabled && hasPointsToAssign &&
-                <div className="flex justify-end">
-                    <div className="flex items-center space-x-2">
-                        <small>Asignar puntos:</small>
-                        <input type="number"
-                               className="form-input"
-                               id="free-text-question-assigned-points"
-                               min={0}
-                               max={points}
-                               name="free-text-question-assigned-points"
-                               value={assignedPoints || ""}
-                               onChange={(e) => setProp((props: MultipleOptionProps) => props.assignedPoints = parseInt(e.target.value || "0"))} />
-                        <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
+                !enabled && hasPointsToAssign && status === AssessmentStatus.FINISHED &&
+                <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+                    <div className="flex justify-end">
+                        <div className="flex items-center space-x-2">
+                            <small>Asignar puntos:</small>
+                            <input type="number"
+                                   className="form-input"
+                                   id="free-text-question-assigned-points"
+                                   min={0}
+                                   max={points}
+                                   name="free-text-question-assigned-points"
+                                   value={assignedPoints || ""}
+                                   onChange={(e) => setProp((props: MultipleOptionProps) => props.assignedPoints = parseInt(e.target.value || "0"))} />
+                            <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
+                        </div>
                     </div>
-                </div>
+                </HasPermission>
             }
-            </HasPermission>
         </div>
     )
 };

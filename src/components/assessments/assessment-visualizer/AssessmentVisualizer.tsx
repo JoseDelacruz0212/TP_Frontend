@@ -1,5 +1,9 @@
-import {Element, Frame, useEditor} from "@craftjs/core";
 import React, {FormEvent} from "react";
+import {Element, Frame, useEditor} from "@craftjs/core";
+
+import {AssessmentStatus} from "../../../types/assessment-status";
+
+import {useAssessmentContext} from "../../../contexts/AssessmentContext";
 
 interface AssessmentVisualizerProps {
     json: string;
@@ -9,6 +13,7 @@ interface AssessmentVisualizerProps {
 
 const AssessmentVisualizer = ({ json, onAssessmentSubmit, hideButton = false }: AssessmentVisualizerProps) => {
     const { query } = useEditor();
+    const { status } = useAssessmentContext();
 
     const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -21,7 +26,7 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, hideButton = false }: 
                 <Element id="canvas" is="div" canvas />
             </Frame>
             {
-                !hideButton &&
+                !hideButton && status === AssessmentStatus.STARTED &&
                 <div className="flex justify-end">
                     <button type="submit" className="button-primary text-on-primary">
                         Enviar

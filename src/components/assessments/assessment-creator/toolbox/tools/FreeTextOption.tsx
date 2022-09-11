@@ -1,10 +1,14 @@
 import React from "react";
 import {useEditor, useNode} from "@craftjs/core";
 
-import {addZerosToPoints} from "../../../../../util/assessment-creator";
 import HasPermission from "../../../../../hoc/with-permission/HasPermission";
 
+import {addZerosToPoints} from "../../../../../util/assessment-creator";
+
 import {Permissions} from "../../../../../types/auth";
+import {AssessmentStatus} from "../../../../../types/assessment-status";
+
+import {useAssessmentContext} from "../../../../../contexts/AssessmentContext";
 
 interface FreeTextProps {
     question?: string;
@@ -22,6 +26,8 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
     const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
+    const { status } = useAssessmentContext();
+
     return (
         <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
             {
@@ -36,6 +42,8 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <textarea className="form-input"
                                   id="free-text-question-long-answer"
                                   name="free-text-question-long-answer"
+                                  disabled={status === AssessmentStatus.FINISHED}
+                                  readOnly={status === AssessmentStatus.FINISHED}
                                   maxLength={255}
                                   rows={4}
                                   value={answerInput || ""}
@@ -47,31 +55,33 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <input className="form-input"
                                id="free-text-question-answer"
                                name="free-text-question-answer"
+                               disabled={status === AssessmentStatus.FINISHED}
+                               readOnly={status === AssessmentStatus.FINISHED}
                                maxLength={50}
                                value={answerInput || ""}
                                onChange={(e) => setProp((props: FreeTextProps) => props.answerInput = e.target.value)} />
                         <small className="text-overline self-end">{answerInput?.length || '0'} / 50</small>
                     </div>
             }
-            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
             {
-                !enabled && hasPointsToAssign &&
-                <div className="flex justify-end">
-                    <small>Asignar puntos:</small>
-                    <div className="flex items-center space-x-2">
-                        <input type="number"
-                               className="form-input"
-                               id="free-text-question-assigned-points"
-                               min={0}
-                               max={points}
-                               name="free-text-question-assigned-points"
-                               value={assignedPoints || ""}
-                               onChange={(e) => setProp((props: FreeTextProps) => props.assignedPoints = parseInt(e.target.value || "0"))} />
-                        <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
+                !enabled && hasPointsToAssign && status === AssessmentStatus.FINISHED &&
+                <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+                    <div className="flex justify-end">
+                        <small>Asignar puntos:</small>
+                        <div className="flex items-center space-x-2">
+                            <input type="number"
+                                   className="form-input"
+                                   id="free-text-question-assigned-points"
+                                   min={0}
+                                   max={points}
+                                   name="free-text-question-assigned-points"
+                                   value={assignedPoints || ""}
+                                   onChange={(e) => setProp((props: FreeTextProps) => props.assignedPoints = parseInt(e.target.value || "0"))} />
+                            <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
+                        </div>
                     </div>
-                </div>
+                </HasPermission>
             }
-            </HasPermission>
         </div>
     )
 };
