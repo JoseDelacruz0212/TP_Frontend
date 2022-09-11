@@ -16,7 +16,7 @@ interface TableViewProps<T extends Entity, F> {
     title: string;
     filterSchemaCreator: FilterSchemaCreator<F>;
     convertorCreator: ConvertorCreator<T>
-    columns: string[];
+    columns: React.ReactNode[];
     service: CrudService<T, F>;
     sidePanelId: string;
     sidePanelCreateTitle: string;
