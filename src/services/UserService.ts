@@ -1,7 +1,9 @@
 import {CrudService} from "./CrudService";
+
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Profile, User} from "../types/communication/responses/user";
 import {UserFilter} from "../types/communication/requests/user";
+import {UserCourse} from "../types/communication/responses/user-course";
 
 import httpClient from "../config/httpClients/httpClient";
 
@@ -12,11 +14,8 @@ class UserService extends CrudService<User, UserFilter> {
         if (!filters.courseId) {
             return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
         } else {
-            return httpClient.get('/user-course/getAllByCourse/' + filters.courseId)
-                .then(
-                    response => filter(response.data.map((x: any) => x.user)),
-                    error => Promise.reject(error)
-                );
+            return this.get<UserCourse[], PaginatedResponse<User>>(`/user-course/getAllByCourse/${filters.courseId}`,
+                    response => filter(response.map((x: any) => x.user)));
         }
     }
 

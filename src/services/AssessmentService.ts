@@ -12,7 +12,7 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
         if (!filters.courseId) {
             return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation', filter);
         } else {
-            return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation/byCourse/' + filters.courseId, filter);
+            return this.get<Assessment[], PaginatedResponse<Assessment>>(`/evaluation/byCourse/${filters.courseId}`, filter);
         }
     }
 

@@ -6,4 +6,4 @@ export interface UserFilter extends Filter {
     email: string;
     institution: string;
     courseId: string;
-};
+}

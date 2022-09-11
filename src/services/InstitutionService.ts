@@ -10,8 +10,7 @@ class InstitutionService extends CrudService<Institution, InstitutionFilter> {
     }
 
     public async getInstitutionsForCombo() {
-        return this.get<InstitutionOption[], InstitutionOption[]>('/institution',
-                institutions => institutions);
+        return this.get<InstitutionOption[]>('/institution');
     }
 
     public async deleteItem(id: string) {

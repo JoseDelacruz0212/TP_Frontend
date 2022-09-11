@@ -16,9 +16,9 @@ export abstract class CrudService<T extends Entity, F extends Filter> {
     protected abstract createItem(item: T): Promise<string>;
     protected abstract applyFilters(data: T[], filters: F): T[];
 
-    protected get<T, K = {}>(url: string, callback?: (response: T) => K): Promise<any> {
+    protected get<T, K = T>(url: string, callback?: (response: T) => K): Promise<K extends T ? T : K> {
         return httpClient.get<T>(url).then(
-            response => (callback ? callback(response.data) : response.data) as (any),
+            response => (callback ? callback(response.data) : response.data) as  K extends T ? T : K,
             error => Promise.reject(error)
         );
     }

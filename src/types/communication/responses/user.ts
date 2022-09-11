@@ -14,7 +14,7 @@ export interface User extends Entity {
     avatarUrl?: string;
 };
 
-export type Profile = {
+export interface Profile {
     message: string;
     user: User;
 }

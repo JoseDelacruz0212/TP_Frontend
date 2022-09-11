@@ -1,4 +1,4 @@
-export type Pagination = {
+export interface Pagination {
     page: number;
     pageSize: number;
     totalItems: number;
@@ -7,7 +7,7 @@ export type Pagination = {
     lastPage: number;
 };
 
-export type PaginatedResponse<T> = {
+export interface PaginatedResponse<T> {
     data: T[],
     pagination: Pagination
 };
