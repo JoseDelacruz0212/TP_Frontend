@@ -1,7 +1,9 @@
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "./CrudService";
+
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Profile, User} from "../types/communication/responses/user";
 import {UserFilter} from "../types/communication/requests/user";
+import {UserCourse} from "../types/communication/responses/user-course";
 
 import httpClient from "../config/httpClients/httpClient";
 
@@ -12,20 +14,13 @@ class UserService extends CrudService<User, UserFilter> {
         if (!filters.courseId) {
             return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
         } else {
-            return httpClient.get('/user-course/getAllByCourse/' + filters.courseId)
-                .then(
-                    response => filter(response.data.map((x: any) => x.user)),
-                    error => Promise.reject(error)
-                );
+            return this.get<UserCourse[], PaginatedResponse<User>>(`/user-course/getAllByCourse/${filters.courseId}`,
+                    response => filter(response.map((x: any) => x.user)));
         }
     }
 
     getCurrentProfile() {
-        return httpClient.get<Profile>('auth/profile')
-            .then(
-                response => response.data.user,
-                error => Promise.reject(error)
-            )
+        return this.get<Profile>('auth/profile').then((data) => data.user)
     }
 
     updateUserAvatar(userId: string, user: User) {
@@ -37,9 +32,7 @@ class UserService extends CrudService<User, UserFilter> {
     }
 
     public async assignUserToCourse(userId: string, courseId: string) {
-        return this.post<any, any, string>('/user-course', { userId, courseId },
-            () => userId
-        );
+        return this.post('/user-course', { userId, courseId }, () => userId);
     }
 
     public async deleteItem(id: string) {
@@ -51,12 +44,7 @@ class UserService extends CrudService<User, UserFilter> {
     }
 
     protected createItem(item: User) {
-        return this.post<any, User, string>('/user', item,
-            response => {
-                console.log(response);
-                return "";
-            }
-        );
+        return this.post('/user', item, () => item.id!);
     }
 
     public approveUser(id: string) {

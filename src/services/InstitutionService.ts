@@ -1,5 +1,5 @@
 import {Institution, InstitutionCreated, InstitutionOption} from "../types/communication/responses/institutions";
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "./CrudService";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {InstitutionFilter} from "../types/communication/requests/institutions";
 
@@ -10,8 +10,7 @@ class InstitutionService extends CrudService<Institution, InstitutionFilter> {
     }
 
     public async getInstitutionsForCombo() {
-        return this.get<InstitutionOption[], InstitutionOption[]>('/institution',
-                institutions => institutions);
+        return this.get<InstitutionOption[]>('/institution');
     }
 
     public async deleteItem(id: string) {

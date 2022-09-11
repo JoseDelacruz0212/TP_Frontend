@@ -3,8 +3,16 @@ import {IoCloseOutline} from "react-icons/io5";
 
 import Modal from "../common/modal/Modal";
 
-import {ProfileProps} from "../../types/components/profile/profile";
 import ProfileImage from "./ProfileImage";
+
+interface ProfileProps {
+    firstName: string;
+    lastName: string;
+    email: string;
+    rol: string;
+    image?: string;
+    onSelectedImageChange?: (x: string) => void;
+}
 
 const Profile = ({ firstName, lastName, email, rol, image, onSelectedImageChange }: ProfileProps) => {
     const [imageSelectionModalOpen, setImageSelectionModalOpen] = useState(false);

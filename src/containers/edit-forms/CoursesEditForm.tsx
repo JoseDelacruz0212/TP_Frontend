@@ -1,14 +1,14 @@
 import React from "react";
 
-import {FormInputs} from "../../types/components/common/modal";
 import {Course} from "../../types/communication/responses/courses";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
+import {FormInputProps} from "../../types/common";
 
 import InstitutionsSelect from "../selects/InstitutionsSelect";
 
 import HasPermission from "../../hoc/with-permission/HasPermission";
 
-const CourseEditForm = ({ values, onChange }: FormInputs<Course>) => {
+const CourseEditForm = ({ values, onChange }: FormInputProps<Course>) => {
     const onInstitutionChanged = (institutionId: string) => {
         onChange && onChange({ ...values, institutionId });
     }

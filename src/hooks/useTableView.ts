@@ -5,10 +5,10 @@ import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvide
 
 import useTable from "./useTable";
 
-import {ConvertorCreator, FilterSchemaCreator} from "../types/hooks/table";
-import {CrudService} from "../types/communication/crud-service";
+import {CrudService} from "../services/CrudService";
 import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
+import {ConvertorCreator, FilterSchemaCreator} from "../types/common";
 
 const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);

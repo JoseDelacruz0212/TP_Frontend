@@ -1,6 +1,5 @@
-import createTableDataSlice from "./tableData";
+import createTableDataSlice, {TableDataState} from "./tableData";
 
-import {TableDataState} from "../../types/store/states";
 import {User} from "../../types/communication/responses/user";
 import {UserFilter} from "../../types/communication/requests/user";
 import {userStatusChanged} from "../reducers/users";

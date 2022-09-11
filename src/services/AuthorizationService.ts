@@ -3,7 +3,7 @@ import authorizationClient from "../config/httpClients/authorizationClient";
 import {AuthorizationResponse, UserAuthorizationResponse} from "../types/communication/responses/authorization";
 import StorageService from "./StorageService";
 
-import {Roles} from "../types/app/auth";
+import {Roles} from "../types/auth";
 
 class AuthorizationService {
     private permissions: {
@@ -11,8 +11,8 @@ class AuthorizationService {
     } = {
         [Roles.ADMIN]: ["*"],
         [Roles.INSTITUTION]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "COURSES-ADD", "COURSES-EDIT", "COURSES-DELETE", "ASSESSMENT-*", "USERS", "USERS-APPROVE", "USERS-REVOKE", "USERS-EDIT", "USERS-DELETE", "USERS-ADD", "USERS-ASSIGN-COURSE", "PROFILE"],
-        [Roles.TEACHER]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "ASSESSMENT", "ASSESSMENT-ADD", "ASSESSMENT-VISUALIZE", "ASSESSMENT-DESIGN", "ASSESSMENT-PUBLISH", "USERS", "PROFILE"],
-        [Roles.STUDENT]: ["COURSES", "COURSES-ASSESSMENTS", "ASSESSMENT", "ASSESSMENT-START", "PROFILE"]
+        [Roles.TEACHER]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "ASSESSMENT", "ASSESSMENT-ADD", "ASSESSMENT-VISUALIZE", "ASSESSMENT-DESIGN", "ASSESSMENT-PUBLISH", "ASSESSMENT-CREATOR", "ASSESSMENT-ASSIGN-POINTS", "USERS", "PROFILE"],
+        [Roles.STUDENT]: ["COURSES", "COURSES-ASSESSMENTS", "ASSESSMENT", "ASSESSMENT-START", "ASSESSMENT-SUBMIT", "PROFILE"]
     };
 
     private authEventAction?: () => void = undefined;

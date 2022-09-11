@@ -1,8 +1,6 @@
 import React from "react";
 
-import {ModalProps} from "../../../types/components/common/modal";
-
-import ModalWrapper from "./ModalWrapper";
+import ModalWrapper, {ModalProps} from "./ModalWrapper";
 import useClickOutside from "../../../hooks/useClickOutside";
 
 const SidePanel = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey = true }: ModalProps) => {

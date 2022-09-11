@@ -1,4 +1,4 @@
-export type UserAuthorizationResponse = {
+export interface UserAuthorizationResponse {
     name: string;
     lastName: string;
     email: string;
@@ -6,7 +6,7 @@ export type UserAuthorizationResponse = {
     roles: string[];
 }
 
-export type AuthorizationResponse = {
+export interface AuthorizationResponse {
     message: string;
     data: {
         user: UserAuthorizationResponse,

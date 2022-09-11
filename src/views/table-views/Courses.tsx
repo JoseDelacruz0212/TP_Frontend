@@ -1,10 +1,9 @@
 import React from "react";
 import moment from "moment/moment";
 
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {CourseFilter} from "../../types/communication/requests/course";
 import {Course} from "../../types/communication/responses/courses";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
 
 import CourseService from "../../services/CourseService";
 
@@ -25,6 +24,7 @@ import {
     IoTrashOutline
 } from "react-icons/io5";
 import {Link} from "react-router-dom";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
 
 const defaultCourses: Course = {
     name: '',

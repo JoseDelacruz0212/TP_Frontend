@@ -1,6 +1,10 @@
 import React from "react";
 
-import {NavMenuItemProps} from "../../../types/components/layouts/application-layouts";
+import {NavMenuItem} from "../../../types/common";
+
+interface NavMenuItemProps {
+    item: NavMenuItem;
+}
 
 const NavMenuItemComponent = ({ item }: NavMenuItemProps) => {
     return (

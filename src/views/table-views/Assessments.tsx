@@ -1,25 +1,25 @@
 import React from "react";
 import moment from "moment/moment";
 import {Link, useLocation} from "react-router-dom";
+import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
 
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/hooks/table";
 import {AssessmentFilter} from "../../types/communication/requests/asessments";
 import {Assessment} from "../../types/communication/responses/assessment";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
+import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
 
 import AssessmentService from "../../services/AssessmentService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
 import AssessmentEditForm from "../../containers/edit-forms/AssessmentEditForm";
 import MenuOptions from "../../components/common/menu/MenuOptions";
+import AssessmentStatus from "../../components/assessments/assessment-status/AssessmentStatus";
 import withPermission from "../../hoc/with-permission/withPermission";
+import HasPermission from "../../hoc/with-permission/HasPermission";
 
 import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoRocketOutline, IoTrashOutline} from "react-icons/io5";
-import HasPermission from "../../hoc/with-permission/HasPermission";
-import {WithCourseLocationState} from "../../types/location/state";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -27,9 +27,13 @@ const defaultAssessment: Assessment = {
     status: 0
 };
 
+interface LocationState {
+    courseId: string | undefined;
+}
+
 const Assessments = () => {
     const location = useLocation();
-    const state = location.state as WithCourseLocationState;
+    const state = location.state as LocationState;
 
     const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;
@@ -42,7 +46,8 @@ const Assessments = () => {
             case 5: value = <div className="py-4">{rowData.courses?.name}</div>; break;
             case 6: value = <div className="py-4">{rowData.createdBy}</div>; break;
             case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
-            case 8: value = (
+            case 8: value = <AssessmentStatus status={rowData.status} />; break;
+            case 9: value = (
                 <div className="flex justify-end px-5">
                     <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
                 </div>
@@ -73,7 +78,7 @@ const Assessments = () => {
 
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
     <HasPermission permission={Permissions.ASSESSMENT_VISUALIZE}>
-        <Link to="/assessment-creator">
+        <Link to={`/assessment-visualizer/${rowData.id}`} state={{ status: rowData.status }}>
             <div role="button" className="menu-option">
                 <div><IoEyeOutline /></div>
                 <span>Visualizar</span>
@@ -81,7 +86,7 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
         </Link>
     </HasPermission>,
     <HasPermission permission={Permissions.ASSESSMENT_DESIGN}>
-        <Link to="/assessment-creator">
+        <Link to={`/assessment-creator/${rowData.id}`}>
             <div role="button" className="menu-option">
                 <div><IoCreateOutline /></div>
                 <span>Diseñar examen</span>
@@ -120,6 +125,6 @@ const createFilterSchema: FilterSchemaCreator<AssessmentFilter> = (filters, onFi
     }
 ])
 
-const columns = ["Nombre", "Fecha de disponibilidad", "Duración", "Institución", "Curso", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Fecha de disponibilidad", "Duración", "Institución", "Curso", "Creado por", "Fecha de creación", "Estado", ""];
 
 export default withPermission(withAssessmentsProvider(Assessments), Permissions.ASSESSMENT);

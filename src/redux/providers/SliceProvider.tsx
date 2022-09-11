@@ -4,8 +4,8 @@ import {Slice} from "@reduxjs/toolkit";
 
 import {RootState} from "../store";
 import {institutionsSlice} from "../slices/institutions";
+import {TableDataState} from "../slices/tableData";
 
-import {TableDataState} from "../../types/store/states";
 import {Entity} from "../../types/communication/responses/entity";
 import {Filter} from "../../types/communication/requests/filter";
 

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import {FilterProps} from "../../../../../types/components/common/table/filters";
+import {FilterProps} from "../../../../../types/common";
 
 const Select = (props: FilterProps) => {
     const [value, setValue] = useState(props.schema.initialValue || '');
@@ -27,8 +27,8 @@ const Select = (props: FilterProps) => {
                 <option value="">Todos</option>
                 {
                     props.schema.options && props.schema.options.map(option => (
-                        <option key={option.key} value={option.key}>
-                            { option.value }
+                        <option key={option.value} value={option.value}>
+                            { option.label }
                         </option>
                     ))
                 }

@@ -1,11 +1,19 @@
 import React, {FormEvent} from "react";
-
 import {IoCloseOutline} from "react-icons/io5";
 
-import {SidePanelFormProps} from "../../../types/components/common/modal";
 import {Entity} from "../../../types/communication/responses/entity";
 
 import SidePanel from "./SidePanel";
+
+interface SidePanelFormProps<T extends Entity> {
+    title: string;
+    sidePanelId: string;
+    isEditPanelOpen: boolean;
+    handleClose: () => void;
+    onSubmit: () => void;
+    formInputs?: React.ReactNode;
+    onFormInputChange?: (x: T) => void;
+}
 
 const SidePanelForm = <T extends Entity>({
      title,

@@ -13,7 +13,29 @@ import {
 
 import {Entity} from "../../types/communication/responses/entity";
 import {Filter} from "../../types/communication/requests/filter";
-import {DataSliceProps} from "../../types/store/slices";
+import {PaginatedResponse} from "../../types/communication/responses/pagination";
+
+interface PaginationOptions {
+    page?: number;
+    pageSize?: number;
+}
+
+export interface TableDataState<T, F> {
+    filters: F;
+    isLoading?: boolean;
+    items?: PaginatedResponse<T>;
+    error?: string | null;
+    isFilterActivated?: boolean;
+    paginationOptions?: PaginationOptions;
+    initialFiltersApplied?: boolean;
+}
+
+interface DataSliceProps<T, F> {
+    name: string;
+    initialState: TableDataState<T, F>;
+    reducers?: any;
+    extraReducers?: any;
+};
 
 const createTableDataSlice = <T extends Entity, F extends Filter>({ name, initialState, reducers, extraReducers }: DataSliceProps<T, F>) => {
     initialState = {

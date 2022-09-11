@@ -4,15 +4,12 @@ import {
     IoBookOutline,
     IoBookmarksOutline,
     IoPeopleOutline,
-    IoFileTrayFullOutline,
-    IoShieldCheckmarkOutline,
-    IoSettingsOutline,
     IoPersonOutline,
     IoSchoolOutline, IoExitOutline
 } from "react-icons/io5";
 
-import {NavMenuItem} from "../../types/components/layouts/application-layouts";
-import {Permissions} from "../../types/app/auth";
+import {Permissions} from "../../types/auth";
+import {NavMenuItem} from "../../types/common";
 
 const items: NavMenuItem[] = [
     {

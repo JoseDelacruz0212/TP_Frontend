@@ -1,11 +1,12 @@
 import React from "react";
 import moment from "moment";
 
-import {FormInputs} from "../../types/components/common/modal";
 import {Assessment} from "../../types/communication/responses/assessment";
+import {FormInputProps} from "../../types/common";
+
 import CoursesSelect from "../selects/CoursesSelect";
 
-const AssessmentEditForm = ({ values, onChange }: FormInputs<Assessment>) => {
+const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) => {
     const onCourseChanged = (courseId: string) => {
         onChange && onChange({ ...values, courseId });
     }
