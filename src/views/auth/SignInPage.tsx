@@ -7,10 +7,12 @@ import {useAuthContext} from "../../contexts/AuthContext";
 import {APP_NAME} from "../../config/app/basic-settings";
 
 const SignInPage = () => {
-    const { signIn } = useAuthContext();
+    const { signIn, isLoggedIn, goToFirstAllowedView } = useAuthContext();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    if (isLoggedIn) goToFirstAllowedView();
 
     const onSignIn = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
