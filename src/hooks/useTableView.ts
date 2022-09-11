@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
 import {useAppDispatch} from "../redux/store";
 import {useSliceActions, useSliceSelector} from "../redux/providers/SliceProvider";
@@ -10,7 +10,7 @@ import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 import {ConvertorCreator, FilterSchemaCreator} from "../types/common";
 
-const useTableView = <T extends Entity, F extends Filter>(columns: string[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
+const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
     const [item, setItem] = useState<T>(defaultItemSchema);
 

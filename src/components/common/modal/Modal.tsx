@@ -1,17 +1,10 @@
 import React, {useEffect} from "react";
 
 import ModalWrapper, {ModalProps} from "./ModalWrapper";
+import useEscapeKey from "../../../hooks/useEscapeKey";
 
 const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey = true }: ModalProps) => {
-    useEffect(() => {
-        const closeOnEscapeKeyHandler = (e: KeyboardEvent) => e.key === 'Escape' ? handleClose && handleClose() : null;
-
-        closeOnEscapeKey && document.body.addEventListener('keydown', closeOnEscapeKeyHandler);
-
-        return () => {
-            closeOnEscapeKey && document.body.removeEventListener('keydown', closeOnEscapeKeyHandler);
-        }
-    }, [handleClose]);
+    useEscapeKey(handleClose, closeOnEscapeKey);
 
     if (!isOpen) return null;
 

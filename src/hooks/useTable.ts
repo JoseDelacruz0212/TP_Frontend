@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {Entity} from "../types/communication/responses/entity";
 import {Column, Convertor, Row, RowValue} from "../types/common";
 
-const useTable = <T extends Entity>(convertor: Convertor<T>, columns: string[] = [], data: T[]) => {
+const useTable = <T extends Entity>(convertor: Convertor<T>, columns: React.ReactNode[] = [], data: T[]) => {
     const [tableColumns, setTableColumns] = useState(convertToTableColumns(columns));
     const [tableData, setTableData] = useState(convertData(data, tableColumns, convertor));
 
@@ -17,7 +17,7 @@ const useTable = <T extends Entity>(convertor: Convertor<T>, columns: string[] =
     return { tableColumns, tableData };
 }
 
-const convertToTableColumns = (columns: string[] = []): Column[] =>
+const convertToTableColumns = (columns: React.ReactNode[] = []): Column[] =>
     columns.map((column, index) => ({ key: index + 1, label: column }));
 
 const convertData = <T extends Entity>(data: T[] = [], columns: Column[] = [], convertor: Convertor<T>): Row[] =>

@@ -2,8 +2,10 @@ import React from "react";
 
 import ModalWrapper, {ModalProps} from "./ModalWrapper";
 import useClickOutside from "../../../hooks/useClickOutside";
+import useEscapeKey from "../../../hooks/useEscapeKey";
 
 const SidePanel = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey = true }: ModalProps) => {
+    useEscapeKey(handleClose, closeOnEscapeKey);
     const elementRef = useClickOutside<HTMLDivElement>(() => handleClose && handleClose!());
 
     if (!isOpen) return null;
