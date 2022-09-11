@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Navigate, useLocation} from "react-router-dom";
+import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
 import AssessmentProvider from "../../contexts/AssessmentContext";
@@ -18,6 +18,7 @@ interface LocationState {
 }
 
 const AssessmentVisualizer = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const state = location.state as LocationState;
 
@@ -45,7 +46,9 @@ const AssessmentVisualizer = () => {
     if (!assessment) return null;
 
     const onAssessmentSubmit = (assessment: string) => {
-        console.log(assessment);
+        AssessmentService.generatePoints(id, assessment).then(
+            () => navigate("/assessments")
+        );
     };
 
     return (

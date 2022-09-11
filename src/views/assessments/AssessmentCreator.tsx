@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Editor, Element, Frame} from "@craftjs/core";
 
 import Toolbox from "../../components/assessments/assessment-creator/toolbox/Toolbox";
@@ -15,6 +15,7 @@ import {Assessment} from "../../types/communication/responses/assessment";
 import {AssessmentStatus} from "../../types/assessment-status";
 
 const AssessmentCreator = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [assessment, setAssessment] = useState<Assessment | null>(null);
 
@@ -27,7 +28,7 @@ const AssessmentCreator = () => {
     const onDesignSave = (design: string) => {
         if (assessment) {
             AssessmentService.saveItem({ ...assessment, json: design}).then(
-                response => console.log(response)
+                () => {}
             );
         }
     };
@@ -35,7 +36,7 @@ const AssessmentCreator = () => {
     const onDesignPublish = () => {
         if (assessment) {
             AssessmentService.saveItem({ ...assessment, status: AssessmentStatus.PUBLISHED}).then(
-                response => console.log(response)
+                () => navigate("/assessments")
             );
         }
     };
