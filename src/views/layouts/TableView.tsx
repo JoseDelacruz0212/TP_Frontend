@@ -28,6 +28,7 @@ interface TableViewProps<T extends Entity, F> {
     showAuditInfo?: boolean;
     canAddPermission?: string;
     defaultFilters?: object;
+    hideAddButton?: boolean;
 }
 
 const TableView = <T extends Entity, F>({
@@ -45,7 +46,8 @@ const TableView = <T extends Entity, F>({
     onItemClick,
     showAuditInfo = true,
     canAddPermission,
-    defaultFilters
+    defaultFilters,
+    hideAddButton = false,
 }: TableViewProps<T, F>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator, defaultFilters);
 
@@ -62,13 +64,16 @@ const TableView = <T extends Entity, F>({
 
     return (
         <>
-            <HasPermission permission={canAddPermission}>
-                <div className="flex justify-end">
-                    <button className="button-default" onClick={tableData.onEditPanelOpen}>
-                        + {addButtonText}
-                    </button>
-                </div>
-            </HasPermission>
+            {
+                !hideAddButton &&
+                <HasPermission permission={canAddPermission}>
+                    <div className="flex justify-end">
+                        <button className="button-default" onClick={tableData.onEditPanelOpen}>
+                            + {addButtonText}
+                        </button>
+                    </div>
+                </HasPermission>
+            }
             <Table title={title}
                    columns ={tableData.tableColumns}
                    rows={tableData.tableData}
