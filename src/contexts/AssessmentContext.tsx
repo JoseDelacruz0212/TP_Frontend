@@ -1,21 +1,22 @@
 import React, {createContext, useContext} from "react";
+import {Assessment} from "../types/communication/responses/assessment";
 
-interface AssessmentContext {
-    status: number;
+interface AssessmentProviderContext {
+    assessment?: Assessment;
 };
 
 interface AssessmentContextProps {
-    status: number;
+    assessment: Assessment;
     children: React.ReactNode;
 };
 
-const AssessmentContext = createContext<AssessmentContext>({
-    status: 0
+const AssessmentContext = createContext<AssessmentProviderContext>({
+    assessment: undefined
 });
 
-const AssessmentProvider = ({ status, children }: AssessmentContextProps) => {
+const AssessmentProvider = ({ assessment, children }: AssessmentContextProps) => {
     return (
-        <AssessmentContext.Provider value={{ status }}>
+        <AssessmentContext.Provider value={{ assessment }}>
             { children }
         </AssessmentContext.Provider>
     )
