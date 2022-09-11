@@ -15,7 +15,7 @@ import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../
 const ApplicationLayout = () => {
     const { signOut, isLoggedIn, hasPermissionFor, getUserName, getUserImage } = useAuthContext();
 
-    const { pathname } = useLocation();
+    const { pathname, state } = useLocation();
     const navigate = useNavigate();
     const [activeOption, setActiveOption] = useState(getActiveOptionForCurrentLocation(pathname));
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +60,10 @@ const ApplicationLayout = () => {
             </aside>
             <main className="bg-background flex-1 w-full flex flex-col pt-14 lg:pl-52 lg:pt-0">
                 <div className="py-5 px-4 sm:px-10 min-h-full flex flex-col">
-                    <ProfileHeader title={getTitleForCurrentLocation(pathname)} username={getUserName()} userImage={getUserImage()} onProfileClicked={onProfileClicked} />
+                    <ProfileHeader title={getTitleForCurrentLocation(pathname, state)}
+                                   username={getUserName()}
+                                   userImage={getUserImage()}
+                                   onProfileClicked={onProfileClicked} />
                     <div className="px-2 py-10 pb-0 flex-1">
                         <Outlet />
                     </div>

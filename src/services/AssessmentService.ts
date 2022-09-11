@@ -23,6 +23,7 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     protected updateItem(item: Assessment) {
         return this.put(`/evaluation/${item.id}`, {
             ...item,
+            json: '',
             availableOn: moment(item.availableOn).toISOString()
         }, () => item.id!);
     }
@@ -30,6 +31,7 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     protected createItem(item: Assessment) {
         const newItem = {
             ...item,
+            json: '',
             availableOn: moment(item.availableOn).toISOString()
         };
 

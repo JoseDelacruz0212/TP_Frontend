@@ -55,6 +55,7 @@ export interface NavMenuItem {
     link?: string;
     permission?: string;
     type: string;
+    title?: string;
 }
 
 export type Convertor<T extends Entity> = (columnKeys: number, x: T) => React.ReactNode;
