@@ -15,6 +15,7 @@ import AssessmentService from "../../services/AssessmentService";
 interface LocationState {
     assessmentId: string;
     status: number;
+    flag: boolean;
 }
 
 const AssessmentVisualizer = () => {
@@ -24,24 +25,27 @@ const AssessmentVisualizer = () => {
 
     const id = state?.assessmentId;
     const status = state?.status;
+    const flag = state?.flag;
 
     const [assessment, setAssessment] = useState<Assessment | null>(null);
 
     const { hasPermissionFor } = useAuthContext();
 
-    useEffect(() => {
-        if (id) {
-            AssessmentService.getById(id).then(setAssessment);
-        }
-    }, [id]);
-
     const canSubmit = hasPermissionFor(Permissions.ASSESSMENT_SUBMIT);
     const canAssignPoints = hasPermissionFor(Permissions.ASSESSMENT_ASSIGN_POINTS);
 
-    if (!canSubmit && !canAssignPoints) return <Navigate to="/assessments" />;
+    const accessNotAllowed =
+        (!canSubmit && !canAssignPoints) ||
+        (canSubmit && (status !== AssessmentStatus.STARTED || !flag)) ||
+        (canAssignPoints && status !== AssessmentStatus.FINISHED);
 
-    if (canSubmit && status !== AssessmentStatus.STARTED) return <Navigate to="/assessments" />;
-    if (canAssignPoints && status !== AssessmentStatus.FINISHED) return <Navigate to="/assessments" />;
+    useEffect(() => {
+        if (id && !accessNotAllowed) {
+            AssessmentService.getById(id).then(setAssessment);
+        }
+    }, [id, accessNotAllowed]);
+
+    if (accessNotAllowed) return <Navigate to="/assessments" />;
 
     if (!assessment) return null;
 

@@ -10,6 +10,7 @@ export interface Assessment extends Entity {
     numberQuestions?: number;
     courseId?: string;
     courses?: Course;
+    flag?: boolean;
 }
 
 export interface AssessmentCreated {
