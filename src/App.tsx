@@ -11,6 +11,7 @@ import Users from "./views/table-views/Users";
 import Profile from "./views/profile/Profile";
 import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
+import Verification from "./views/verification/Verification";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
               <Route path="/users" element={<Users />} />
               <Route path="/requests" element={null} />
-              <Route path="/verification" element={null} />
+              <Route path="/verification" element={<Verification />} />
               <Route path="/administration" element={null} />
               <Route path="/profile" element={<Profile />} />
           </Route>

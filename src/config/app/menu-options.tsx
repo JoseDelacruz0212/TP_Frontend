@@ -5,7 +5,9 @@ import {
     IoBookmarksOutline,
     IoPeopleOutline,
     IoPersonOutline,
-    IoSchoolOutline, IoExitOutline
+    IoSchoolOutline,
+    IoExitOutline,
+    IoShieldCheckmarkOutline
 } from "react-icons/io5";
 
 import {Permissions} from "../../types/auth";
@@ -62,16 +64,16 @@ const items: NavMenuItem[] = [
     //     type: 'link',
     //     title: "Reclamos"
     // },
-    // {
-    //     key: 6,
-    //     label: "Verificación",
-    //     icon: <IoShieldCheckmarkOutline size={30} />,
-    //     order: 6,
-    //     link: '/verification',
-    //     permission: Permissions.VERIFICATION,
-    //     type: 'link',
-    //     title: "Verificación"
-    // },
+    {
+        key: 6,
+        label: "Verificación",
+        icon: <IoShieldCheckmarkOutline size={30} />,
+        order: 6,
+        link: '/verification',
+        permission: Permissions.VERIFICATION,
+        type: 'link',
+        title: "Verificación"
+    },
     // {
     //     key: 7,
     //     label: "Administración",
