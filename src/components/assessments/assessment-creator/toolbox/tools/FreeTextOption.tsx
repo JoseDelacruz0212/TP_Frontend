@@ -26,7 +26,7 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
     const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
-    const { status } = useAssessmentContext();
+    const { assessment } = useAssessmentContext();
 
     return (
         <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
@@ -42,8 +42,8 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <textarea className="form-input"
                                   id="free-text-question-long-answer"
                                   name="free-text-question-long-answer"
-                                  disabled={status === AssessmentStatus.FINISHED}
-                                  readOnly={status === AssessmentStatus.FINISHED}
+                                  disabled={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
+                                  readOnly={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
                                   maxLength={255}
                                   rows={4}
                                   value={answerInput || ""}
@@ -55,8 +55,8 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <input className="form-input"
                                id="free-text-question-answer"
                                name="free-text-question-answer"
-                               disabled={status === AssessmentStatus.FINISHED}
-                               readOnly={status === AssessmentStatus.FINISHED}
+                               disabled={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
+                               readOnly={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
                                maxLength={50}
                                value={answerInput || ""}
                                onChange={(e) => setProp((props: FreeTextProps) => props.answerInput = e.target.value)} />
@@ -64,7 +64,7 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                     </div>
             }
             {
-                !enabled && hasPointsToAssign && status === AssessmentStatus.FINISHED &&
+                !enabled && hasPointsToAssign && assessment !== undefined && assessment.status === AssessmentStatus.FINISHED &&
                 <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
                     <div className="flex justify-end">
                         <small>Asignar puntos:</small>

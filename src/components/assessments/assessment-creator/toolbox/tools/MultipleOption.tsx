@@ -27,7 +27,7 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
     const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
-    const { status } = useAssessmentContext();
+    const { assessment } = useAssessmentContext();
 
     return (
         <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
@@ -47,7 +47,8 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                                 <input checked={option.value === answerInput}
                                        type={multiple ? "checkbox" : "radio"}
                                        name="multiple-option-answer-input"
-                                       disabled={status === AssessmentStatus.FINISHED}
+                                       disabled={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
+                                       readOnly={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
                                        value={option.value}
                                        onChange={(e) => setProp((props: MultipleOptionProps) => props.answerInput = e.target.value)} />
                                 <span>{option.label}</span>
@@ -58,7 +59,7 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                 </ul>
             }
             {
-                !enabled && hasPointsToAssign && status === AssessmentStatus.FINISHED &&
+                !enabled && hasPointsToAssign && assessment !== undefined && assessment.status === AssessmentStatus.FINISHED &&
                 <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
                     <div className="flex justify-end">
                         <div className="flex items-center space-x-2">

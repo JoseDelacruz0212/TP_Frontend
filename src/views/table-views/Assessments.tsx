@@ -78,7 +78,7 @@ const Assessments = () => {
 
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
     <HasPermission permission={Permissions.ASSESSMENT_VISUALIZE}>
-        <Link to={`/assessment-visualizer/${rowData.id}`} state={{ status: rowData.status }}>
+        <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessment: rowData }}>
             <div role="button" className="menu-option">
                 <div><IoEyeOutline /></div>
                 <span>Visualizar</span>

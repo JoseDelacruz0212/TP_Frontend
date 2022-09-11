@@ -1,14 +1,16 @@
 import React from "react";
+import {useLocation} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
+import AssessmentProvider from "../../contexts/AssessmentContext";
+
 import AssessmentVisualizerEditor from "../../components/assessments/assessment-visualizer/AssessmentVisualizerEditor";
 
 import {Permissions} from "../../types/auth";
-import {useLocation} from "react-router-dom";
-import AssessmentProvider from "../../contexts/AssessmentContext";
+import {Assessment} from "../../types/communication/responses/assessment";
 
 interface LocationState {
-    status: number;
+    assessment: Assessment;
 }
 
 const AssessmentVisualizer = () => {
@@ -22,10 +24,11 @@ const AssessmentVisualizer = () => {
     };
 
     return (
-        <AssessmentProvider status={state?.status}>
+        <AssessmentProvider assessment={state?.assessment}>
             <AssessmentVisualizerEditor json={json}
                                         onAssessmentSubmit={onAssessmentSubmit}
-                                        hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)} />
+                                        hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)}
+                                        assessments={state?.assessment} />
         </AssessmentProvider>
     )
 }
