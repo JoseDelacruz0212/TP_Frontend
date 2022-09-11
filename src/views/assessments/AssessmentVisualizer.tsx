@@ -21,9 +21,14 @@ const AssessmentVisualizer = () => {
 
     const { hasPermissionFor } = useAuthContext();
 
-    if (!state?.assessment || state.assessment.status !== AssessmentStatus.STARTED) {
-        return <Navigate to="/assessments" />;
-    }
+    const canSubmit = hasPermissionFor(Permissions.ASSESSMENT_SUBMIT);
+    const canAssignPoints = hasPermissionFor(Permissions.ASSESSMENT_ASSIGN_POINTS);
+
+    if (!state?.assessment) return <Navigate to="/assessments" />;
+    if (!canSubmit || !canAssignPoints) return <Navigate to="/assessments" />;
+
+    if (canSubmit && state.assessment.status !== AssessmentStatus.STARTED) return <Navigate to="/assessments" />;
+    if (canAssignPoints && state.assessment.status !== AssessmentStatus.FINISHED) return <Navigate to="/assessments" />;
 
     const onAssessmentSubmit = (assessment: string) => {
         console.log(assessment);

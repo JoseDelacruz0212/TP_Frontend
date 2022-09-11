@@ -1,20 +1,11 @@
 import authorizationClient from "../config/httpClients/authorizationClient";
 
 import {AuthorizationResponse, UserAuthorizationResponse} from "../types/communication/responses/authorization";
+import {permissionsByRole} from "../types/auth";
+
 import StorageService from "./StorageService";
 
-import {Roles} from "../types/auth";
-
 class AuthorizationService {
-    private permissions: {
-        [x: string]: string[]
-    } = {
-        [Roles.ADMIN]: ["*"],
-        [Roles.INSTITUTION]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "COURSES-ADD", "COURSES-EDIT", "COURSES-DELETE", "ASSESSMENT-*", "USERS", "USERS-APPROVE", "USERS-REVOKE", "USERS-EDIT", "USERS-DELETE", "USERS-ADD", "USERS-ASSIGN-COURSE", "PROFILE"],
-        [Roles.TEACHER]: ["COURSES", "COURSES-USERS", "COURSES-ASSESSMENTS", "COURSES-OBJECTIVES", "ASSESSMENT", "ASSESSMENT-ADD", "ASSESSMENT-DESIGN", "ASSESSMENT-PUBLISH", "ASSESSMENT-CREATOR", "ASSESSMENT-ASSIGN-POINTS", "USERS", "PROFILE"],
-        [Roles.STUDENT]: ["COURSES", "COURSES-ASSESSMENTS", "ASSESSMENT", "ASSESSMENT-START", "ASSESSMENT-VISUALIZE", "ASSESSMENT-SUBMIT", "PROFILE"]
-    };
-
     private authEventAction?: () => void = undefined;
 
     signIn(userEmail: string, passwordUser: string): Promise<void> {
@@ -54,9 +45,9 @@ class AuthorizationService {
         if (!permission) return true;
 
         return user !== null && user.roles.some(role => {
-            if (this.permissions[role].includes("*")) return true;
+            if (permissionsByRole[role].includes("*")) return true;
 
-            return this.permissions[role].some(p =>
+            return permissionsByRole[role].some(p =>
                 p.includes("-*") ? permission.includes(p.substring(0, p.length - 2)) : p === permission
             );
         });
