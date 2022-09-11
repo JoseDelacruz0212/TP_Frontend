@@ -5,6 +5,7 @@ export interface Assessment extends Entity {
     name: string;
     availableOn: string;
     status: number;
+    json: string;
     duration?: number;
     numberQuestions?: number;
     courseId?: string;

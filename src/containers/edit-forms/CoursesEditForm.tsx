@@ -47,7 +47,7 @@ const CourseEditForm = ({ values, onChange }: FormInputProps<Course>) => {
                           onChange={(e) => onChange && onChange({ ...values, description: e.target.value })} />
             </div>
             <HasPermission permission={Permissions.COURSES_SELECT_INSTITUTION}>
-                <InstitutionsSelect institutionId={values.institution?.id} onInstitutionChanged={onInstitutionChanged} />
+                <InstitutionsSelect institutionId={values.institution?.id || ""} onInstitutionChanged={onInstitutionChanged} />
             </HasPermission>
         </>
     );

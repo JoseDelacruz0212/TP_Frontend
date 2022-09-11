@@ -10,10 +10,14 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
         const filter = (i: Assessment[]) => this.getPaginatedData(i, filters, page, pageSize);
 
         if (!filters.courseId) {
-            return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation', filter);
+            return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation', filter).then(x => ({ ...x, json: '' }));
         } else {
             return this.get<Assessment[], PaginatedResponse<Assessment>>(`/evaluation/byCourse/${filters.courseId}`, filter);
         }
+    }
+
+    public async getById(id: string) {
+        return this.get<Assessment>(`/evaluation/${id}`);
     }
 
     public async deleteItem(id: string) {
@@ -23,7 +27,6 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     protected updateItem(item: Assessment) {
         return this.put(`/evaluation/${item.id}`, {
             ...item,
-            json: '',
             availableOn: moment(item.availableOn).toISOString()
         }, () => item.id!);
     }
@@ -31,7 +34,6 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     protected createItem(item: Assessment) {
         const newItem = {
             ...item,
-            json: '',
             availableOn: moment(item.availableOn).toISOString()
         };
 

@@ -23,7 +23,6 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route path="/assessments" element={<Assessments />} />
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
-              <Route path="/assessment-creator" element={<AssessmentCreator />} />
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
               <Route path="/users" element={<Users />} />
               <Route path="/requests" element={null} />

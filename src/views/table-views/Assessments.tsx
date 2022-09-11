@@ -26,7 +26,8 @@ import If from "../../components/common/logic/If";
 const defaultAssessment: Assessment = {
     name: '',
     availableOn: '',
-    status: 0
+    status: 0,
+    json: ''
 };
 
 interface LocationState {
@@ -81,7 +82,7 @@ const Assessments = () => {
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
     <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
         <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
-            <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessment: rowData, subtitle: rowData.name }}>
+            <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessmentId: rowData.id, status: rowData.status, subtitle: rowData.name }}>
                 <div role="button" className="menu-option">
                     <div><IoEyeOutline /></div>
                     <span>Calificar evaluación</span>
@@ -91,7 +92,7 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
     </If>,
     <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
         <HasPermission permission={Permissions.ASSESSMENT_START}>
-            <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessment: rowData, subtitle: rowData.name }}>
+            <Link to={`/assessment-visualizer/${rowData.id}`} state={{ assessmentId: rowData.id, status: rowData.status, subtitle: rowData.name }}>
                 <div role="button" className="menu-option">
                     <div><IoEyeOutline /></div>
                     <span>Iniciar evaluación</span>

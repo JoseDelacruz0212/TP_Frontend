@@ -40,7 +40,6 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, hideButton = false, as
                                            duration={assessment.duration}
                                            status={assessment.status} />
                     }
-                    { !hideButton && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
                     <Frame data={json}>
                         <Element id="canvas" is="div" canvas />
                     </Frame>

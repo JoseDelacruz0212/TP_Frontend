@@ -53,7 +53,7 @@ const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) =>
                        value={values.duration || ''}
                        onChange={(e) => onChange && onChange({ ...values, duration: parseInt(e.target.value) })} />
             </div>
-            <CoursesSelect onCourseChanged={onCourseChanged} />
+            <CoursesSelect onCourseChanged={onCourseChanged} courseId={values.courses?.id || ""} />
         </>
     );
 }
