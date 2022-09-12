@@ -34,6 +34,7 @@ function App() {
           </Route>
           <Route element={<ExternalLayout />}>
               <Route path="/verification-external" element={<Verification />} />
+              <Route path="/verification-external/:userIdentifier" element={<Verification />} />
           </Route>
       </Routes>
   );

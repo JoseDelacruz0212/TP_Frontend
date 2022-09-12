@@ -4,6 +4,7 @@ import {CrudService} from "./CrudService";
 import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Assessment, AssessmentCreated} from "../types/communication/responses/assessment";
 import {AssessmentFilter} from "../types/communication/requests/asessments";
+import {PointsGenerated} from "../types/communication/responses/points-generated";
 
 class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     public async getData(filters: AssessmentFilter, page: number = 1, pageSize: number = 10) {
@@ -25,7 +26,9 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     }
 
     public async generatePoints(evaluationId: string, json: string) {
-        return this.post('/evaluation/GeneratePoints', { evaluationId, json }, () => evaluationId);
+        return this.post<PointsGenerated, { evaluationId: string, json: string }, PointsGenerated>(
+            '/evaluation/GeneratePoints', { evaluationId, json }, response => response
+        );
     }
 
     protected updateItem(item: Assessment) {

@@ -73,6 +73,14 @@ class AuthorizationService {
         return StorageService.get<string>("accessToken");
     }
 
+    getUserId() {
+        const user = this.getUserData();
+
+        if (!user) return "";
+
+        return user.idUser;
+    }
+
     private saveUserData(responseData: AuthorizationResponse) {
         StorageService.save<UserAuthorizationResponse>('user', responseData.data.user);
         StorageService.save<string>('accessToken', responseData.data.accessToken);
