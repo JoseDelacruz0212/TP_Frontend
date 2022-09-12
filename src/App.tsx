@@ -13,6 +13,7 @@ import AssessmentCreator from "./views/assessments/AssessmentCreator";
 import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 import Verification from "./views/verification/Verification";
 import Profile from "./views/profile/Profile";
+import Qualifications from "./views/qualifications/Qualifications";
 
 function App() {
   return (
@@ -23,8 +24,8 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route path="/assessments" element={<Assessments />} />
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
-              <Route path="/assessment-creator" element={<AssessmentCreator />} />
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
+              <Route path="/qualifications/:id" element={<Qualifications />} />
               <Route path="/users" element={<Users />} />
               <Route path="/requests" element={null} />
               <Route path="/verification" element={<Verification />} />

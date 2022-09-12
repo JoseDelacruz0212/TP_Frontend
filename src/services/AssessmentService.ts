@@ -16,14 +16,21 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
         }
     }
 
+    public async getById(id: string) {
+        return this.get<Assessment>(`/evaluation/${id}`);
+    }
+
     public async deleteItem(id: string) {
         return this.delete(`/evaluation/${id}`, () => id);
+    }
+
+    public async generatePoints(evaluationId: string, json: string) {
+        return this.post('/evaluation/GeneratePoints', { evaluationId, json }, () => evaluationId);
     }
 
     protected updateItem(item: Assessment) {
         return this.put(`/evaluation/${item.id}`, {
             ...item,
-            json: '',
             availableOn: moment(item.availableOn).toISOString()
         }, () => item.id!);
     }
@@ -31,7 +38,6 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     protected createItem(item: Assessment) {
         const newItem = {
             ...item,
-            json: '',
             availableOn: moment(item.availableOn).toISOString()
         };
 

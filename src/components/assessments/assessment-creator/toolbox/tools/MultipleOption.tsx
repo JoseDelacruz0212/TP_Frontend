@@ -84,10 +84,10 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
 const MultipleOptionSettings = () => {
     const [newOption, setNewOption] = useState("");
 
-    const { question, options, multiple, points, answer, actions: { setProp } } = useNode(node => ({
+    const { question, options, /*multiple,*/ points, answer, actions: { setProp } } = useNode(node => ({
         question: node.data.props.question,
         options: node.data.props.options,
-        multiple: node.data.props.multiple,
+        // multiple: node.data.props.multiple,
         answer: node.data.props.answer,
         points: node.data.props.points
     }));
@@ -145,7 +145,7 @@ const MultipleOptionSettings = () => {
                        value={points || ""}
                        onChange={(e) => setProp((props: MultipleOptionProps) => props.points = parseInt(e.target.value || "0"))} />
             </div>
-            <div className="form-group-row">
+            {/*<div className="form-group-row">
                 <label htmlFor="multiple-option-multiple" className="form-label">
                     <small>¿Permitir marcar más de una respuesta?</small>
                 </label>
@@ -154,7 +154,7 @@ const MultipleOptionSettings = () => {
                        name="multiple-option-multiple"
                        checked={multiple || false}
                        onChange={(e) => setProp((props: MultipleOptionProps) => props.multiple = e.target.checked)} />
-            </div>
+            </div>*/}
             <div className="form-group space-y-5">
                 <label htmlFor="multiple-option-options" className="form-label">
                     <small>Opciones</small>

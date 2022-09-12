@@ -106,7 +106,7 @@ const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
                 </select>
             </div>
             <HasPermission permission={Permissions.USERS_SELECT_INSTITUTION}>
-                <InstitutionsSelect institutionId={values.institution?.id} onInstitutionChanged={onInstitutionChanged} />
+                <InstitutionsSelect institutionId={values.institution?.id || ""} onInstitutionChanged={onInstitutionChanged} />
             </HasPermission>
         </>
     );
