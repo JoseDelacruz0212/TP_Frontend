@@ -24,6 +24,7 @@ export const Permissions = Object.freeze({
    ASSESSMENT_DESIGN: "ASSESSMENT-DESIGN",
    ASSESSMENT_EDIT: "ASSESSMENT-EDIT",
    ASSESSMENT_DELETE: "ASSESSMENT-DELETE",
+   ASSESSMENT_QUALIFICATIONS: "ASSESSMENT-QUALIFICATIONS",
    ASSESSMENT_ADD: "ASSESSMENT-ADD",
    USERS: "USERS",
    USERS_APPROVE: "USERS-APPROVE",
@@ -57,6 +58,7 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "ASSESSMENT-EDIT",
       "ASSESSMENT-DELETE",
       "ASSESSMENT-ADD",
+      "ASSESSMENT-QUALIFICATIONS",
       "USERS",
       "USERS-APPROVE",
       "USERS-REVOKE",
@@ -78,6 +80,7 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "ASSESSMENT-CREATOR",
       "ASSESSMENT-VISUALIZE",
       "ASSESSMENT-ASSIGN-POINTS",
+      "ASSESSMENT-QUALIFICATIONS",
       "USERS",
       "PROFILE"
    ],

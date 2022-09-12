@@ -87,13 +87,13 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
 };
 
 const FreeTextSettings = () => {
-    const { question, points, answer, hasAnswer, isCaseSensitive, longAnswer, actions: { setProp } } = useNode(node => ({
+    const { question, points, answer, /*hasAnswer, isCaseSensitive, longAnswer,*/ actions: { setProp } } = useNode(node => ({
         question: node.data.props.question,
         answer: node.data.props.answer,
         points: node.data.props.points,
-        hasAnswer: node.data.props.hasAnswer,
-        isCaseSensitive: node.data.props.isCaseSensitive,
-        longAnswer: node.data.props.longAnswer
+        // hasAnswer: node.data.props.hasAnswer,
+        // isCaseSensitive: node.data.props.isCaseSensitive,
+        // longAnswer: node.data.props.longAnswer
     }));
 
     return (
@@ -127,7 +127,7 @@ const FreeTextSettings = () => {
                        value={points || ""}
                        onChange={(e) => setProp((props: FreeTextProps) => props.points = parseInt(e.target.value || "0"))} />
             </div>
-            <div className="form-group-row">
+            {/*<div className="form-group-row">
                 <label htmlFor="free-text-question-long-answer" className="form-label">
                     <small>Respuesta de texto largo</small>
                 </label>
@@ -136,8 +136,8 @@ const FreeTextSettings = () => {
                        name="free-text-question-long-answer"
                        checked={longAnswer || false}
                        onChange={(e) => setProp((props: FreeTextProps) => props.longAnswer = e.target.checked)} />
-            </div>
-            {
+            </div>*/}
+            {/*{
                 !longAnswer &&
                 <>
                     <div className="form-group-row">
@@ -152,7 +152,7 @@ const FreeTextSettings = () => {
                     </div>
                     {
                         hasAnswer &&
-                        <div className="flex flex-col space-y-5 border rounded-md p-4">
+                        <div className="flex flex-col space-y-5 border rounded-md p-4">*/}
                             <div className="form-group">
                                 <label htmlFor="free-text-question-answer" className="form-label">
                                     <div className="flex justify-between">
@@ -167,7 +167,7 @@ const FreeTextSettings = () => {
                                        maxLength={50}
                                        value={answer || ""}
                                        onChange={(e) => setProp((props: FreeTextProps) => props.answer = e.target.value)} />
-                            </div>
+                            </div>{/*
                             <div className="form-group-row">
                                 <label htmlFor="free-text-question-case-sensitive" className="form-label">
                                     <small>Respetar mayúsculas</small>
@@ -181,7 +181,7 @@ const FreeTextSettings = () => {
                         </div>
                     }
                 </>
-            }
+            }*/}
         </div>
     );
 };

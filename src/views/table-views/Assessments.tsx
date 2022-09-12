@@ -81,20 +81,20 @@ const Assessments = () => {
 
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
     <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
-        <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
-            <Link to={`/assessment-visualizer/${rowData.id}`} state={{
+        <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
+            <Link to={`/qualifications/${rowData.id}`} state={{
                 assessmentId: rowData.id,
                 status: rowData.status,
                 subtitle: rowData.name
             }}>
                 <div role="button" className="menu-option">
                     <div><IoEyeOutline /></div>
-                    <span>Calificar evaluación</span>
+                    <span>Ver calificaciones</span>
                 </div>
             </Link>
         </HasPermission>
     </If>,
-    <If condition={rowData.status === AssessmentStatusOptions.STARTED && !!rowData.flag}>
+    <If condition={rowData.status === AssessmentStatusOptions.STARTED && rowData.flag !== true}>
         <HasPermission permission={Permissions.ASSESSMENT_START}>
             <Link to={`/assessment-visualizer/${rowData.id}`} state={{
                 assessmentId: rowData.id,
