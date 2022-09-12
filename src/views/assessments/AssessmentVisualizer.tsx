@@ -11,6 +11,7 @@ import {Permissions} from "../../types/auth";
 import {AssessmentStatus} from "../../types/assessment-status";
 import {Assessment} from "../../types/communication/responses/assessment";
 import AssessmentService from "../../services/AssessmentService";
+import BlockchainService from "../../services/BlockchainService";
 
 interface LocationState {
     assessmentId: string;
@@ -36,7 +37,7 @@ const AssessmentVisualizer = () => {
 
     const accessNotAllowed =
         (!canSubmit && !canAssignPoints) ||
-        (canSubmit && (status !== AssessmentStatus.STARTED || !flag)) ||
+        (canSubmit && (status !== AssessmentStatus.STARTED || flag)) ||
         (canAssignPoints && status !== AssessmentStatus.FINISHED);
 
     useEffect(() => {
@@ -51,7 +52,7 @@ const AssessmentVisualizer = () => {
 
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
-            () => navigate("/assessments")
+            pointsGenerated => BlockchainService.addTransaction(pointsGenerated)
         );
     };
 

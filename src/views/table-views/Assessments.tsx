@@ -80,7 +80,7 @@ const Assessments = () => {
 }
 
 const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
-    <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
+    /*<If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
         <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
             <Link to={`/qualifications/${rowData.id}`} state={{
                 assessmentId: rowData.id,
@@ -93,7 +93,7 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
                 </div>
             </Link>
         </HasPermission>
-    </If>,
+    </If>,*/
     <If condition={rowData.status === AssessmentStatusOptions.STARTED && rowData.flag !== true}>
         <HasPermission permission={Permissions.ASSESSMENT_START}>
             <Link to={`/assessment-visualizer/${rowData.id}`} state={{

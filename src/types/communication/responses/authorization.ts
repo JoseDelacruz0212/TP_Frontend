@@ -1,4 +1,5 @@
 export interface UserAuthorizationResponse {
+    idUser: string;
     name: string;
     lastName: string;
     email: string;
