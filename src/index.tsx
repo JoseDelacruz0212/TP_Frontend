@@ -9,7 +9,10 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 
 import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 import AuthProvider from "./contexts/AuthContext";
+import {ToastContainer} from "react-toastify";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,6 +23,7 @@ root.render(
           <BrowserRouter>
               <AuthProvider>
                   <App />
+                  <ToastContainer />
               </AuthProvider>
           </BrowserRouter>
       </Provider>

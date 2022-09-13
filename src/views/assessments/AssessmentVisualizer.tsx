@@ -52,7 +52,9 @@ const AssessmentVisualizer = () => {
 
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
-            pointsGenerated => BlockchainService.addTransaction(pointsGenerated)
+            pointsGenerated => BlockchainService.addTransaction(pointsGenerated).then(
+                () => navigate("/assessments")
+            )
         );
     };
 

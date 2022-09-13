@@ -33,6 +33,8 @@ import {
     IoTrashOutline
 } from "react-icons/io5";
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
+import Chip from "../../components/common/chip/Chip";
+import {toast} from "react-toastify";
 
 const defaultUser: User = {
     name: '',
@@ -80,10 +82,16 @@ const Users = () => {
     }
 
     const approveUser = (id: string) => UserService.approveUser(id).then(
-        () => dispatch(userStatusChanged(null))
+        () => {
+            dispatch(userStatusChanged(null));
+            toast.success("El usuario se aprobó existosamente");
+        }
     )
     const revokeUser = (id: string) => UserService.revokeUser(id).then(
-        () => dispatch(userStatusChanged(null))
+        () => {
+            dispatch(userStatusChanged(null));
+            toast.success("El usuario se desaprobó exitosamente");
+        }
     )
 
     const convertorCreator : ConvertorCreator<User> = (onEdit, onDelete) => (column, rowData) => {
@@ -94,9 +102,16 @@ const Users = () => {
             case 2: value = <div className="py-4">{rowData.lastName}</div>; break;
             case 3: value = <div className="py-4">{rowData.email}</div>; break;
             case 4: value = <div className="py-4">{rowData.institution?.name}</div>; break;
-            case 5: value = <div className="py-4">{rowData.status ? "Aprobado" : "Desaprobado"}</div>; break;
-            case 6: value = <div className="py-4">{rowData.createdBy}</div>; break;
-            case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+            case 5: value = <div className="py-4">{rowData.createdBy}</div>; break;
+            case 6: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
+            case 7:
+                value = (
+                    <div className="py-4">
+                        <Chip label={rowData.status ? "Aprobado" : "Desaprobado"}
+                              className={`${rowData.status ? "bg-green-500" : "bg-red-500"} text-white w-28 text-center`} />
+                    </div>
+                );
+                break;
             case 8: value = (
                     <div className="flex justify-end px-5">
                         <MenuOptions options={[
@@ -198,6 +213,6 @@ const createFilterSchema: FilterSchemaCreator<UserFilter> = (filters, onFiltersU
     }
 ])
 
-const columns = ["Nombre", "Apellido", "Correo", "Institución", "Estado", "Creado por", "Fecha de creación", ""];
+const columns = ["Nombre", "Apellido", "Correo", "Institución", "Creado por", "Fecha de creación", "Estado", ""];
 
 export default withPermission(withUsersProvider(Users), Permissions.USERS);

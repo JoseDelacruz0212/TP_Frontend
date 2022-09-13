@@ -65,6 +65,7 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "USERS-EDIT",
       "USERS-DELETE",
       "USERS-ADD",
+      "VERIFICATION",
       "USERS-ASSIGN-COURSE",
       "PROFILE"
    ],
@@ -81,6 +82,7 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "ASSESSMENT-VISUALIZE",
       "ASSESSMENT-ASSIGN-POINTS",
       "ASSESSMENT-QUALIFICATIONS",
+      "VERIFICATION",
       "USERS",
       "PROFILE"
    ],
@@ -91,6 +93,7 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "ASSESSMENT-START",
       "ASSESSMENT-VISUALIZE",
       "ASSESSMENT-SUBMIT",
+      "VERIFICATION",
       "PROFILE"
    ]
 };
