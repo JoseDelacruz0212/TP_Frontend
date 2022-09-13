@@ -25,17 +25,17 @@ const AssessmentCreator = () => {
         }
     }, [id]);
 
-    const onDesignSave = (design: string) => {
+    const onDesignSave = (json: string) => {
         if (assessment) {
-            AssessmentService.saveItem({ ...assessment, json: design}).then(
+            AssessmentService.saveItem({ ...assessment, json}).then(
                 () => {}
             );
         }
     };
 
-    const onDesignPublish = () => {
+    const onDesignPublish = (json: string) => {
         if (assessment) {
-            AssessmentService.saveItem({ ...assessment, status: AssessmentStatus.PUBLISHED}).then(
+            AssessmentService.saveItem({ ...assessment, json, status: AssessmentStatus.PUBLISHED}).then(
                 () => navigate("/assessments")
             );
         }
