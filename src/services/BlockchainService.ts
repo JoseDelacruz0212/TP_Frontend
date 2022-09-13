@@ -4,7 +4,7 @@ import AuthorizationService from "./AuthorizationService";
 
 class BlockchainService {
     public async getByUserId(userId: string) {
-        return blockchainClient.get(`/query/${userId}`);
+        return blockchainClient.get(`/history/${userId}`);
     }
 
     public async addTransaction(pointsGenerated: PointsGenerated) {

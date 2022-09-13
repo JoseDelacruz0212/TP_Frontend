@@ -13,8 +13,11 @@ import {Permissions} from "../../types/auth";
 import AssessmentService from "../../services/AssessmentService";
 import {Assessment} from "../../types/communication/responses/assessment";
 import {AssessmentStatus} from "../../types/assessment-status";
+import {toast} from "react-toastify";
 
 const AssessmentCreator = () => {
+    const [canPublish, setCanPublish] = useState(false);
+
     const navigate = useNavigate();
     const { id } = useParams();
     const [assessment, setAssessment] = useState<Assessment | null>(null);
@@ -26,17 +29,27 @@ const AssessmentCreator = () => {
     }, [id]);
 
     const onDesignSave = (json: string) => {
-        if (assessment) {
-            AssessmentService.saveItem({ ...assessment, json}).then(
-                () => {}
-            );
+        if (JSON.parse(json)["ROOT"]["nodes"].length > 0) {
+            if (assessment) {
+                AssessmentService.saveItem({...assessment, json}).then(
+                    () => {
+                        toast.success("El diseño se guardó exitosamente")
+                        setCanPublish(true);
+                    }
+                );
+            }
+        } else {
+            toast.error("El diseño del examen no es válido");
         }
     };
 
     const onDesignPublish = (json: string) => {
         if (assessment) {
             AssessmentService.saveItem({ ...assessment, json, status: AssessmentStatus.PUBLISHED}).then(
-                () => navigate("/assessments")
+                () => {
+                    toast.success("La evaluación se publicó exitosamente")
+                    navigate("/assessments")
+                }
             );
         }
     };
@@ -49,7 +62,9 @@ const AssessmentCreator = () => {
                     <div className="grid grid-cols-3 gap-5 min-h-full">
                         <div className="order-2 col-span-4 lg:order-1 lg:col-span-2 min-h-full">
                             <div className="rounded-md shadow-md min-h-full p-2 flex flex-col space-y-5">
-                                <TopBar onDesignSave={onDesignSave} onDesignPublish={onDesignPublish} />
+                                <TopBar onDesignSave={onDesignSave}
+                                        onDesignPublish={onDesignPublish}
+                                        canPublish={canPublish} />
                                 <div className="border rounded-md flex-1 flex">
                                     <Frame data={assessment.json}>
                                         <Element id="canvas" is="div" canvas />

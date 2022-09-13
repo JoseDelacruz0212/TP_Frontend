@@ -34,8 +34,8 @@ const Verification = () => {
             case 3:
                 let color = "bg-green-500 text-white";
 
-                if (parseFloat(rowData.owner) < 13) color = "bg-yellow-50";
-                else if (parseFloat(rowData.owner) < 10) color = "bg-red-50 text-white";
+                if (parseFloat(rowData.owner) < 10) color = "bg-red-500 text-white";
+                else if (parseFloat(rowData.owner) < 13) color = "bg-yellow-500";
 
                 return (
                     <div className="py-4">

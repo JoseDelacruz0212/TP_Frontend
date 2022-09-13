@@ -5,6 +5,7 @@ import {IoSchool} from "react-icons/io5";
 import {useAuthContext} from "../../contexts/AuthContext";
 
 import {APP_NAME} from "../../config/app/basic-settings";
+import {Link} from "react-router-dom";
 
 const SignInPage = () => {
     const { signIn, isLoggedIn, goToFirstAllowedView } = useAuthContext();
@@ -25,7 +26,7 @@ const SignInPage = () => {
             <div className="flex-1 hidden lg:block h-screen">
                 <img className="h-screen opacity-60" src="/assets/login_image.jpg" alt="login" />
             </div>
-            <div className="flex justify-center items-center w-full lg:w-96 mx-10">
+            <div className="flex flex-col space-y-5 justify-center items-center w-full lg:w-96 mx-10">
                 <div className="flex flex-col space-y-10 shadow-md w-full p-3 sm:w-96">
                     <div className="flex justify-center items-center space-x-3">
                         <div><IoSchool size={30} /></div>
@@ -63,6 +64,9 @@ const SignInPage = () => {
                         </button>
                     </div>
                 </div>
+                <Link to="/verification-external">
+                    <span className="text-primary-dark">Verificar calificaciones</span>
+                </Link>
             </div>
         </div>
     )

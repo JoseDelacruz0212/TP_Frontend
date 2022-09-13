@@ -9,6 +9,7 @@ import {CrudService} from "../services/CrudService";
 import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 import {ConvertorCreator, FilterSchemaCreator} from "../types/common";
+import {toast} from "react-toastify";
 
 const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
@@ -49,6 +50,8 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
             () => {
                 dispatch(dataItemUpdated(item));
                 onEditPanelClose();
+
+                toast.success("La acción se realizó exitosamente")
             }
         );
     };
@@ -59,7 +62,10 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     };
 
     const onDeleteItem = (id?: string) =>
-        id && service.deleteItem(id).then(() => dispatch(dataItemDeleted(id)));
+        id && service.deleteItem(id).then(() => {
+            dispatch(dataItemDeleted(id));
+            toast.success("El registro se eliminó exitosamente");
+        });
 
     const onEditPanelClose = () => {
         setIsEditPanelOpen(false);

@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 
 import AuthorizationService from "../services/AuthorizationService";
 import menuOptions from "../config/app/menu-options";
+import {toast} from "react-toastify";
 
 interface AuthProviderContext {
     signIn: (username: string, password: string) => void;
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 setIsLoggedIn(AuthorizationService.isLoggedIn());
                 goToFirstAllowedView()
             },
-            error => console.log(error)
+            () => toast.error("El usuario o contraseña ingresados son incorrectos o no está autorizado")
         );
     }
 
