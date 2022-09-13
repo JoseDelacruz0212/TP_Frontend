@@ -10,7 +10,7 @@ const Verification = () => {
     const { userIdentifier: userId } = useParams();
 
     const [userIdentifier, setUserIdentifier] = useState(userId);
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<any>([]);
 
     useEffect(() => {
         if (userIdentifier) {
@@ -45,13 +45,13 @@ const Verification = () => {
         }
     };
 
-    const rows = data ? [data].map((rowData: any, index: number) => ({
+    const rows = data.map((rowData: any, index: number) => ({
         key: index,
         rowValues: columns.map((column, index) => ({
             key: index,
             value: getValueForRow(index, rowData)
         }))
-    })) : [];
+    }));
 
     return (
         <div className="flex flex-col space-y-10">
