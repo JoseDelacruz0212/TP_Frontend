@@ -13,6 +13,7 @@ interface AuthProviderContext {
     hasPermissionFor: (permission?: string) => boolean;
     goToFirstAllowedView: () => void;
     getUserImage: () => string;
+    getUserId: () => string;
 };
 
 interface AuthProviderProps {
@@ -26,7 +27,8 @@ const AuthContext = createContext<AuthProviderContext>({
     getUserName: () => "",
     hasPermissionFor: () => false,
     goToFirstAllowedView: () => {},
-    getUserImage: () => ""
+    getUserImage: () => "",
+    getUserId: () => ""
 });
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -71,6 +73,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     const getUserName = () => AuthorizationService.getUserName();
     const getUserImage = () => AuthorizationService.getUserImage();
     const hasPermissionFor = (permission?: string) => AuthorizationService.hasPermissionFor(permission);
+    const getUserId = () => AuthorizationService.getUserId();
 
     return (
         <AuthContext.Provider value={{
@@ -80,7 +83,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             getUserName,
             hasPermissionFor,
             goToFirstAllowedView,
-            getUserImage
+            getUserImage,
+            getUserId
         }}>
                 { children }
         </AuthContext.Provider>

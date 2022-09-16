@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
+import copy from "copy-to-clipboard";
 
 import NavMenu from "../../components/layouts/application-layout/NavMenu";
 import Header from "../../components/layouts/application-layout/Header";
@@ -9,11 +10,12 @@ import ProfileHeader from "../../components/layouts/application-layout/ProfileHe
 import {useAuthContext} from "../../contexts/AuthContext";
 
 import items from "../../config/app/menu-options";
-import {APP_NAME} from "../../config/app/basic-settings";
+import {APP_NAME, URL} from "../../config/app/basic-settings";
 import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../../config/app/routes";
+import {toast} from "react-toastify";
 
 const ApplicationLayout = () => {
-    const { signOut, isLoggedIn, hasPermissionFor, getUserName, getUserImage } = useAuthContext();
+    const { signOut, isLoggedIn, hasPermissionFor, getUserName, getUserImage, getUserId } = useAuthContext();
 
     const { pathname, state } = useLocation();
     const navigate = useNavigate();
@@ -39,6 +41,11 @@ const ApplicationLayout = () => {
 
     const onProfileClicked = () => navigate('profile');
 
+    const onShareClicked = () => {
+        copy(`${URL}/verification-external/${getUserId()}`);
+        toast.success("Enlace copiado al portapapeles");
+    };
+
     if (!isLoggedIn) return <Navigate to="/" />
 
     return (
@@ -63,7 +70,8 @@ const ApplicationLayout = () => {
                     <ProfileHeader title={getTitleForCurrentLocation(pathname, state)}
                                    username={getUserName()}
                                    userImage={getUserImage()}
-                                   onProfileClicked={onProfileClicked} />
+                                   onProfileClicked={onProfileClicked}
+                                   onShareClicked={onShareClicked} />
                     <div className="px-2 py-10 pb-0 flex-1">
                         <Outlet />
                     </div>

@@ -1,8 +1,9 @@
 import axios from "axios";
 import AuthorizationService from "../../services/AuthorizationService";
+import {API_BASE_URL} from "../app/basic-settings";
 
 const instance = axios.create({
-    baseURL: 'http://ec2-35-174-165-153.compute-1.amazonaws.com:8080',
+    baseURL: API_BASE_URL,
     timeout: 5000
 });
 
