@@ -12,6 +12,7 @@ import {AssessmentStatus} from "../../types/assessment-status";
 import {Assessment} from "../../types/communication/responses/assessment";
 import AssessmentService from "../../services/AssessmentService";
 import BlockchainService from "../../services/BlockchainService";
+import {toast} from "react-toastify";
 
 interface LocationState {
     assessmentId: string;
@@ -53,7 +54,10 @@ const AssessmentVisualizer = () => {
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
             pointsGenerated => BlockchainService.addTransaction(pointsGenerated).then(
-                () => navigate("/assessments")
+                () => {
+                    navigate("/assessments");
+                    toast.success("La evaluación se envió exitosamente");
+                }
             )
         );
     };
