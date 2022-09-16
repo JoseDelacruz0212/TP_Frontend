@@ -39,7 +39,7 @@ const Assessments = () => {
     const location = useLocation();
     const state = location.state as LocationState;
 
-    const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
+    const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete, refresh) => (column, rowData) => {
         let value: React.ReactNode = null;
 
         switch (column) {
@@ -53,7 +53,7 @@ const Assessments = () => {
             case 8: value = <AssessmentStatus status={rowData.status} />; break;
             case 9: value = (
                 <div className="flex justify-end px-5">
-                    <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
+                    <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData, refresh)} />
                 </div>
             );
                 break;
@@ -80,7 +80,7 @@ const Assessments = () => {
     )
 }
 
-const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData) => [
+const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData, refresh) => [
     /*<If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
         <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
             <Link to={`/qualifications/${rowData.id}`} state={{
@@ -99,7 +99,10 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
         <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
             <div role="button" className="menu-option" onClick={() => {
                 AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.STARTED }).then(
-                    () => toast.success("Status changed successfully")
+                    () => {
+                        toast.success("Status changed successfully");
+                        refresh!();
+                    }
                 )
             }}>
                 <div><IoEyeOutline /></div>
@@ -111,7 +114,10 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
         <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
             <div role="button" className="menu-option" onClick={() => {
                 AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.FINISHED }).then(
-                    () => toast.success("Status changed successfully")
+                    () => {
+                        toast.success("Status changed successfully");
+                        refresh!();
+                    }
                 )
             }}>
                 <div><IoEyeOutline /></div>
