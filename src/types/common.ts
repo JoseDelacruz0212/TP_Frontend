@@ -60,5 +60,5 @@ export interface NavMenuItem {
 
 export type Convertor<T extends Entity> = (columnKeys: number, x: T) => React.ReactNode;
 export type FilterSchemaCreator<T> = (filters: T, onFiltersUpdate: (filters: T) => any) => FilterSchema[];
-export type ConvertorCreator<T> = (onEdit: (x: T) => void, onDelete: (x: string) => void) => Convertor<T>;
-export type MenuOptionsCreator<T> = (onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => React.ReactElement[];
+export type ConvertorCreator<T> = (onEdit: (x: T) => void, onDelete: (x: string) => void, refresh: () => Promise<void>) => Convertor<T>;
+export type MenuOptionsCreator<T> = (onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T, refresh?: () => Promise<void>) => React.ReactElement[];
