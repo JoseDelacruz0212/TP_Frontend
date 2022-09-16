@@ -22,6 +22,7 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
 import If from "../../components/common/logic/If";
+import {toast} from "react-toastify";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -94,6 +95,30 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
             </Link>
         </HasPermission>
     </If>,*/
+    <If condition={rowData.status === AssessmentStatusOptions.PUBLISHED}>
+        <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
+            <div role="button" className="menu-option" onClick={() => {
+                AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.STARTED }).then(
+                    () => toast.success("Status changed successfully")
+                )
+            }}>
+                <div><IoEyeOutline /></div>
+                <span>Iniciar evaluación</span>
+            </div>
+        </HasPermission>
+    </If>,
+    <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
+        <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
+            <div role="button" className="menu-option" onClick={() => {
+                AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.FINISHED }).then(
+                    () => toast.success("Status changed successfully")
+                )
+            }}>
+                <div><IoEyeOutline /></div>
+                <span>Finalizar evaluación</span>
+            </div>
+        </HasPermission>
+    </If>,
     <If condition={rowData.status === AssessmentStatusOptions.STARTED && rowData.flag !== true}>
         <HasPermission permission={Permissions.ASSESSMENT_START}>
             <Link to={`/assessment-visualizer/${rowData.id}`} state={{
@@ -104,7 +129,7 @@ const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowDat
             }}>
                 <div role="button" className="menu-option">
                     <div><IoEyeOutline /></div>
-                    <span>Iniciar evaluación</span>
+                    <span>Realizar evaluación</span>
                 </div>
             </Link>
         </HasPermission>
