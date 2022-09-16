@@ -1,7 +1,8 @@
 import axios from "axios";
+import {BLOCKCHAIN_BASE_URL} from "../app/basic-settings";
 
 const instance = axios.create({
-    baseURL: 'http://ec2-44-203-113-105.compute-1.amazonaws.com:8080/api',
+    baseURL: BLOCKCHAIN_BASE_URL,
     timeout: 5000
 });
 
