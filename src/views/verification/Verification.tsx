@@ -16,7 +16,7 @@ const Verification = () => {
         if (userIdentifier) {
             BlockchainService.getByUserId(userIdentifier).then(response => setData(response.data.response));
         }
-    }, [userIdentifier]);
+    }, []);
 
     const verifyUserHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
