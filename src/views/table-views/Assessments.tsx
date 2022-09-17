@@ -19,6 +19,11 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 import TableView from "../layouts/TableView";
 import AssessmentsMenuOptions from "../../components/menu-options/AssessmentsMenuOptions";
 import MenuOptions from "../../components/common/menu/MenuOptions";
+import UserService from "../../services/UserService";
+import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
+import {useSliceActions} from "../../redux/providers/SliceProvider";
+import {AssessmentStatus as AssessmentStatusOptions} from "../../types/assessment-status";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -35,7 +40,16 @@ const Assessments = () => {
     const location = useLocation();
     const state = location.state as LocationState;
 
-    const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete, refresh) => (column, rowData) => {
+    const dispatch = useDispatch();
+    const { assessmentStatusChanged } = useSliceActions();
+
+    const updateStatus = (assessment: Assessment) =>
+        AssessmentService.saveItem(assessment).then(() => {
+            dispatch(assessmentStatusChanged(null));
+            toast.success("El estado del examen se actualizó exitosamente")
+        });
+
+    const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;
 
         switch (column) {
@@ -53,7 +67,7 @@ const Assessments = () => {
                             <AssessmentsMenuOptions rowData={rowData}
                                                     onEdit={onEdit}
                                                     onDelete={onDelete}
-                                                    refresh={refresh} />
+                                                    onUpdateStatus={updateStatus} />
                         </MenuOptions>
                     </div>
                 ); break;

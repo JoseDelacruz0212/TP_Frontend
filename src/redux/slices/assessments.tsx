@@ -2,6 +2,7 @@ import createTableDataSlice, {TableDataState} from "./tableData";
 
 import {Assessment} from "../../types/communication/responses/assessment";
 import {AssessmentFilter} from "../../types/communication/requests/asessments";
+import {assessmentStatusChanged} from "../reducers/assessments";
 
 const initialState: TableDataState<Assessment, AssessmentFilter> = {
     filters: {
@@ -12,7 +13,10 @@ const initialState: TableDataState<Assessment, AssessmentFilter> = {
 
 export const assessmentsSlice = createTableDataSlice<Assessment, AssessmentFilter>({
     name: 'assessments',
-    initialState
+    initialState,
+    reducers: {
+        assessmentStatusChanged
+    }
 })
 
 export default assessmentsSlice.reducer;

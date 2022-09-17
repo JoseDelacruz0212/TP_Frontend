@@ -69,6 +69,7 @@ const Users = () => {
             toast.success("El usuario se aprobó existosamente");
         }
     )
+
     const revokeUser = (id: string) => UserService.revokeUser(id).then(
         () => {
             dispatch(userStatusChanged(null));

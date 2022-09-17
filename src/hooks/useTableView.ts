@@ -87,7 +87,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     const refresh = () => getData();
 
     const filterSchemas = filterSchemaCreator(filters as F, (filters) => dispatch(filtersUpdated(filters)));
-    const convertor = useCallback(convertorCreator(onEditItem, onDeleteItem, refresh), [convertorCreator]);
+    const convertor = useCallback(convertorCreator(onEditItem, onDeleteItem), [convertorCreator]);
 
     const { tableColumns, tableData } = useTable(convertor, columns, items?.data as T[]);
 

@@ -3,8 +3,6 @@ import If from "../common/logic/If";
 import {AssessmentStatus as AssessmentStatusOptions} from "../../types/assessment-status";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {Permissions} from "../../types/auth";
-import AssessmentService from "../../services/AssessmentService";
-import {toast} from "react-toastify";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
 import {Link} from "react-router-dom";
 import {Assessment} from "../../types/communication/responses/assessment";
@@ -13,10 +11,10 @@ interface AssessmentMenuOptionsProps {
     rowData: Assessment;
     onEdit: (x: Assessment) => void;
     onDelete: (x: string) => void;
-    refresh: () => void;
+    onUpdateStatus: (x: Assessment) => void;
 }
 
-const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, refresh }: AssessmentMenuOptionsProps) => (
+const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: AssessmentMenuOptionsProps) => (
     <>
         {/*<If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
             <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
@@ -34,14 +32,7 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, refresh }: Assessme
         </If>*/}
         <If condition={rowData.status === AssessmentStatusOptions.PUBLISHED}>
             <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
-                <div role="button" className="menu-option" onClick={() => {
-                    AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.STARTED }).then(
-                        () => {
-                            toast.success("Status changed successfully");
-                            refresh!();
-                        }
-                    )
-                }}>
+                <div role="button" className="menu-option" onClick={() => onUpdateStatus(rowData)}>
                     <div><IoEyeOutline /></div>
                     <span>Iniciar evaluación</span>
                 </div>
@@ -49,14 +40,7 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, refresh }: Assessme
         </If>
             <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
                 <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
-                    <div role="button" className="menu-option" onClick={() => {
-                        AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.FINISHED }).then(
-                            () => {
-                                toast.success("Status changed successfully");
-                                refresh!();
-                            }
-                        )
-                    }}>
+                    <div role="button" className="menu-option" onClick={() => onUpdateStatus(rowData)}>
                     <div><IoEyeOutline /></div>
                     <span>Finalizar evaluación</span>
                 </div>
