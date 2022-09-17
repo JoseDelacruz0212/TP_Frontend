@@ -1,4 +1,4 @@
-import React, {FormEvent, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {useLocation} from "react-router-dom";
 import moment from "moment/moment";
 
@@ -15,14 +15,10 @@ import Text from "../../components/common/table/filter-renderer/elements/Text";
 import UserEditForm from "../../containers/edit-forms/UserEditForm";
 import MenuOptions from "../../components/common/menu/MenuOptions";
 import withPermission from "../../hoc/with-permission/withPermission";
-import Modal from "../../components/common/modal/Modal";
-
-import CoursesSelect from "../../containers/selects/CoursesSelect";
 
 import {withUsersProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import {IoCloseOutline} from "react-icons/io5";
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 import Chip from "../../components/common/chip/Chip";
 import {toast} from "react-toastify";
