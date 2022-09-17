@@ -13,6 +13,7 @@ interface SidePanelFormProps<T extends Entity> {
     onSubmit: () => void;
     formInputs?: React.ReactNode;
     onFormInputChange?: (x: T) => void;
+    showLoadingIndicator?: boolean;
 }
 
 const SidePanelForm = <T extends Entity>({
@@ -22,6 +23,7 @@ const SidePanelForm = <T extends Entity>({
      handleClose,
      onSubmit,
      formInputs,
+     showLoadingIndicator = false
  }: SidePanelFormProps<T>) => {
     const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -29,7 +31,7 @@ const SidePanelForm = <T extends Entity>({
     }
 
     return (
-        <SidePanel id={sidePanelId} isOpen={isEditPanelOpen} handleClose={handleClose}>
+        <SidePanel id={sidePanelId} isOpen={isEditPanelOpen} handleClose={handleClose} showLoadingIndicator={showLoadingIndicator}>
             <div className="flex flex-col space-y-10 p-2">
                 <div className="flex justify-between items-end">
                     <h6>{ title }</h6>

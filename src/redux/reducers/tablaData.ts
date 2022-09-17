@@ -25,6 +25,21 @@ export const dataFetchingFailed = <T extends  Entity, F extends Filter>(state: T
     error: action.payload
 });
 
+export const panelRequestStarted = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>): TableDataState<T, F> => ({
+    ...state,
+    showPanelLoadingIndicator: true
+});
+
+export const panelRequestSucceeded = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>): TableDataState<T, F> => ({
+    ...state,
+    showPanelLoadingIndicator: false
+});
+
+export const panelRequestFailed = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>): TableDataState<T, F> => ({
+    ...state,
+    showPanelLoadingIndicator: false
+});
+
 export const filtersUpdated = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>, action: PayloadAction<F>): TableDataState<T, F> => ({
     ...state,
     filters: action.payload,

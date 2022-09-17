@@ -93,6 +93,7 @@ const TableView = <T extends Entity, F>({
                    isLoading={tableData.isLoading} />
             <SidePanelForm title={tableData.item.id ? sidePanelEditTitle : sidePanelCreateTitle}
                            sidePanelId={sidePanelId}
+                           showLoadingIndicator={tableData.showPanelLoadingIndicator}
                            isEditPanelOpen={tableData.isEditPanelOpen}
                            handleClose={tableData.onEditPanelClose}
                            onSubmit={tableData.onSaveItem}

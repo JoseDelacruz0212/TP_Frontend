@@ -16,8 +16,8 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     const [item, setItem] = useState<T>(defaultItemSchema);
 
     const dispatch = useAppDispatch();
-    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
-    const { items, isLoading, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
+    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset, panelRequestStarted, panelRequestSucceeded, panelRequestFailed } = useSliceActions();
+    const { items, isLoading, filters, paginationOptions, initialFiltersApplied, showPanelLoadingIndicator } = useSliceSelector();
 
     const getData = () => {
         if (!filters) return;
@@ -49,14 +49,22 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {
+        dispatch(panelRequestStarted(null));
+
         service.saveItem(item)
             .then(message => {
+                dispatch(panelRequestSucceeded(null));
                 dispatch(dataItemUpdated(item));
                 onEditPanelClose();
 
                 toast.success(message)
             })
-            .catch(error => toast.error(error));
+            .catch(error => {
+                dispatch(panelRequestFailed(null));
+                onEditPanelClose();
+
+                toast.error(error)
+            });
     };
 
     const onEditItem = (item: T) => {
@@ -64,13 +72,25 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
         setItem(item);
     };
 
-    const onDeleteItem = (id?: string) =>
-        id && service.deleteItem(id)
+    const onDeleteItem = (id?: string) => {
+        if (!id) return;
+
+        dispatch(panelRequestStarted(null));
+
+        service.deleteItem(id)
             .then(message => {
+                dispatch(panelRequestSucceeded(null));
                 dispatch(dataItemDeleted(id));
+
                 toast.success(message);
             })
-            .catch(error => toast.error(error));
+            .catch(error => {
+                dispatch(panelRequestFailed(null));
+                onEditPanelClose();
+
+                toast.error(error)
+            });
+    }
 
     const onEditPanelClose = () => {
         setIsEditPanelOpen(false);
@@ -105,7 +125,8 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
         onEditPanelOpen,
         isEditPanelOpen,
         item,
-        onItemUpdate
+        onItemUpdate,
+        showPanelLoadingIndicator
     }
 };
 
