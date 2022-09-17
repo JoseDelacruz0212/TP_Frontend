@@ -1,28 +1,29 @@
 import React from "react";
 import moment from "moment/moment";
-import {Link, useLocation} from "react-router-dom";
-import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
+import {useLocation} from "react-router-dom";
 
 import {AssessmentFilter} from "../../types/communication/requests/asessments";
 import {Assessment} from "../../types/communication/responses/assessment";
 import {Permissions} from "../../types/auth";
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
-import {AssessmentStatus as AssessmentStatusOptions} from '../../types/assessment-status';
+import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 
 import AssessmentService from "../../services/AssessmentService";
 
 import Text from "../../components/common/table/filter-renderer/elements/Text";
 import AssessmentEditForm from "../../containers/edit-forms/AssessmentEditForm";
-import MenuOptions from "../../components/common/menu/MenuOptions";
 import AssessmentStatus from "../../components/assessments/assessment-status/AssessmentStatus";
 import withPermission from "../../hoc/with-permission/withPermission";
-import HasPermission from "../../hoc/with-permission/HasPermission";
 
 import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import If from "../../components/common/logic/If";
+import AssessmentsMenuOptions from "../../components/menu-options/AssessmentsMenuOptions";
+import MenuOptions from "../../components/common/menu/MenuOptions";
+import UserService from "../../services/UserService";
 import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
+import {useSliceActions} from "../../redux/providers/SliceProvider";
+import {AssessmentStatus as AssessmentStatusOptions} from "../../types/assessment-status";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -39,7 +40,18 @@ const Assessments = () => {
     const location = useLocation();
     const state = location.state as LocationState;
 
-    const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete, refresh) => (column, rowData) => {
+    const dispatch = useDispatch();
+    const { assessmentStatusChanged } = useSliceActions();
+
+    const updateStatus = (assessment: Assessment) =>
+        AssessmentService.saveItem(assessment)
+            .then(() => {
+                dispatch(assessmentStatusChanged(null));
+                toast.success("El estado del examen se actualizó exitosamente")
+            })
+            .catch(() => toast.error("Ocurrió un error al tratar de actualizar el estado del examen"))
+
+    const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;
 
         switch (column) {
@@ -52,11 +64,15 @@ const Assessments = () => {
             case 7: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 8: value = <AssessmentStatus status={rowData.status} />; break;
             case 9: value = (
-                <div className="flex justify-end px-5">
-                    <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData, refresh)} />
-                </div>
-            );
-                break;
+                    <div className="flex justify-end px-5">
+                        <MenuOptions>
+                            <AssessmentsMenuOptions rowData={rowData}
+                                                    onEdit={onEdit}
+                                                    onDelete={onDelete}
+                                                    onUpdateStatus={updateStatus} />
+                        </MenuOptions>
+                    </div>
+                ); break;
         }
         return value;
     }
@@ -79,94 +95,6 @@ const Assessments = () => {
         </div>
     )
 }
-
-const getMenuOptions: MenuOptionsCreator<Assessment> = (onEdit, onDelete, rowData, refresh) => [
-    /*<If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
-        <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
-            <Link to={`/qualifications/${rowData.id}`} state={{
-                assessmentId: rowData.id,
-                status: rowData.status,
-                subtitle: rowData.name
-            }}>
-                <div role="button" className="menu-option">
-                    <div><IoEyeOutline /></div>
-                    <span>Ver calificaciones</span>
-                </div>
-            </Link>
-        </HasPermission>
-    </If>,*/
-    <If condition={rowData.status === AssessmentStatusOptions.PUBLISHED}>
-        <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
-            <div role="button" className="menu-option" onClick={() => {
-                AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.STARTED }).then(
-                    () => {
-                        toast.success("Status changed successfully");
-                        refresh!();
-                    }
-                )
-            }}>
-                <div><IoEyeOutline /></div>
-                <span>Iniciar evaluación</span>
-            </div>
-        </HasPermission>
-    </If>,
-    <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
-        <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
-            <div role="button" className="menu-option" onClick={() => {
-                AssessmentService.saveItem({ ...rowData, status: AssessmentStatusOptions.FINISHED }).then(
-                    () => {
-                        toast.success("Status changed successfully");
-                        refresh!();
-                    }
-                )
-            }}>
-                <div><IoEyeOutline /></div>
-                <span>Finalizar evaluación</span>
-            </div>
-        </HasPermission>
-    </If>,
-    <If condition={rowData.status === AssessmentStatusOptions.STARTED && rowData.flag !== true}>
-        <HasPermission permission={Permissions.ASSESSMENT_START}>
-            <Link to={`/assessment-visualizer/${rowData.id}`} state={{
-                assessmentId: rowData.id,
-                status: rowData.status,
-                flag: rowData.flag,
-                subtitle: rowData.name
-            }}>
-                <div role="button" className="menu-option">
-                    <div><IoEyeOutline /></div>
-                    <span>Realizar evaluación</span>
-                </div>
-            </Link>
-        </HasPermission>
-    </If>,
-    <If condition={rowData.status === AssessmentStatusOptions.DRAFT}>
-        <HasPermission permission={Permissions.ASSESSMENT_DESIGN}>
-            <Link to={`/assessment-creator/${rowData.id}`}>
-                <div role="button" className="menu-option">
-                    <div><IoCreateOutline /></div>
-                    <span>Diseñar evaluación</span>
-                </div>
-            </Link>
-        </HasPermission>
-    </If>,
-    <If condition={rowData.status === AssessmentStatusOptions.DRAFT}>
-        <HasPermission permission={Permissions.ASSESSMENT_EDIT}>
-            <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-                <div><IoPencilOutline /></div>
-                <span>Editar</span>
-            </div>
-        </HasPermission>
-    </If>,
-    <If condition={rowData.status === AssessmentStatusOptions.DRAFT || rowData.status === AssessmentStatusOptions.PUBLISHED}>
-        <HasPermission permission={Permissions.ASSESSMENT_DELETE}>
-            <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-                <div><IoTrashOutline /></div>
-                <span>Eliminar</span>
-            </div>
-        </HasPermission>
-    </If>,
-];
 
 const createFilterSchema: FilterSchemaCreator<AssessmentFilter> = (filters, onFiltersUpdate) => ([
     {
