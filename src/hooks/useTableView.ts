@@ -77,18 +77,20 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
 
         dispatch(panelRequestStarted(null));
 
+        const toastMessage = toast.loading("Se está procesado la petición, por favor espere");
+
         service.deleteItem(id)
             .then(message => {
                 dispatch(panelRequestSucceeded(null));
                 dispatch(dataItemDeleted(id));
 
-                toast.success(message);
+                toast.update(toastMessage, { render: message, type: 'success', isLoading: false, autoClose: 5000, closeButton: true });
             })
             .catch(error => {
                 dispatch(panelRequestFailed(null));
                 onEditPanelClose();
 
-                toast.error(error)
+                toast.update(toastMessage, { render: error, type: 'error', isLoading: false, autoClose: 5000, closeButton: true });
             });
     }
 
