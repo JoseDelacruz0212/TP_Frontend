@@ -11,20 +11,13 @@ import Text from "../../components/common/table/filter-renderer/elements/Text";
 import CourseEditForm from "../../containers/edit-forms/CoursesEditForm";
 import MenuOptions from "../../components/common/menu/MenuOptions";
 import withPermission from "../../hoc/with-permission/withPermission";
-import HasPermission from "../../hoc/with-permission/HasPermission";
 
 import {withCoursesProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import {
-    IoBarChartOutline,
-    IoDocumentOutline,
-    IoPencilOutline,
-    IoPeopleOutline,
-    IoTrashOutline
-} from "react-icons/io5";
-import {Link} from "react-router-dom";
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
+
+import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
+import CoursesMenuOptions from "../../components/assessments/menu-options/CoursesMenuOptions";
 
 const defaultCourses: Course = {
     name: '',
@@ -49,10 +42,12 @@ const Courses = () => {
       case 7: value = <div className="py-4">{rowData.createdBy}</div>; break;
       case 8: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
       case 9: value = (
-          <div className="flex justify-end px-5">
-              <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
-          </div>
-      );
+            <div className="flex justify-end px-5">
+              <MenuOptions>
+                  <CoursesMenuOptions rowData={rowData} onEdit={onEdit} onDelete={onDelete} />
+              </MenuOptions>
+            </div>
+        );
         break;
     }
     return value;
@@ -75,43 +70,6 @@ const Courses = () => {
         </div>
     )
 }
-
-const getMenuOptions: MenuOptionsCreator<Course> = (onEdit, onDelete, rowData) => [
-    <HasPermission permission={Permissions.COURSES_ASSESSMENTS}>
-        <Link to="/assessments" state={{ courseId: rowData.id!, subtitle: rowData.name }}>
-            <div role="button" className="menu-option">
-                <div><IoDocumentOutline /></div>
-                <span>Ver evaluaciones</span>
-            </div>
-        </Link>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_USERS}>
-        <Link to="/users" state={{ courseId: rowData.id!, subtitle: rowData.name }}>
-            <div role="button" className="menu-option">
-                <div><IoPeopleOutline /></div>
-                <span>Ver usuarios</span>
-            </div>
-        </Link>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_OBJECTIVES}>
-        <div role="button" className="menu-option">
-            <div><IoBarChartOutline /></div>
-            <span>Ver objetivos</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_EDIT}>
-        <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-            <div><IoPencilOutline /></div>
-            <span>Editar</span>
-        </div>
-    </HasPermission>,
-    <HasPermission permission={Permissions.COURSES_DELETE}>
-        <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-            <div><IoTrashOutline /></div>
-            <span>Eliminar</span>
-        </div>
-    </HasPermission>
-];
 
 const createFilterSchema: FilterSchemaCreator<CourseFilter> = (filters, onFiltersUpdate) => ([
     {

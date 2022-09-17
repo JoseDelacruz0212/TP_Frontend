@@ -35,6 +35,7 @@ import {
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 import Chip from "../../components/common/chip/Chip";
 import {toast} from "react-toastify";
+import UsersMenuOptions from "../../components/assessments/menu-options/UsersMenuOptions";
 
 const defaultUser: User = {
     name: '',
@@ -114,42 +115,14 @@ const Users = () => {
                 break;
             case 8: value = (
                     <div className="flex justify-end px-5">
-                        <MenuOptions options={[
-                            <If condition={!rowData.status}>
-                                <HasPermission permission={Permissions.USERS_APPROVE}>
-                                    <div role="button" className="menu-option" onClick={() => approveUser(rowData.id!)}>
-                                        <div><IoCheckboxOutline /></div>
-                                        <span>Aprobar usuario</span>
-                                    </div>
-                                </HasPermission>
-                            </If>,
-                            <If condition={rowData.status === true}>
-                                <HasPermission permission={Permissions.USERS_REVOKE}>
-                                    <div role="button" className="menu-option" onClick={() => revokeUser(rowData.id!)}>
-                                        <div><IoLockClosedOutline /></div>
-                                        <span>Desaprobar usuario</span>
-                                    </div>
-                                </HasPermission>
-                            </If>,
-                            <HasPermission permission={Permissions.USERS_ASSIGN_COURSE}>
-                                <div role="button" className="menu-option" onClick={() => onIsUserCourseAssignationModalOpened(rowData)}>
-                                    <div><IoBookOutline /></div>
-                                    <span>Asignar a curso</span>
-                                </div>
-                            </HasPermission>,
-                            <HasPermission permission={Permissions.USERS_EDIT}>
-                                <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-                                    <div><IoPencilOutline /></div>
-                                    <span>Editar</span>
-                                </div>
-                            </HasPermission>,
-                            <HasPermission permission={Permissions.USERS_DELETE}>
-                                <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-                                    <div><IoTrashOutline /></div>
-                                    <span>Eliminar</span>
-                                </div>
-                            </HasPermission>
-                        ]} />
+                        <MenuOptions>
+                            <UsersMenuOptions rowData={rowData}
+                                              onEdit={onEdit}
+                                              onDelete={onDelete}
+                                              onApprove={approveUser}
+                                              onRevoke={revokeUser}
+                                              onAssign={onIsUserCourseAssignationModalOpened} />
+                        </MenuOptions>
                     </div>
                 );
                 break;

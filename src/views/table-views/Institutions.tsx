@@ -16,8 +16,8 @@ import {withInstitutionsProvider} from "../../redux/providers/providers";
 import withPermission from "../../hoc/with-permission/withPermission";
 
 import TableView from "../layouts/TableView";
-import {IoPencilOutline} from "react-icons/io5";
-import {ConvertorCreator, FilterSchemaCreator, MenuOptionsCreator} from "../../types/common";
+import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
+import InstitutionsMenuOptions from "../../components/assessments/menu-options/InstitutionsMenuOptions";
 
 const defaultInstitution: Institution = {
     name: '',
@@ -37,7 +37,9 @@ const Institutions = () => {
             case 5: value = <div className="py-4">{moment(rowData.createdOn).format('LLL')}</div>; break;
             case 6: value = (
                     <div className="flex justify-end px-5">
-                        <MenuOptions options={getMenuOptions(onEdit, onDelete, rowData)} />
+                        <MenuOptions>
+                            <InstitutionsMenuOptions rowData={rowData} onEdit={onEdit} />
+                        </MenuOptions>
                     </div>
                 );
                 break;
@@ -62,17 +64,6 @@ const Institutions = () => {
         </div>
     )
 };
-
-const getMenuOptions: MenuOptionsCreator<Institution> = (onEdit, onDelete, rowData) => [
-    <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
-        <div><IoPencilOutline /></div>
-        <span>Editar</span>
-    </div>,
-    // <div role="button" className="menu-option text-error" onClick={() => onDelete(rowData.id!)}>
-    //     <div><IoTrashOutline /></div>
-    //     <span>Eliminar</span>
-    // </div>
-];
 
 const createFilterSchema: FilterSchemaCreator<InstitutionFilter> = (filters, onFiltersUpdate) => ([
     {

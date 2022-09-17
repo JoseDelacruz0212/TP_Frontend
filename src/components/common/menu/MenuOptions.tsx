@@ -1,13 +1,13 @@
-import React, {ReactElement, useState} from "react";
+import React, {Children, useState} from "react";
 
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import useClickOutside from "../../../hooks/useClickOutside";
 
 export type MenuOptionsProps = {
-    options: ReactElement[]
+    children: React.ReactNode
 }
 
-const MenuOptions = ({ options }: MenuOptionsProps) => {
+const MenuOptions = ({ children }: MenuOptionsProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const elementRef = useClickOutside<HTMLDivElement>(() => setIsMenuOpen(false));
 
@@ -22,7 +22,7 @@ const MenuOptions = ({ options }: MenuOptionsProps) => {
                     <div className="min-w-[150px] w-max">
                         <ul>
                             {
-                                options.map(
+                                Children.toArray(children).map(
                                     (option, index) =>
                                         <li key={index} onClick={() => setIsMenuOpen(false)}>
                                             {option}
