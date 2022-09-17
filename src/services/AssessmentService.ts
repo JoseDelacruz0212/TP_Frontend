@@ -1,52 +1,53 @@
 import moment from "moment";
 
 import {CrudService} from "./CrudService";
-import {PaginatedResponse} from "../types/communication/responses/pagination";
-import {Assessment, AssessmentCreated} from "../types/communication/responses/assessment";
+import {Assessment} from "../types/communication/responses/assessment";
 import {AssessmentFilter} from "../types/communication/requests/asessments";
 import {PointsGenerated} from "../types/communication/responses/points-generated";
+import httpClient from "../config/httpClients/httpClient";
+import {UserCourse} from "../types/communication/responses/user-course";
 
 class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     public async getData(filters: AssessmentFilter, page: number = 1, pageSize: number = 10) {
-        const filter = (i: Assessment[]) => this.getPaginatedData(i, filters, page, pageSize);
-
         if (!filters.courseId) {
-            return this.get<Assessment[], PaginatedResponse<Assessment>>('/evaluation', filter);
+            return httpClient.get<Assessment[]>('/evaluation')
+                .then(({ data }) => this.getPaginatedData(data, filters, page, pageSize))
+                .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las evaluaciones"));
         } else {
-            return this.get<Assessment[], PaginatedResponse<Assessment>>(`/evaluation/byCourse/${filters.courseId}`, filter);
+            return httpClient.get<UserCourse[]>(`/evaluation/byCourse/${filters.courseId}`)
+                .then(({ data }) => this.getPaginatedData(data.map((x: any) => x.user), filters, page, pageSize))
+                .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las evaluaciones"));
         }
     }
 
     public async getById(id: string) {
-        return this.get<Assessment>(`/evaluation/${id}`);
+        return httpClient.get<Assessment>(`/evaluation/${id}`)
+            .then(({ data }) => data)
+            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
     }
 
     public async deleteItem(id: string) {
-        return this.delete(`/evaluation/${id}`, () => id);
+        return httpClient.delete(`/evaluation/${id}`)
+            .then(() => "La evaluación se eliminó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de eliminar la evaluación"));
     }
 
     public async generatePoints(evaluationId: string, json: string) {
-        return this.post<PointsGenerated, { evaluationId: string, json: string }, PointsGenerated>(
-            '/evaluation/GeneratePoints', { evaluationId, json }, response => response
-        );
+        return httpClient.post<PointsGenerated>('/evaluation/GeneratePoints', { evaluationId, json })
+            .then(({ data }) => data)
+            .catch(() => Promise.reject("Ocurrió un error al tratar de asignar una puntación a la evaluación"));
     }
 
     protected updateItem(item: Assessment) {
-        return this.put(`/evaluation/${item.id}`, {
-            ...item,
-            availableOn: moment(item.availableOn).toISOString()
-        }, () => item.id!);
+        return httpClient.put(`/evaluation/${item.id}`, { ...item, availableOn: moment(item.availableOn).toISOString()})
+            .then(() => "La evaluación se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar la evaluación"));
     }
 
     protected createItem(item: Assessment) {
-        const newItem = {
-            ...item,
-            availableOn: moment(item.availableOn).toISOString()
-        };
-
-        return this.post<AssessmentCreated, Assessment, string>('/evaluation', newItem,
-            response => response.newEvaluation.id!
-        );
+        return httpClient.post(`/evaluation`, { ...item, availableOn: moment(item.availableOn).toISOString()})
+            .then(() => "La evaluación se creó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de crear la evaluación"));
     }
 
     protected applyFilters(data: Assessment[], filters: AssessmentFilter) {

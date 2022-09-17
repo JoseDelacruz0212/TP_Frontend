@@ -1,30 +1,38 @@
-import {Institution, InstitutionCreated, InstitutionOption} from "../types/communication/responses/institutions";
+import {Institution} from "../types/communication/responses/institutions";
 import {CrudService} from "./CrudService";
-import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {InstitutionFilter} from "../types/communication/requests/institutions";
+import httpClient from "../config/httpClients/httpClient";
+import {CourseOption} from "../types/communication/responses/courses";
 
 class InstitutionService extends CrudService<Institution, InstitutionFilter> {
     public async getData(filters: InstitutionFilter, page: number = 1, pageSize: number = 10) {
-        const filter = (i: Institution[]) => this.getPaginatedData(i, filters, page, pageSize);
-        return this.get<Institution[], PaginatedResponse<Institution>>('/institution', filter);
+        return httpClient.get<Institution[]>('/institution')
+            .then(({ data }) => this.getPaginatedData(data, filters, page, pageSize))
+            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las instituciones"));
     }
 
     public async getInstitutionsForCombo() {
-        return this.get<InstitutionOption[]>('/institution');
+        return httpClient.get<CourseOption[]>('/institution')
+            .then(response => response.data)
+            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las instituciones"));
     }
 
     public async deleteItem(id: string) {
-        return this.delete(`/institution/${id}`, () => id);
+        return httpClient.delete(`/institution/${id}`)
+            .then(() => "La institución se eliminó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de eliminar la institución"));
     }
 
     protected updateItem(item: Institution) {
-        return this.put(`/institution/${item.id}`, item, () => item.id!);
+        return httpClient.put(`/institution/${item.id}`, item)
+            .then(() => "La institución se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar la institución"));
     }
 
     protected createItem(item: Institution) {
-        return this.post<InstitutionCreated, Institution, string>('/institution', item,
-            response => response.newInstitution.id!
-        );
+        return httpClient.post('/institution', item)
+            .then(() => "La institución se creó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de crear la institución"));
     }
 
     protected applyFilters(data: Institution[], filters: InstitutionFilter) {

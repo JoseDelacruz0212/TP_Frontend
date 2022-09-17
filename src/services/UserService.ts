@@ -1,6 +1,5 @@
 import {CrudService} from "./CrudService";
 
-import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {Profile, User} from "../types/communication/responses/user";
 import {UserFilter} from "../types/communication/requests/user";
 import {UserCourse} from "../types/communication/responses/user-course";
@@ -9,50 +8,63 @@ import httpClient from "../config/httpClients/httpClient";
 
 class UserService extends CrudService<User, UserFilter> {
     public async getData(filters: UserFilter, page: number = 1, pageSize: number = 10) {
-        const filter = (i: User[]) => this.getPaginatedData(i, filters, page, pageSize);
-
         if (!filters.courseId) {
-            return this.get<User[], PaginatedResponse<User>>('/user/all', filter);
+            return httpClient.get<User[]>('/user/all')
+                .then(({ data }) => this.getPaginatedData(data, filters, page, pageSize))
+                .catch(() => Promise.reject("Ocurrió un error al tratar de obtener los usuarios"));
         } else {
-            return this.get<UserCourse[], PaginatedResponse<User>>(`/user-course/getAllByCourse/${filters.courseId}`,
-                    response => filter(response.map((x: any) => x.user)));
+            return httpClient.get<UserCourse[]>(`/user-course/getAllByCourse/${filters.courseId}`)
+                .then(({ data }) => this.getPaginatedData(data.map((x: any) => x.user), filters, page, pageSize))
+                .catch(() => Promise.reject("Ocurrió un error al tratar de obtener los usuarios"));
         }
     }
 
     getCurrentProfile() {
-        return this.get<Profile>('auth/profile').then((data) => data.user)
+        return httpClient.get<Profile>('auth/profile')
+            .then(({ data }) => data.user)
+            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener el perfíl del usuario"));
     }
 
     updateUserAvatar(userId: string, user: User) {
         return httpClient.patch('user/updateAvatar/' + userId, user)
-            .then(
-                () => userId,
-                error => Promise.reject(error)
-            )
+            .then(() => "La foto de perfil se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar la foto de perfil"));
     }
 
     public async assignUserToCourse(userId: string, courseId: string) {
-        return this.post('/user-course', { userId, courseId }, () => userId);
+        return httpClient.post('/user-course', { userId, courseId })
+            .then(() => "La asignación se completó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de realizar la asignación"));
     }
 
     public async deleteItem(id: string) {
-        return this.delete(`/user/${id}`, () => id);
+        return httpClient.delete(`/user/${id}`)
+            .then(() => "El usuario se eliminó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de eliminar al usuario"));
     }
 
     protected updateItem(item: User) {
-        return this.put(`/user/${item.id}`, item, () => item.id!);
+        return httpClient.put(`/user/${item.id}`, item)
+            .then(() => "El usuario se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar el usuario"));
     }
 
     protected createItem(item: User) {
-        return this.post('/user', item, () => item.id!);
+        return httpClient.post('/user', item)
+            .then(() => "El usuario se creó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de crear al usuario"));
     }
 
     public approveUser(id: string) {
-        return this.put(`/user/${id}`, { status: true }, () => id)
+        return httpClient.put(`/user/${id}`, { status: true })
+            .then(() => "La aprobación de completó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de aprobar al usuario"));
     }
 
     public revokeUser(id: string) {
-        return this.put(`/user/${id}`, { status: false }, () => id)
+        return httpClient.put(`/user/${id}`, { status: false })
+            .then(() => "La desaprobación de completó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de desaprobar al usuario"));
     }
 
     protected applyFilters(data: User[], filters: UserFilter) {

@@ -19,14 +19,17 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
     const { items, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
 
-    const getData = async () => {
+    const getData = () => {
         if (!filters) return;
 
         dispatch(dataRequestStarted(null));
 
-        service.getData(filters as F, paginationOptions?.page, paginationOptions?.pageSize).then(
-            response => dispatch(dataLoaded(response)),
-        );
+        service.getData(filters as F, paginationOptions?.page, paginationOptions?.pageSize)
+            .then(response => dispatch(dataLoaded(response)))
+            .catch(error => {
+                dataFetchingFailed(null);
+                toast.error(error)
+            })
     };
 
     useEffect(() => {
@@ -41,19 +44,19 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
 
     useEffect(() => {
         if (!defaultFilters || initialFiltersApplied) {
-            getData().then();
+            getData();
         }
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {
-        service.saveItem(item).then(
-            () => {
+        service.saveItem(item)
+            .then(message => {
                 dispatch(dataItemUpdated(item));
                 onEditPanelClose();
 
-                toast.success("La acción se realizó exitosamente")
-            }
-        );
+                toast.success(message)
+            })
+            .catch(error => toast.error(error));
     };
 
     const onEditItem = (item: T) => {
@@ -62,10 +65,12 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     };
 
     const onDeleteItem = (id?: string) =>
-        id && service.deleteItem(id).then(() => {
-            dispatch(dataItemDeleted(id));
-            toast.success("El registro se eliminó exitosamente");
-        });
+        id && service.deleteItem(id)
+            .then(message => {
+                dispatch(dataItemDeleted(id));
+                toast.success(message);
+            })
+            .catch(error => toast.error(error));
 
     const onEditPanelClose = () => {
         setIsEditPanelOpen(false);

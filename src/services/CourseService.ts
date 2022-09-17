@@ -1,30 +1,37 @@
 import {CrudService} from "./CrudService";
-import {PaginatedResponse} from "../types/communication/responses/pagination";
-import {Course, CourseCreated, CourseOption} from "../types/communication/responses/courses";
+import {Course, CourseOption} from "../types/communication/responses/courses";
 import {CourseFilter} from "../types/communication/requests/course";
+import httpClient from "../config/httpClients/httpClient";
 
 class CourseService extends CrudService<Course, CourseFilter> {
     public async getData(filters: CourseFilter, page: number = 1, pageSize: number = 10) {
-        const filter = (i: Course[]) => this.getPaginatedData(i, filters, page, pageSize);
-        return this.get<Course[], PaginatedResponse<Course>>('/course', filter);
+        return httpClient.get<Course[]>('/course')
+            .then(({ data }) => this.getPaginatedData(data, filters, page, pageSize))
+            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener los cursos"));
     }
 
     public async getCoursesForCombo() {
-        return this.get<CourseOption[]>('/course');
+        return httpClient.get<CourseOption[]>('/course')
+            .then(response => response.data)
+            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener los cursos"));
     }
 
     public async deleteItem(id: string) {
-        return this.delete(`/course/${id}`, () => id);
+        return httpClient.delete(`/course/${id}`)
+            .then(() => "El curso se eliminó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de eliminar el curso"));
     }
 
     protected updateItem(item: Course) {
-        return this.put(`/course/${item.id}`, item, () => item.id!);
+        return httpClient.put(`/course/${item.id}`, item)
+            .then(() => "El curso se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar el curso"));
     }
 
     protected createItem(item: Course) {
-        return this.post<CourseCreated, Course, string>('/course', item,
-            response => response.course.id!
-        );
+        return httpClient.post('/course', item)
+            .then(() => "El curso se creó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de crear el curso"));
     }
 
     protected applyFilters(data: Course[], filters: CourseFilter) {
