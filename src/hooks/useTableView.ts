@@ -17,7 +17,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
 
     const dispatch = useAppDispatch();
     const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
-    const { items, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
+    const { items, isLoading, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
 
     const getData = () => {
         if (!filters) return;
@@ -84,8 +84,6 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
 
     const onItemUpdate = (item: T) => setItem(item);
 
-    const refresh = () => getData();
-
     const filterSchemas = filterSchemaCreator(filters as F, (filters) => dispatch(filtersUpdated(filters)));
     const convertor = useCallback(convertorCreator(onEditItem, onDeleteItem), [convertorCreator]);
 
@@ -94,6 +92,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     return {
         tableColumns,
         tableData,
+        isLoading,
         filters: filters as F,
         pagination: items?.pagination,
         page: paginationOptions?.page,
