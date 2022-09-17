@@ -8,7 +8,10 @@ import {
     pageUpdated,
     pageSizeUpdated,
     dataItemDeleted,
-    dataItemUpdated
+    dataItemUpdated,
+    panelRequestStarted,
+    panelRequestSucceeded,
+    panelRequestFailed
 } from "../reducers/tablaData";
 
 import {Entity} from "../../types/communication/responses/entity";
@@ -28,6 +31,7 @@ export interface TableDataState<T, F> {
     isFilterActivated?: boolean;
     paginationOptions?: PaginationOptions;
     initialFiltersApplied?: boolean;
+    showPanelLoadingIndicator?: boolean;
 }
 
 interface DataSliceProps<T, F> {
@@ -44,6 +48,7 @@ const createTableDataSlice = <T extends Entity, F extends Filter>({ name, initia
         error: null,
         isFilterActivated: false,
         initialFiltersApplied: false,
+        showPanelLoadingIndicator: false,
         paginationOptions: {
             page: 1,
             pageSize: 10,
@@ -64,6 +69,9 @@ const createTableDataSlice = <T extends Entity, F extends Filter>({ name, initia
             pageSizeUpdated,
             dataItemDeleted,
             dataItemUpdated,
+            panelRequestStarted,
+            panelRequestSucceeded,
+            panelRequestFailed,
             ...reducers
         },
         extraReducers: {

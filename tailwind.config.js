@@ -25,6 +25,15 @@ module.exports = {
         'on-surface': '#000000',
         'on-error': '#ffffff'
       },
+      keyframes: {
+        'loading-indicator-top': {
+          '0%': { left: '-100%' },
+          '100%': { left: '100%' }
+        }
+      },
+      animation: {
+        'loading-indicator-top': 'loading-indicator-top 2s ease-in-out infinite'
+      }
     },
   },
   plugins: [],

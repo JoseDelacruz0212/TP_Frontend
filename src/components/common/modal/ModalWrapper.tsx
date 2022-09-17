@@ -8,6 +8,7 @@ export interface ModalProps {
     isOpen?: boolean;
     handleClose?: () => void;
     closeOnEscapeKey?: boolean;
+    showLoadingIndicator?: boolean;
 }
 
 interface ModalWrapperProps {

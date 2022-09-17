@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import {IoFilterCircle, IoFilterCircleOutline} from "react-icons/io5";
+import {IoBowlingBallOutline, IoFilterCircle, IoFilterCircleOutline} from "react-icons/io5";
 
 import {
     FaAngleDoubleLeft,
@@ -30,6 +30,7 @@ interface TableProps {
     onClick?: (id: number | string) => void;
     onFiltersClosed?: () => void;
     hidePagination?: boolean;
+    isLoading?: boolean;
 }
 
 const Table = ({
@@ -47,7 +48,8 @@ const Table = ({
     hasPrev = true,
     onClick,
     onFiltersClosed,
-    hidePagination = false
+    hidePagination = false,
+    isLoading = false
 }: TableProps) => {
     const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -96,7 +98,18 @@ const Table = ({
                     </thead>
                     <tbody className="border-y">
                         {
-                            rows.length === 0 ?
+                            isLoading &&
+                            <tr>
+                                <td colSpan={columns.length} className="py-4">
+                                    <small className="flex justify-center items-center">
+                                        Cargando
+                                        <IoBowlingBallOutline className="animate-spin ml-2" size={15} />
+                                    </small>
+                                </td>
+                            </tr>
+                        }
+                        {
+                            rows.length === 0 && !isLoading ?
                                 <tr>
                                     <td colSpan={columns.length} className="py-4">
                                         <small className="flex justify-center">No se encontraton datos</small>

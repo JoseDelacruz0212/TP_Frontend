@@ -16,8 +16,8 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     const [item, setItem] = useState<T>(defaultItemSchema);
 
     const dispatch = useAppDispatch();
-    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset } = useSliceActions();
-    const { items, filters, paginationOptions, initialFiltersApplied } = useSliceSelector();
+    const { dataRequestStarted, dataFetchingFailed, dataLoaded, filtersUpdated, pageUpdated, pageSizeUpdated, dataItemDeleted, dataItemUpdated, reset, panelRequestStarted, panelRequestSucceeded, panelRequestFailed } = useSliceActions();
+    const { items, isLoading, filters, paginationOptions, initialFiltersApplied, showPanelLoadingIndicator } = useSliceSelector();
 
     const getData = () => {
         if (!filters) return;
@@ -49,14 +49,22 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {
+        dispatch(panelRequestStarted(null));
+
         service.saveItem(item)
             .then(message => {
+                dispatch(panelRequestSucceeded(null));
                 dispatch(dataItemUpdated(item));
                 onEditPanelClose();
 
                 toast.success(message)
             })
-            .catch(error => toast.error(error));
+            .catch(error => {
+                dispatch(panelRequestFailed(null));
+                onEditPanelClose();
+
+                toast.error(error)
+            });
     };
 
     const onEditItem = (item: T) => {
@@ -64,13 +72,27 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
         setItem(item);
     };
 
-    const onDeleteItem = (id?: string) =>
-        id && service.deleteItem(id)
+    const onDeleteItem = (id?: string) => {
+        if (!id) return;
+
+        dispatch(panelRequestStarted(null));
+
+        const toastMessage = toast.loading("Se está procesado la petición, por favor espere");
+
+        service.deleteItem(id)
             .then(message => {
+                dispatch(panelRequestSucceeded(null));
                 dispatch(dataItemDeleted(id));
-                toast.success(message);
+
+                toast.update(toastMessage, { render: message, type: 'success', isLoading: false, autoClose: 5000, closeButton: true });
             })
-            .catch(error => toast.error(error));
+            .catch(error => {
+                dispatch(panelRequestFailed(null));
+                onEditPanelClose();
+
+                toast.update(toastMessage, { render: error, type: 'error', isLoading: false, autoClose: 5000, closeButton: true });
+            });
+    }
 
     const onEditPanelClose = () => {
         setIsEditPanelOpen(false);
@@ -84,8 +106,6 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
 
     const onItemUpdate = (item: T) => setItem(item);
 
-    const refresh = () => getData();
-
     const filterSchemas = filterSchemaCreator(filters as F, (filters) => dispatch(filtersUpdated(filters)));
     const convertor = useCallback(convertorCreator(onEditItem, onDeleteItem), [convertorCreator]);
 
@@ -94,6 +114,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     return {
         tableColumns,
         tableData,
+        isLoading,
         filters: filters as F,
         pagination: items?.pagination,
         page: paginationOptions?.page,
@@ -106,7 +127,8 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
         onEditPanelOpen,
         isEditPanelOpen,
         item,
-        onItemUpdate
+        onItemUpdate,
+        showPanelLoadingIndicator
     }
 };
 
