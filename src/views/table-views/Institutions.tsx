@@ -17,7 +17,7 @@ import withPermission from "../../hoc/with-permission/withPermission";
 
 import TableView from "../layouts/TableView";
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
-import InstitutionsMenuOptions from "../../components/assessments/menu-options/InstitutionsMenuOptions";
+import InstitutionsMenuOptions from "../../components/menu-options/InstitutionsMenuOptions";
 
 const defaultInstitution: Institution = {
     name: '',

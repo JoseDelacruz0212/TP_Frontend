@@ -1,9 +1,9 @@
 import React from "react";
-import HasPermission from "../../../hoc/with-permission/HasPermission";
-import {Permissions} from "../../../types/auth";
+import HasPermission from "../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../types/auth";
 import {Link} from "react-router-dom";
 import {IoBarChartOutline, IoDocumentOutline, IoPencilOutline, IoPeopleOutline, IoTrashOutline} from "react-icons/io5";
-import {Course} from "../../../types/communication/responses/courses";
+import {Course} from "../../types/communication/responses/courses";
 
 interface CoursesMenuOptionsProps {
     rowData: Course;

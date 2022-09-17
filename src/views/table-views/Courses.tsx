@@ -17,7 +17,7 @@ import {withCoursesProvider} from "../../redux/providers/providers";
 import TableView from "../layouts/TableView";
 
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
-import CoursesMenuOptions from "../../components/assessments/menu-options/CoursesMenuOptions";
+import CoursesMenuOptions from "../../components/menu-options/CoursesMenuOptions";
 
 const defaultCourses: Course = {
     name: '',

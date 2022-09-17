@@ -17,7 +17,7 @@ import withPermission from "../../hoc/with-permission/withPermission";
 import {withAssessmentsProvider} from "../../redux/providers/providers";
 
 import TableView from "../layouts/TableView";
-import AssessmentsMenuOptions from "../../components/assessments/menu-options/AssessmentsMenuOptions";
+import AssessmentsMenuOptions from "../../components/menu-options/AssessmentsMenuOptions";
 import MenuOptions from "../../components/common/menu/MenuOptions";
 
 const defaultAssessment: Assessment = {

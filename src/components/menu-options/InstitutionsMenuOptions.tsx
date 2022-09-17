@@ -1,6 +1,6 @@
 import React from "react";
 import {IoPencilOutline} from "react-icons/io5";
-import {Institution} from "../../../types/communication/responses/institutions";
+import {Institution} from "../../types/communication/responses/institutions";
 
 interface InstitutionsMenuOptionsProps {
     rowData: Institution;

@@ -1,13 +1,13 @@
 import React from "react";
-import If from "../../common/logic/If";
-import {AssessmentStatus as AssessmentStatusOptions} from "../../../types/assessment-status";
-import HasPermission from "../../../hoc/with-permission/HasPermission";
-import {Permissions} from "../../../types/auth";
-import AssessmentService from "../../../services/AssessmentService";
+import If from "../common/logic/If";
+import {AssessmentStatus as AssessmentStatusOptions} from "../../types/assessment-status";
+import HasPermission from "../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../types/auth";
+import AssessmentService from "../../services/AssessmentService";
 import {toast} from "react-toastify";
 import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
 import {Link} from "react-router-dom";
-import {Assessment} from "../../../types/communication/responses/assessment";
+import {Assessment} from "../../types/communication/responses/assessment";
 
 interface AssessmentMenuOptionsProps {
     rowData: Assessment;

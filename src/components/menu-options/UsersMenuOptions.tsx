@@ -1,9 +1,9 @@
 import React from "react";
-import If from "../../common/logic/If";
-import HasPermission from "../../../hoc/with-permission/HasPermission";
-import {Permissions} from "../../../types/auth";
+import If from "../common/logic/If";
+import HasPermission from "../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../types/auth";
 import {IoBookOutline, IoCheckboxOutline, IoLockClosedOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
-import {User} from "../../../types/communication/responses/user";
+import {User} from "../../types/communication/responses/user";
 
 interface UsersMenuOptionsProps {
     rowData: User;
@@ -37,7 +37,7 @@ const UsersMenuOptions = ({ rowData, onEdit, onDelete, onApprove, onRevoke, onAs
                 <div><IoBookOutline /></div>
                 <span>Asignar a curso</span>
             </div>
-        </HasPermission>,
+        </HasPermission>
         <HasPermission permission={Permissions.USERS_EDIT}>
             <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>
                 <div><IoPencilOutline /></div>
