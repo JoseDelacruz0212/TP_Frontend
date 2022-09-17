@@ -44,10 +44,12 @@ const Assessments = () => {
     const { assessmentStatusChanged } = useSliceActions();
 
     const updateStatus = (assessment: Assessment) =>
-        AssessmentService.saveItem(assessment).then(() => {
-            dispatch(assessmentStatusChanged(null));
-            toast.success("El estado del examen se actualizó exitosamente")
-        });
+        AssessmentService.saveItem(assessment)
+            .then(() => {
+                dispatch(assessmentStatusChanged(null));
+                toast.success("El estado del examen se actualizó exitosamente")
+            })
+            .catch(() => toast.error("Ocurrió un error al tratar de actualizar el estado del examen"))
 
     const convertorCreator : ConvertorCreator<Assessment> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;

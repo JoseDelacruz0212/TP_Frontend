@@ -63,19 +63,19 @@ const Users = () => {
         UserService.assignUserToCourse(userId, courseId).then(onIsUserCourseAssignationModalClosed)
     }
 
-    const approveUser = (id: string) => UserService.approveUser(id).then(
-        () => {
+    const approveUser = (id: string) => UserService.approveUser(id)
+        .then(message => {
             dispatch(userStatusChanged(null));
-            toast.success("El usuario se aprobó existosamente");
-        }
-    )
+            toast.success(message);
+        })
+        .catch(error => toast.error(error))
 
-    const revokeUser = (id: string) => UserService.revokeUser(id).then(
-        () => {
+    const revokeUser = (id: string) => UserService.revokeUser(id)
+        .then(message => {
             dispatch(userStatusChanged(null));
-            toast.success("El usuario se desaprobó exitosamente");
-        }
-    )
+            toast.success(message);
+        })
+        .catch(error => toast.error(error))
 
     const convertorCreator : ConvertorCreator<User> = (onEdit, onDelete) => (column, rowData) => {
         let value: React.ReactNode = null;

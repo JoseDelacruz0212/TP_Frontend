@@ -57,13 +57,13 @@ class UserService extends CrudService<User, UserFilter> {
 
     public approveUser(id: string) {
         return httpClient.put(`/user/${id}`, { status: true })
-            .then(() => "La aprobación de completó exitosamente")
+            .then(() => "La aprobación se completó exitosamente")
             .catch(() => Promise.reject("Ocurrió un error al tratar de aprobar al usuario"));
     }
 
     public revokeUser(id: string) {
         return httpClient.put(`/user/${id}`, { status: false })
-            .then(() => "La desaprobación de completó exitosamente")
+            .then(() => "La desaprobación se completó exitosamente")
             .catch(() => Promise.reject("Ocurrió un error al tratar de desaprobar al usuario"));
     }
 
