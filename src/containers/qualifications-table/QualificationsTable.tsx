@@ -27,13 +27,13 @@ const QualificationsTable = ({ service }: QualificationsTableProps) => {
         let value: React.ReactNode = null;
 
         switch (column) {
-            case 1: value = <div className="py-4">{rowData.user.institution?.name}</div>; break;
-            case 2: value = <div className="py-4">{rowData.evaluation.courses?.grade}</div>; break;
-            case 3: value = <div className="py-4">{rowData.evaluation.courses?.section}</div>; break;
-            case 4: value = <div className="py-4">{rowData.evaluation.courses?.name}</div>; break;
-            case 5: value = <div className="py-4">{rowData.evaluation.name}</div>; break;
-            case 6: value = <div className="py-4">{moment(rowData.evaluation.availableOn).format('LLL')}</div>; break;
-            case 7: value = <div className="py-4">{rowData.points}</div>; break;
+            case 1: value = <div className="py-4">{rowData.institutionName}</div>; break;
+            case 2: value = <div className="py-4">{rowData.grade}</div>; break;
+            case 3: value = <div className="py-4">{rowData.section}</div>; break;
+            case 4: value = <div className="py-4">{rowData.courseName}</div>; break;
+            case 5: value = <div className="py-4">{rowData.evaluationName}</div>; break;
+            case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
+            case 7: value = <div className="py-4">{rowData.nota}</div>; break;
         }
 
         return value;
