@@ -1,45 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
+import Select from "react-select";
 
 import {InstitutionOption} from "../../types/communication/responses/institutions";
 
 import InstitutionService from "../../services/InstitutionService";
+import useSelect from "../../hooks/useSelect";
 
-const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x: string) => void }) => {
-    const [institutions, setInstitutions] = useState<InstitutionOption[]>([]);
-    const [selectedInstitutionId, setSelectedInstitutionId] = useState<string | undefined>(institutionId);
+const getValue = (x: InstitutionOption) => x.id;
+const getLabel = (x: InstitutionOption) => x.name;
 
-    const onSelectedInstitutionIdHandler = (institutionId: string) => {
-        onInstitutionChanged(institutionId);
-        setSelectedInstitutionId(institutionId);
-    }
-
-    useEffect(() => {
-        InstitutionService.getInstitutionsForCombo().then(
-            values => setInstitutions(values)
-        );
-    }, []);
+const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x?: string) => void }) => {
+    const selectProps = useSelect(
+        InstitutionService.getInstitutionsForCombo,
+        getValue,
+        getLabel,
+        onInstitutionChanged,
+        institutionId
+    );
 
     return (
         <div className="form-group">
             <label htmlFor="edit-course-institution" className="form-label">
                 <small>Institución</small>
             </label>
-            <select className="form-input select"
+            <Select {...selectProps}
                     id="edit-course-institution"
                     name="edit-course-institution"
-                    value={selectedInstitutionId || ""}
                     placeholder="Institución"
-                    disabled={!institutions || institutions?.length === 0}
-                    onChange={(e) => onSelectedInstitutionIdHandler(e.target.value)} >
-                <option value="" disabled>Seleccione una opción</option>
-                {
-                    institutions && institutions.map(option => (
-                        <option key={option.id} value={option.id}>
-                            { option.name }
-                        </option>
-                    ))
-                }
-            </select>
+                    noOptionsMessage={({ inputValue }) => "No se encontraron instituciones"} />
         </div>
     )
 };

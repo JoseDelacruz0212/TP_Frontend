@@ -12,7 +12,7 @@ interface UserCourseAssignationModalProps {
 }
 
 const UserCourseAssignationModal = ({ isOpen, handleClose, selectedUser, onAssign }: UserCourseAssignationModalProps) => {
-    const [selectedCourse, setSelectedCourse] = useState<string | null>(null)
+    const [selectedCourse, setSelectedCourse] = useState<string | undefined>(undefined)
 
     const onAssignHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

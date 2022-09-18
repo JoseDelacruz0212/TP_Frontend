@@ -1,45 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
+import Select from "react-select";
 
 import {CourseOption} from "../../types/communication/responses/courses";
 
 import CourseService from "../../services/CourseService";
+import useSelect from "../../hooks/useSelect";
 
-const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x: string) => void }) => {
-    const [courses, setCourses] = useState<CourseOption[]>([]);
-    const [selectedCourseId, setSelectedCourseId] = useState<string | undefined>(courseId);
+const getValue = (x: CourseOption) => x.id;
+const getLabel = (x: CourseOption) => x.name;
 
-    const onSelectedCourseIdHandler = (courseId: string) => {
-        onCourseChanged(courseId);
-        setSelectedCourseId(courseId);
-    }
-
-    useEffect(() => {
-        CourseService.getCoursesForCombo().then(
-            values => setCourses(values)
-        );
-    }, []);
+const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x?: string) => void }) => {
+    const selectProps = useSelect(
+        CourseService.getCoursesForCombo,
+        getValue,
+        getLabel,
+        onCourseChanged,
+        courseId
+    );
 
     return (
         <div className="form-group">
             <label htmlFor="edit-assessment-course" className="form-label">
                 <small>Curso</small>
             </label>
-            <select className="form-input select"
+            <Select {...selectProps}
                     id="edit-assessment-course"
                     name="edit-assessment-course"
-                    value={selectedCourseId || ""}
-                    placeholder="Institución"
-                    disabled={!courses || courses?.length === 0}
-                    onChange={(e) => onSelectedCourseIdHandler(e.target.value)} >
-                <option value="" disabled>Seleccione una opción</option>
-                {
-                    courses && courses.map(option => (
-                        <option key={option.id} value={option.id}>
-                            { option.name }
-                        </option>
-                    ))
-                }
-            </select>
+                    placeholder="Curso"
+                    noOptionsMessage={({ inputValue }) => "No se encontraron cursos"} />
         </div>
     )
 };

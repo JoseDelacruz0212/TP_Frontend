@@ -1,4 +1,4 @@
-import {Institution} from "../types/communication/responses/institutions";
+import {Institution, InstitutionOption} from "../types/communication/responses/institutions";
 import {CrudService} from "./CrudService";
 import {InstitutionFilter} from "../types/communication/requests/institutions";
 import httpClient from "../config/httpClients/httpClient";
@@ -12,7 +12,7 @@ class InstitutionService extends CrudService<Institution, InstitutionFilter> {
     }
 
     public async getInstitutionsForCombo() {
-        return httpClient.get<CourseOption[]>('/institution')
+        return httpClient.get<InstitutionOption[]>('/institution')
             .then(response => response.data)
             .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las instituciones"));
     }
