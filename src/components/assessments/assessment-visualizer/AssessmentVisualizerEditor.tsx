@@ -10,7 +10,6 @@ import AssessmentVisualizerComponent from "./AssessmentVisualizer";
 interface AssessmentVisualizerEditorProps {
     json: string;
     onAssessmentSubmit: (assessment: string) => void;
-    hideButton?: boolean;
     assessments?: Assessment;
     isReadOnly?: boolean;
 }

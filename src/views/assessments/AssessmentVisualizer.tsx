@@ -33,9 +33,6 @@ const AssessmentVisualizer = () => {
 
     const { hasPermissionFor } = useAuthContext();
 
-    const canSubmit = hasPermissionFor(Permissions.ASSESSMENT_SUBMIT);
-    const canSeeDetails = hasPermissionFor(Permissions.ASSESSMENT_DETAILS);
-
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
             pointsGenerated => BlockchainService.addTransaction(pointsGenerated).then(
@@ -48,39 +45,25 @@ const AssessmentVisualizer = () => {
     };
 
     if (isLoading) return <Loading />;
-    if (hasError) return (
+    if (hasError || !assessment) return (
         <div className="flex justify-center">
-                    <span className="text-center w-full md:w-2/3 lg:w-1/2">
-                        No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
-                    </span>
+            <span className="text-center w-full md:w-2/3 lg:w-1/2">
+                No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
+            </span>
         </div>
     );
 
     const accessAllowed =
-        (assessment === AssessmentStatus.STARTED && !flag && canSubmit) ||
-        (status === AssessmentStatus.FINISHED && canSeeDetails);
+        (assessment.status === AssessmentStatus.STARTED && !flag && hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)) ||
+        (assessment.status === AssessmentStatus.FINISHED && hasPermissionFor(Permissions.ASSESSMENT_DETAILS));
 
     if (!accessAllowed) return <Navigate to="/assessments" />;
 
     return (
-        <>
-            {
-                isLoading &&
-                <Loading />
-            }
-            {
-                assessment && !hasError &&
-                <AssessmentVisualizerEditor json={assessment.json}
-                                            onAssessmentSubmit={onAssessmentSubmit}
-                                            isReadOnly={status !== AssessmentStatus.STARTED}
-                                            hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)}
-                                            assessments={assessment} />
-            }
-            {
-                hasError &&
-
-            }
-        </>
+        <AssessmentVisualizerEditor json={assessment.json}
+                                    onAssessmentSubmit={onAssessmentSubmit}
+                                    isReadOnly={assessment.status !== AssessmentStatus.STARTED}
+                                    assessments={assessment} />
     )
 }
 
