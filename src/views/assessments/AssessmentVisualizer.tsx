@@ -74,7 +74,7 @@ const AssessmentVisualizer = () => {
             {
                 hasError &&
                 <div className="flex justify-center">
-                    <span className="text-center w-1/2">
+                    <span className="text-center w-full md:w-2/3 lg:w-1/2">
                         No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
                     </span>
                 </div>
