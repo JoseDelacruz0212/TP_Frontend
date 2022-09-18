@@ -34,9 +34,18 @@ const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTa
             case 4: value = <div className="py-4">{rowData.courseName}</div>; break;
             case 5: value = <div className="py-4">{rowData.evaluationName}</div>; break;
             case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
-            case 7: value = (
-                <div className="py-4"><Chip label={rowData.nota?.toString() || ''} className="bg-primary text-on-primary w-full" /></div>
-            ); break;
+            case 7:
+                if (!rowData.nota) return <div className="py-4"></div>;
+
+                let color = "bg-green-500 text-white";
+
+                if (rowData.nota < 10) color = "bg-red-500 text-white";
+                else if (rowData.nota < 13) color = "bg-yellow-500";
+
+                value = (
+                    <div className="py-4"><Chip label={rowData.nota.toString()} className={`${color} w-full`} /></div>
+                );
+                break;
         }
 
         return value;
@@ -55,6 +64,6 @@ const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTa
     )
 }
 
-const columns = ["Institución", "Grado", "Sección", "Curso", "Evaluación", "Fecha de disponibilidad", "Nota"];
+const columns = ["Institución", "Grado", "Sección", "Curso", "Evaluación", "Fecha de disponibilidad", "Nota", ""];
 
 export default withQualificationsProvider(QualificationsTable);
