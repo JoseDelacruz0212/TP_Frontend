@@ -1,7 +1,10 @@
 import React from "react";
 
+import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
+import QualificationService from "../../services/QualificationService";
+
 const Qualifications = () => {
-    return null;
+    return <QualificationsTable service={QualificationService} />;
 };
 
 export default Qualifications;

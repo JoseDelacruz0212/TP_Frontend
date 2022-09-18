@@ -15,6 +15,7 @@ export const dataLoaded = <T extends  Entity, F extends Filter>(state: TableData
 
 export const dataRequestStarted = <T extends  Entity, F extends Filter>(state: TableDataState<T, F>): TableDataState<T, F> => ({
     ...state,
+    items: undefined,
     isLoading: true
 });
 

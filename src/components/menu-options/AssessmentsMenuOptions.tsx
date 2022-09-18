@@ -30,6 +30,20 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: A
                 </Link>
             </HasPermission>
         </If>*/}
+        <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
+            <HasPermission permission={Permissions.ASSESSMENT_SEE_QUALIFICATIONS}>
+                <Link to={`/qualifications/${rowData.id}`} state={{
+                    assessmentId: rowData.id,
+                    status: rowData.status,
+                    subtitle: rowData.name
+                }}>
+                    <div role="button" className="menu-option">
+                        <div><IoEyeOutline /></div>
+                        <span>Ver calificaciones</span>
+                    </div>
+                </Link>
+            </HasPermission>
+        </If>
         <If condition={rowData.status === AssessmentStatusOptions.PUBLISHED}>
             <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
                 <div role="button" className="menu-option" onClick={() => onUpdateStatus(rowData)}>
@@ -38,10 +52,10 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: A
                 </div>
             </HasPermission>
         </If>
-            <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
-                <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
-                    <div role="button" className="menu-option" onClick={() => onUpdateStatus(rowData)}>
-                    <div><IoEyeOutline /></div>
+        <If condition={rowData.status === AssessmentStatusOptions.STARTED}>
+            <HasPermission permission={Permissions.ASSESSMENT_SET_STATUS}>
+                <div role="button" className="menu-option" onClick={() => onUpdateStatus(rowData)}>
+                <div><IoEyeOutline /></div>
                     <span>Finalizar evaluación</span>
                 </div>
             </HasPermission>

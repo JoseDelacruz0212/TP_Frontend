@@ -19,11 +19,9 @@ import {withAssessmentsProvider} from "../../redux/providers/providers";
 import TableView from "../layouts/TableView";
 import AssessmentsMenuOptions from "../../components/menu-options/AssessmentsMenuOptions";
 import MenuOptions from "../../components/common/menu/MenuOptions";
-import UserService from "../../services/UserService";
 import {toast} from "react-toastify";
 import {useDispatch} from "react-redux";
 import {useSliceActions} from "../../redux/providers/SliceProvider";
-import {AssessmentStatus as AssessmentStatusOptions} from "../../types/assessment-status";
 
 const defaultAssessment: Assessment = {
     name: '',
