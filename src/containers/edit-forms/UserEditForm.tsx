@@ -16,7 +16,7 @@ const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
         setSelectedRole(option);
     };
 
-    const onInstitutionChanged = (insitutionId: string) => {
+    const onInstitutionChanged = (insitutionId?: string) => {
         onChange && onChange({ ...values, insitutionId });
     }
 
