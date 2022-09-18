@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback} from "react";
 import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
@@ -8,11 +8,11 @@ import withPermission from "../../hoc/with-permission/withPermission";
 
 import {Permissions} from "../../types/auth";
 import {AssessmentStatus} from "../../types/assessment-status";
-import {Assessment} from "../../types/communication/responses/assessment";
 import AssessmentService from "../../services/AssessmentService";
 import BlockchainService from "../../services/BlockchainService";
 import {toast} from "react-toastify";
 import Loading from "../../components/common/loading/Loading";
+import useFetch from "../../hooks/useFetch";
 
 interface LocationState {
     assessmentId: string;
@@ -26,39 +26,15 @@ const AssessmentVisualizer = () => {
     const state = location.state as LocationState;
 
     const id = state?.assessmentId;
-    const status = state?.status;
     const flag = state?.flag;
 
-    const [assessment, setAssessment] = useState<Assessment | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const getData = useCallback(() => AssessmentService.getById(id), [id]);
+    const { data: assessment, isLoading, hasError } = useFetch(getData);
 
     const { hasPermissionFor } = useAuthContext();
 
     const canSubmit = hasPermissionFor(Permissions.ASSESSMENT_SUBMIT);
     const canSeeDetails = hasPermissionFor(Permissions.ASSESSMENT_DETAILS);
-
-    const accessAllowed =
-        (status === AssessmentStatus.STARTED && !flag && canSubmit) ||
-        (status === AssessmentStatus.FINISHED && canSeeDetails);
-
-    useEffect(() => {
-        if (id && accessAllowed) {
-            setIsLoading(true);
-
-            AssessmentService.getById(id)
-                .then((assessment) => {
-                    setAssessment(assessment);
-                    setIsLoading(false);
-                })
-                .catch(() => {
-                    setHasError(true)
-                    setIsLoading(false);
-                });
-        }
-    }, [id, accessAllowed]);
-
-    if (!accessAllowed) return <Navigate to="/assessments" />;
 
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
@@ -70,6 +46,21 @@ const AssessmentVisualizer = () => {
             )
         );
     };
+
+    if (isLoading) return <Loading />;
+    if (hasError) return (
+        <div className="flex justify-center">
+                    <span className="text-center w-full md:w-2/3 lg:w-1/2">
+                        No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
+                    </span>
+        </div>
+    );
+
+    const accessAllowed =
+        (assessment === AssessmentStatus.STARTED && !flag && canSubmit) ||
+        (status === AssessmentStatus.FINISHED && canSeeDetails);
+
+    if (!accessAllowed) return <Navigate to="/assessments" />;
 
     return (
         <>
@@ -87,11 +78,7 @@ const AssessmentVisualizer = () => {
             }
             {
                 hasError &&
-                <div className="flex justify-center">
-                    <span className="text-center w-full md:w-2/3 lg:w-1/2">
-                        No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
-                    </span>
-                </div>
+
             }
         </>
     )
