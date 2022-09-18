@@ -1,6 +1,8 @@
 import {Entity} from "./communication/responses/entity";
 import React, {ReactElement} from "react";
 import {IconType} from "react-icons";
+import {CrudService} from "../services/CrudService";
+import {FetchService} from "../services/FetchService";
 
 export interface Option {
     value: number | string;
@@ -62,3 +64,4 @@ export type Convertor<T extends Entity> = (columnKeys: number, x: T) => React.Re
 export type FilterSchemaCreator<T> = (filters: T, onFiltersUpdate: (filters: T) => any) => FilterSchema[];
 export type ConvertorCreator<T> = (onEdit: (x: T) => void, onDelete: (x: string) => void) => Convertor<T>;
 export type MenuOptionsCreator<T> = (onEdit: (x: T) => void, onDelete: (x: string) => void, rowData: T) => React.ReactElement[];
+export type Service<T, F> = CrudService<T, F> | FetchService<T, F>;

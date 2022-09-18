@@ -2,9 +2,7 @@ import React from "react";
 import moment from "moment";
 
 import {Entity} from "../../types/communication/responses/entity";
-import {ConvertorCreator, FilterSchemaCreator, FormInputProps} from "../../types/common";
-
-import {CrudService} from "../../services/CrudService";
+import {ConvertorCreator, FilterSchemaCreator, FormInputProps, Service} from "../../types/common";
 
 import useTableView from "../../hooks/useTableView";
 
@@ -20,7 +18,7 @@ interface TableViewProps<T extends Entity, F> {
     filterSchemaCreator?: FilterSchemaCreator<F>;
     convertorCreator?: ConvertorCreator<T>
     columns: React.ReactNode[];
-    service: CrudService<T, F>;
+    service: Service<T, F>;
     sidePanelId?: string;
     sidePanelCreateTitle?: string;
     sidePanelEditTitle?: string;

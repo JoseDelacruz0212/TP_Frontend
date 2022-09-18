@@ -5,13 +5,15 @@ import institutions from "./slices/institutions";
 import courses from "./slices/courses";
 import assessments from "./slices/assessments";
 import users from "./slices/users";
+import qualifications from "./slices/qualifications";
 
 const store = configureStore({
     reducer: {
         institutions,
         courses,
         assessments,
-        users
+        users,
+        qualifications
     }
 });
 

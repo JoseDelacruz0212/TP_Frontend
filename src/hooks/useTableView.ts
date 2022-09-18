@@ -8,10 +8,11 @@ import useTable from "./useTable";
 import {CrudService} from "../services/CrudService";
 import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
-import {ConvertorCreator, FilterSchemaCreator} from "../types/common";
+import {ConvertorCreator, FilterSchemaCreator, Service} from "../types/common";
 import {toast} from "react-toastify";
+import {FetchService} from "../services/FetchService";
 
-const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: CrudService<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
+const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: Service<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
     const [item, setItem] = useState<T>(defaultItemSchema);
 
@@ -49,6 +50,8 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     }, [filters, paginationOptions]);
 
     const onSaveItem = () => {
+        if (!(service instanceof CrudService<T, F>)) return;
+
         dispatch(panelRequestStarted(null));
 
         service.saveItem(item)
@@ -73,7 +76,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     };
 
     const onDeleteItem = (id?: string) => {
-        if (!id) return;
+        if (!(service instanceof CrudService<T, F>) || !id) return;
 
         dispatch(panelRequestStarted(null));
 
