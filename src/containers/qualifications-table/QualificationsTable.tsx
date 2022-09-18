@@ -11,6 +11,8 @@ import TableView from "../../views/layouts/TableView";
 import {withQualificationsProvider} from "../../redux/providers/providers";
 
 import {FetchService} from "../../services/FetchService";
+import MenuOptions from "../../components/common/menu/MenuOptions";
+import QualificationsMenuOptions from "../../components/menu-options/QualificationsMenuOptions";
 
 interface QualificationsTableProps {
     service: FetchService<Qualification, QualificationFilter>;
@@ -44,6 +46,15 @@ const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTa
 
                 value = (
                     <div className="py-4"><Chip label={rowData.nota.toString()} className={`${color} w-full`} /></div>
+                );
+                break;
+            case 8:
+                value = (
+                    <div className="flex justify-end px-5">
+                        <MenuOptions>
+                            <QualificationsMenuOptions />
+                        </MenuOptions>
+                    </div>
                 );
                 break;
         }
