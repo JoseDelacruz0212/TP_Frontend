@@ -5,7 +5,8 @@ import {QualificationFilter} from "../../types/communication/requests/qualificat
 
 const initialState: TableDataState<Qualification, QualificationFilter> = {
     filters: {
-        assessmentId: ''
+        assessmentId: '',
+        userId: ''
     }
 };
 

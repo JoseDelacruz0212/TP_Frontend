@@ -1,5 +1,4 @@
-import React from "react";
-import {useLocation} from "react-router-dom";
+import React, {useMemo} from "react";
 import moment from "moment";
 
 import {ConvertorCreator} from "../../types/common";
@@ -11,17 +10,17 @@ import {withQualificationsProvider} from "../../redux/providers/providers";
 
 import {FetchService} from "../../services/FetchService";
 
-interface LocationState {
-    assessmentId: string | undefined;
-}
-
 interface QualificationsTableProps {
-    service: FetchService<Qualification, QualificationFilter>
+    service: FetchService<Qualification, QualificationFilter>;
+    assessmentId?: string;
+    userId?: string;
 }
 
-const QualificationsTable = ({ service }: QualificationsTableProps) => {
-    const location = useLocation();
-    const state = location.state as LocationState;
+const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTableProps) => {
+    const defaultFilters = useMemo(() => ({
+        assessmentId: assessmentId || '',
+        userId: userId || ''
+    }), [assessmentId, userId]);
 
     const convertorCreator : ConvertorCreator<Qualification> = () => (column, rowData) => {
         let value: React.ReactNode = null;
@@ -45,7 +44,7 @@ const QualificationsTable = ({ service }: QualificationsTableProps) => {
                        filterSchemaCreator={undefined}
                        convertorCreator={convertorCreator}
                        columns={columns}
-                       defaultFilters={{ assessmentId: state?.assessmentId || '' }}
+                       defaultFilters={defaultFilters}
                        service={service}
                        hideAddButton />
         </div>

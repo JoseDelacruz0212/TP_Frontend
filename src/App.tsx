@@ -29,6 +29,7 @@ function App() {
               <Route path="/users" element={<Users />} />
               <Route path="/requests" element={null} />
               <Route path="/verification" element={<Verification />} />
+              <Route path="/verification/:userIdentifier" element={<Verification />} />
               <Route path="/administration" element={null} />
               <Route path="/profile" element={<Profile />} />
           </Route>

@@ -1,57 +1,19 @@
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {FormEvent, useState} from "react";
 
-import BlockchainService from "../../services/BlockchainService";
-
-import Table from "../../components/common/table/Table";
-import Chip from "../../components/common/chip/Chip";
 import {useParams} from "react-router-dom";
+import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
+import QualificationBlockchainService from "../../services/QualificationBlockchainService";
 
 const Verification = () => {
     const { userIdentifier: userId } = useParams();
 
     const [userIdentifier, setUserIdentifier] = useState(userId);
-    const [data, setData] = useState<any>([]);
-
-    useEffect(() => {
-        if (userIdentifier) {
-            BlockchainService.getByUserId(userIdentifier).then(response => setData(response.data.response));
-        }
-    }, []);
+    const [userIdentifierForTable, setUserIdentifierForTable] = useState(userId);
 
     const verifyUserHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        if (userIdentifier) {
-            BlockchainService.getByUserId(userIdentifier).then(response => setData(response.data.response));
-        }
+        setUserIdentifierForTable(userIdentifier);
     };
-
-    const getValueForRow = (column: number, rowData: any) => {
-        switch (column) {
-            case 0: return rowData.model;
-            case 1: return rowData.make;
-            case 2: return rowData.model;
-            case 3:
-                let color = "bg-green-500 text-white";
-
-                if (parseFloat(rowData.owner) < 10) color = "bg-red-500 text-white";
-                else if (parseFloat(rowData.owner) < 13) color = "bg-yellow-500";
-
-                return (
-                    <div className="py-4">
-                        <Chip label={rowData.owner?.toString()} className={color} />
-                    </div>
-                );
-        }
-    };
-
-    const rows = data.map((rowData: any, index: number) => ({
-        key: index,
-        rowValues: columns.map((column, index) => ({
-            key: index,
-            value: getValueForRow(index, rowData)
-        }))
-    }));
 
     return (
         <div className="flex flex-col space-y-10">
@@ -61,25 +23,15 @@ const Verification = () => {
                        name="verification-user-identifier"
                        placeholder="Ingrese el identificador del usuario"
                        maxLength={100}
-                       value={userIdentifier}
+                       value={userIdentifier || ''}
                        onChange={(e) => setUserIdentifier(e.target.value)} />
                 <button type="submit" className="button-primary w-full md:w-32">
                     Verificar
                 </button>
             </form>
-            <Table title="Lista de calificaciones"
-                   columns ={columns}
-                   rows={rows}
-                   hidePagination />
+            <QualificationsTable service={QualificationBlockchainService} userId={userIdentifierForTable} />
         </div>
     )
 };
-
-const columns = [
-    { key: 1, label: 'Evaluación' },
-    { key: 2, label: 'Curso' },
-    { key: 3, label: 'Institución' },
-    { key: 4, label: 'Calificación' }
-]
 
 export default Verification;
