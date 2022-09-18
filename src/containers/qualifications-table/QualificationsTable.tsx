@@ -1,6 +1,8 @@
 import React, {useMemo} from "react";
 import moment from "moment";
 
+import Chip from "../../components/common/chip/Chip";
+
 import {ConvertorCreator} from "../../types/common";
 import {Qualification} from "../../types/communication/responses/qualification";
 import {QualificationFilter} from "../../types/communication/requests/qualification";
@@ -32,7 +34,9 @@ const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTa
             case 4: value = <div className="py-4">{rowData.courseName}</div>; break;
             case 5: value = <div className="py-4">{rowData.evaluationName}</div>; break;
             case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
-            case 7: value = <div className="py-4">{rowData.nota}</div>; break;
+            case 7: value = (
+                <div className="py-4"><Chip label={rowData.nota?.toString() || ''} className="bg-primary text-on-primary w-full" /></div>
+            ); break;
         }
 
         return value;
