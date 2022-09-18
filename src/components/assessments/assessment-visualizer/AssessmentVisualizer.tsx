@@ -9,11 +9,11 @@ import AssessmentTimeBar from "./AssessmentTimeBar";
 interface AssessmentVisualizerProps {
     json: string;
     onAssessmentSubmit: (assessment: string) => void;
-    hideButton?: boolean;
+    isReadOnly?: boolean;
     assessment?: Assessment
 }
 
-const AssessmentVisualizer = ({ json, onAssessmentSubmit, hideButton = false, assessment }: AssessmentVisualizerProps) => {
+const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false }: AssessmentVisualizerProps) => {
     const { query } = useEditor();
 
     const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -43,7 +43,7 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, hideButton = false, as
                     <Frame data={json}>
                         <Element id="canvas" is="div" canvas />
                     </Frame>
-                    { !hideButton && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
+                    { !isReadOnly && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
                 </form>
             }
         </>

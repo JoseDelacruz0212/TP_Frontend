@@ -67,7 +67,7 @@ const AssessmentVisualizer = () => {
                 assessment && !hasError &&
                 <AssessmentVisualizerEditor json={assessment.json}
                                             onAssessmentSubmit={onAssessmentSubmit}
-                                            readOnly={status !== AssessmentStatus.STARTED}
+                                            isReadOnly={status !== AssessmentStatus.STARTED}
                                             hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)}
                                             assessments={assessment} />
             }
