@@ -12,6 +12,7 @@ import {Assessment} from "../../types/communication/responses/assessment";
 import AssessmentService from "../../services/AssessmentService";
 import BlockchainService from "../../services/BlockchainService";
 import {toast} from "react-toastify";
+import Loading from "../../components/common/loading/Loading";
 
 interface LocationState {
     assessmentId: string;
@@ -29,6 +30,7 @@ const AssessmentVisualizer = () => {
     const flag = state?.flag;
 
     const [assessment, setAssessment] = useState<Assessment | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
 
     const { hasPermissionFor } = useAuthContext();
@@ -42,9 +44,17 @@ const AssessmentVisualizer = () => {
 
     useEffect(() => {
         if (id && accessAllowed) {
+            setIsLoading(true);
+
             AssessmentService.getById(id)
-                .then(setAssessment)
-                .catch(() => setHasError(true));
+                .then((assessment) => {
+                    setAssessment(assessment);
+                    setIsLoading(false);
+                })
+                .catch(() => {
+                    setHasError(true)
+                    setIsLoading(false);
+                });
         }
     }, [id, accessAllowed]);
 
@@ -63,6 +73,10 @@ const AssessmentVisualizer = () => {
 
     return (
         <>
+            {
+                isLoading &&
+                <Loading />
+            }
             {
                 assessment && !hasError &&
                 <AssessmentVisualizerEditor json={assessment.json}
