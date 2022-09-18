@@ -16,22 +16,8 @@ interface AssessmentMenuOptionsProps {
 
 const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: AssessmentMenuOptionsProps) => (
     <>
-        {/*<If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
-            <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
-                <Link to={`/qualifications/${rowData.id}`} state={{
-                    assessmentId: rowData.id,
-                    status: rowData.status,
-                    subtitle: rowData.name
-                }}>
-                    <div role="button" className="menu-option">
-                        <div><IoEyeOutline /></div>
-                        <span>Ver calificaciones</span>
-                    </div>
-                </Link>
-            </HasPermission>
-        </If>*/}
         <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
-            <HasPermission permission={Permissions.ASSESSMENT_SEE_QUALIFICATIONS}>
+            <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
                 <Link to={`/qualifications/${rowData.id}`} state={{
                     assessmentId: rowData.id,
                     status: rowData.status,

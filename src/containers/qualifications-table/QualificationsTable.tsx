@@ -52,7 +52,7 @@ const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTa
                 value = (
                     <div className="flex justify-end px-5">
                         <MenuOptions>
-                            <QualificationsMenuOptions />
+                            <QualificationsMenuOptions rowData={rowData} />
                         </MenuOptions>
                     </div>
                 );

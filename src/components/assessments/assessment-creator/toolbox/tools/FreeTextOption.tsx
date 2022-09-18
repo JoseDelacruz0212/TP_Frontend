@@ -1,14 +1,7 @@
 import React from "react";
 import {useEditor, useNode} from "@craftjs/core";
 
-import HasPermission from "../../../../../hoc/with-permission/HasPermission";
-
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
-
-import {Permissions} from "../../../../../types/auth";
-import {AssessmentStatus} from "../../../../../types/assessment-status";
-
-import {useAssessmentContext} from "../../../../../contexts/AssessmentContext";
 
 interface FreeTextProps {
     question?: string;
@@ -26,8 +19,6 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
     const { enabled } = useEditor((state) => ({ enabled: state.options.enabled }));
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
-    const { assessment } = useAssessmentContext();
-
     return (
         <div className="px-2 py-4 flex flex-col space-y-5" ref={ref => connect(drag(ref!))}>
             {
@@ -42,8 +33,8 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <textarea className="form-input"
                                   id="free-text-question-long-answer"
                                   name="free-text-question-long-answer"
-                                  disabled={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
-                                  readOnly={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
+                                  disabled={!enabled}
+                                  readOnly={!enabled}
                                   maxLength={255}
                                   rows={4}
                                   value={answerInput || ""}
@@ -55,8 +46,8 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <input className="form-input"
                                id="free-text-question-answer"
                                name="free-text-question-answer"
-                               disabled={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
-                               readOnly={assessment !== undefined && assessment.status === AssessmentStatus.FINISHED}
+                               disabled={!enabled}
+                               readOnly={!enabled}
                                maxLength={50}
                                value={answerInput || ""}
                                onChange={(e) => setProp((props: FreeTextProps) => props.answerInput = e.target.value)} />
@@ -64,14 +55,15 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                     </div>
             }
             {
-                !enabled && hasPointsToAssign && assessment !== undefined && assessment.status === AssessmentStatus.FINISHED &&
-                <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
-                    <div className="flex justify-end">
-                        <small>Asignar puntos:</small>
+                !enabled &&
+                <div className="flex justify-end">
+                    <div className="flex items-center space-x-2">
+                        <small>Puntos:</small>
                         <div className="flex items-center space-x-2">
                             <input type="number"
-                                   className="form-input"
+                                   className="form-input w-14"
                                    id="free-text-question-assigned-points"
+                                   disabled
                                    min={0}
                                    max={points}
                                    name="free-text-question-assigned-points"
@@ -80,7 +72,7 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                             <span className="subtitle-sm">/ {addZerosToPoints(points)}</span>
                         </div>
                     </div>
-                </HasPermission>
+                </div>
             }
         </div>
     )

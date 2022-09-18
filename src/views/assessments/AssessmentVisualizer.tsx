@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
-import AssessmentProvider from "../../contexts/AssessmentContext";
 
 import AssessmentVisualizerEditor from "../../components/assessments/assessment-visualizer/AssessmentVisualizerEditor";
 import withPermission from "../../hoc/with-permission/withPermission";
@@ -30,26 +29,26 @@ const AssessmentVisualizer = () => {
     const flag = state?.flag;
 
     const [assessment, setAssessment] = useState<Assessment | null>(null);
+    const [hasError, setHasError] = useState(false);
 
     const { hasPermissionFor } = useAuthContext();
 
     const canSubmit = hasPermissionFor(Permissions.ASSESSMENT_SUBMIT);
-    const canAssignPoints = hasPermissionFor(Permissions.ASSESSMENT_ASSIGN_POINTS);
+    const canSeeDetails = hasPermissionFor(Permissions.ASSESSMENT_DETAILS);
 
-    const accessNotAllowed =
-        (!canSubmit && !canAssignPoints) ||
-        (canSubmit && (status !== AssessmentStatus.STARTED || flag)) ||
-        (canAssignPoints && status !== AssessmentStatus.FINISHED);
+    const accessAllowed =
+        (status === AssessmentStatus.STARTED && !flag && canSubmit) ||
+        (status === AssessmentStatus.FINISHED && canSeeDetails);
 
     useEffect(() => {
-        if (id && !accessNotAllowed) {
-            AssessmentService.getById(id).then(setAssessment);
+        if (id && accessAllowed) {
+            AssessmentService.getById(id)
+                .then(setAssessment)
+                .catch(() => setHasError(true));
         }
-    }, [id, accessNotAllowed]);
+    }, [id, accessAllowed]);
 
-    if (accessNotAllowed) return <Navigate to="/assessments" />;
-
-    if (!assessment) return null;
+    if (!accessAllowed) return <Navigate to="/assessments" />;
 
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
@@ -63,12 +62,24 @@ const AssessmentVisualizer = () => {
     };
 
     return (
-        <AssessmentProvider assessment={assessment}>
-            <AssessmentVisualizerEditor json={assessment.json}
-                                        onAssessmentSubmit={onAssessmentSubmit}
-                                        hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)}
-                                        assessments={assessment} />
-        </AssessmentProvider>
+        <>
+            {
+                assessment && !hasError &&
+                <AssessmentVisualizerEditor json={assessment.json}
+                                            onAssessmentSubmit={onAssessmentSubmit}
+                                            readOnly={status !== AssessmentStatus.STARTED}
+                                            hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)}
+                                            assessments={assessment} />
+            }
+            {
+                hasError &&
+                <div className="flex justify-center">
+                    <span className="text-center w-1/2">
+                        No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
+                    </span>
+                </div>
+            }
+        </>
     )
 }
 
