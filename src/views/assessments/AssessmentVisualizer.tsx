@@ -65,7 +65,6 @@ const AssessmentVisualizer = () => {
         </div>
     );
 
-    console.log(assessment?.json);
     return (
         <AssessmentVisualizerEditor json={assessment.json}
                                     onAssessmentSubmit={onAssessmentSubmit}

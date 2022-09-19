@@ -32,14 +32,14 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: A
                 </Link>
             </HasPermission>
         </If>
-        <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
+        {/*<If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
             <HasPermission permission={Permissions.ASSESSMENT_REQUEST_ACTION}>
                 <div role="button" className="menu-option">
                     <div><IoDocumentTextOutline /></div>
                     <span>Iniciar reclamo</span>
                 </div>
             </HasPermission>
-        </If>
+        </If>*/}
         <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
             <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
                 <Link to={`/qualifications/${rowData.id}`} state={{
