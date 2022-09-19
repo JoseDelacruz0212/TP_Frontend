@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback} from "react";
 import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
-import AssessmentProvider from "../../contexts/AssessmentContext";
 
 import AssessmentVisualizerEditor from "../../components/assessments/assessment-visualizer/AssessmentVisualizerEditor";
 import withPermission from "../../hoc/with-permission/withPermission";
 
 import {Permissions} from "../../types/auth";
 import {AssessmentStatus} from "../../types/assessment-status";
-import {Assessment} from "../../types/communication/responses/assessment";
 import AssessmentService from "../../services/AssessmentService";
 import BlockchainService from "../../services/BlockchainService";
 import {toast} from "react-toastify";
+import Loading from "../../components/common/loading/Loading";
+import useFetch from "../../hooks/useFetch";
 
 interface LocationState {
     assessmentId: string;
@@ -26,30 +26,12 @@ const AssessmentVisualizer = () => {
     const state = location.state as LocationState;
 
     const id = state?.assessmentId;
-    const status = state?.status;
     const flag = state?.flag;
 
-    const [assessment, setAssessment] = useState<Assessment | null>(null);
+    const getData = useCallback(() => AssessmentService.getById(id), [id]);
+    const { data: assessment, isLoading, hasError } = useFetch(getData);
 
     const { hasPermissionFor } = useAuthContext();
-
-    const canSubmit = hasPermissionFor(Permissions.ASSESSMENT_SUBMIT);
-    const canAssignPoints = hasPermissionFor(Permissions.ASSESSMENT_ASSIGN_POINTS);
-
-    const accessNotAllowed =
-        (!canSubmit && !canAssignPoints) ||
-        (canSubmit && (status !== AssessmentStatus.STARTED || flag)) ||
-        (canAssignPoints && status !== AssessmentStatus.FINISHED);
-
-    useEffect(() => {
-        if (id && !accessNotAllowed) {
-            AssessmentService.getById(id).then(setAssessment);
-        }
-    }, [id, accessNotAllowed]);
-
-    if (accessNotAllowed) return <Navigate to="/assessments" />;
-
-    if (!assessment) return null;
 
     const onAssessmentSubmit = (assessment: string) => {
         AssessmentService.generatePoints(id, assessment).then(
@@ -62,13 +44,26 @@ const AssessmentVisualizer = () => {
         );
     };
 
+    if (isLoading) return <Loading />;
+    if (hasError || !assessment) return (
+        <div className="flex justify-center">
+            <span className="text-center w-full md:w-2/3 lg:w-1/2">
+                No se pudo obtener la información del examen. Verifique que tenga los permisos necesarios para acceder a esta página
+            </span>
+        </div>
+    );
+
+    const accessAllowed =
+        (assessment.status === AssessmentStatus.STARTED && !flag && hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)) ||
+        (assessment.status === AssessmentStatus.FINISHED && hasPermissionFor(Permissions.ASSESSMENT_DETAILS));
+
+    if (!accessAllowed) return <Navigate to="/assessments" />;
+
     return (
-        <AssessmentProvider assessment={assessment}>
-            <AssessmentVisualizerEditor json={assessment.json}
-                                        onAssessmentSubmit={onAssessmentSubmit}
-                                        hideButton={!hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)}
-                                        assessments={assessment} />
-        </AssessmentProvider>
+        <AssessmentVisualizerEditor json={assessment.json}
+                                    onAssessmentSubmit={onAssessmentSubmit}
+                                    isReadOnly={assessment.status !== AssessmentStatus.STARTED}
+                                    assessments={assessment} />
     )
 }
 

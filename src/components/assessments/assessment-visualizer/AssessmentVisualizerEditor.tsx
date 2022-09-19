@@ -10,15 +10,15 @@ import AssessmentVisualizerComponent from "./AssessmentVisualizer";
 interface AssessmentVisualizerEditorProps {
     json: string;
     onAssessmentSubmit: (assessment: string) => void;
-    hideButton?: boolean;
-    assessments?: Assessment
+    assessments?: Assessment;
+    isReadOnly?: boolean;
 }
 
-const AssessmentVisualizerEditor = ({ json, onAssessmentSubmit, hideButton, assessments }: AssessmentVisualizerEditorProps) => (
-    <Editor resolver={{MultipleOption, FreeText}} enabled={false}>
+const AssessmentVisualizerEditor = ({ json, onAssessmentSubmit, assessments, isReadOnly = false }: AssessmentVisualizerEditorProps) => (
+    <Editor resolver={{MultipleOption, FreeText}} enabled={!isReadOnly}>
         <AssessmentVisualizerComponent json={json}
                                        onAssessmentSubmit={onAssessmentSubmit}
-                                       hideButton={hideButton}
+                                       isReadOnly={isReadOnly}
                                        assessment={assessments} />
     </Editor>
 );

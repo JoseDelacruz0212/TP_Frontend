@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import {IoBowlingBallOutline, IoFilterCircle, IoFilterCircleOutline} from "react-icons/io5";
+import {IoFilterCircle, IoFilterCircleOutline} from "react-icons/io5";
 
 import {
     FaAngleDoubleLeft,
@@ -13,6 +13,7 @@ import {
 import FilterRenderer from "./filter-renderer/FilterRenderer";
 
 import {Column, FilterSchema, Option, Row} from "../../../types/common";
+import Loading from "../loading/Loading";
 
 interface TableProps {
     title: string;
@@ -101,10 +102,7 @@ const Table = ({
                             isLoading &&
                             <tr>
                                 <td colSpan={columns.length} className="py-4">
-                                    <small className="flex justify-center items-center">
-                                        Cargando
-                                        <IoBowlingBallOutline className="animate-spin ml-2" size={15} />
-                                    </small>
+                                    <Loading />
                                 </td>
                             </tr>
                         }

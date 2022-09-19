@@ -13,6 +13,7 @@ export interface Qualification extends Entity {
     userId?: string;
     courseName?: string;
     courseId?: string;
+    evaluationStatus?: number;
     evaluationName?: string;
     evaluationId?: string;
     institutionName?: string;
@@ -27,9 +28,11 @@ export interface Qualification extends Entity {
 
 export const createFrom = (qualification: APIQualification): Qualification => {
     return {
+        id: qualification.id,
         userId: qualification.user.idUser,
         courseName: qualification.evaluation.courses?.name,
         courseId: qualification.evaluation.courseId,
+        evaluationStatus: qualification.evaluation.status,
         evaluationName: qualification.evaluation.name,
         evaluationId: qualification.evaluation.id,
         institutionName: qualification.user.institution?.name,
