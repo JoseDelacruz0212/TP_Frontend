@@ -6,6 +6,7 @@ import {AssessmentFilter} from "../types/communication/requests/asessments";
 import {PointsGenerated} from "../types/communication/responses/points-generated";
 import httpClient from "../config/httpClients/httpClient";
 import {UserCourse} from "../types/communication/responses/user-course";
+import AuthorizationService from "./AuthorizationService";
 
 class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     public async getData(filters: AssessmentFilter, page: number = 1, pageSize: number = 10) {
@@ -20,10 +21,19 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
         }
     }
 
-    public async getById(id: string) {
-        return httpClient.get<Assessment>(`/evaluation/${id}`)
-            .then(({ data }) => data)
-            .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
+    public async getById(id: string, isForStudent: boolean = false) {
+        if (!isForStudent) {
+            return httpClient.get<Assessment>(`/evaluation/${id}`)
+                .then(({data}) => data)
+                .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
+        } else {
+            return httpClient.get(`/user-evaluation/byUser/${id}/${AuthorizationService.getUserId()}`)
+                .then(({data}) => {
+                    console.log(data);
+                    return null;
+                })
+                .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
+        }
     }
 
     public async deleteItem(id: string) {

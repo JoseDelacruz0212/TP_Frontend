@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
 
@@ -15,26 +15,27 @@ import Loading from "../../components/common/loading/Loading";
 import useFetch from "../../hooks/useFetch";
 
 interface LocationState {
-    assessmentId: string;
-    status: number;
     flag: boolean;
+    isForStudent?: boolean;
 }
 
 const AssessmentVisualizer = () => {
+    const { hasPermissionFor } = useAuthContext();
+    const { id } = useParams();
+
     const navigate = useNavigate();
     const location = useLocation();
     const state = location.state as LocationState;
 
-    const id = state?.assessmentId;
+    const isForStudent = state?.isForStudent;
     const flag = state?.flag;
 
-    const getData = useCallback(() => AssessmentService.getById(id), [id]);
+    const getData = useCallback(() => AssessmentService.getById(id!, isForStudent), [id, isForStudent]);
     const { data: assessment, isLoading, hasError } = useFetch(getData);
 
-    const { hasPermissionFor } = useAuthContext();
 
     const onAssessmentSubmit = (assessment: string) => {
-        AssessmentService.generatePoints(id, assessment).then(
+        AssessmentService.generatePoints(id!, assessment).then(
             pointsGenerated => BlockchainService.addTransaction(pointsGenerated).then(
                 () => {
                     navigate("/assessments");
