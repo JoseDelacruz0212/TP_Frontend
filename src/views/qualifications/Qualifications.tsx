@@ -3,6 +3,8 @@ import React from "react";
 import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
 import QualificationService from "../../services/QualificationService";
 import {useLocation} from "react-router-dom";
+import {Permissions} from "../../types/auth";
+import withPermission from "../../hoc/with-permission/withPermission";
 
 interface LocationState {
     assessmentId: string | undefined;
@@ -17,4 +19,4 @@ const Qualifications = () => {
     return <QualificationsTable service={QualificationService} defaultFilters={defaultFilters} />;
 };
 
-export default Qualifications;
+export default withPermission(Qualifications, Permissions.ASSESSMENT_QUALIFICATIONS);
