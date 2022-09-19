@@ -1,6 +1,6 @@
 import {Entity} from "./entity";
 import {Course} from "./courses";
-import {APIQualification, Qualification} from "./qualification";
+import {APIQualification} from "./qualification";
 
 export interface Assessment extends Entity {
     name: string;
@@ -20,7 +20,7 @@ export const createFrom = (qualification: APIQualification): Assessment => {
         name: qualification.evaluation.name,
         availableOn: qualification.evaluation.availableOn,
         status: qualification.evaluation.status,
-        json: qualification.evaluation.json,
+        json: qualification.json || '',
         duration: qualification.evaluation.duration,
         numberQuestions: qualification.evaluation.numberQuestions,
         courseId: qualification.evaluation.courseId,

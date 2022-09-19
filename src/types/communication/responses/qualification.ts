@@ -40,6 +40,7 @@ export const createFrom = (qualification: APIQualification): Qualification => {
         availableOn: qualification.evaluation.availableOn,
         points: qualification.points,
         grade: qualification.evaluation.courses?.grade,
-        section: qualification.evaluation.courses?.section
+        section: qualification.evaluation.courses?.section,
+        json: qualification.json
     }
 }
