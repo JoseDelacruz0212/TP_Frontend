@@ -38,7 +38,7 @@ const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) =>
                        name="edit-assessment-available-on"
                        placeholder="Fecha de disponibilidad"
                        min={moment(new Date()).format('yyyy-MM-DDTHH:mm')}
-                       value={moment(values.availableOn).format('yyyy-MM-DDTHH:mm')}
+                       value={values.availableOn ? moment(values.availableOn).format('yyyy-MM-DDTHH:mm') : ''}
                        onChange={(e) => onChange && onChange({ ...values, availableOn: moment.utc(e.target.value).format('yyyy-MM-DDTHH:mm') })} />
             </div>
             <div className="form-group">

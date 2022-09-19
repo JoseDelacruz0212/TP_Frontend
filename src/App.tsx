@@ -14,6 +14,7 @@ import AssessmentVisualizer from "./views/assessments/AssessmentVisualizer";
 import Verification from "./views/verification/Verification";
 import Profile from "./views/profile/Profile";
 import Qualifications from "./views/qualifications/Qualifications";
+import Management from "./views/management/Management";
 
 function App() {
   return (
@@ -27,10 +28,9 @@ function App() {
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
               <Route path="/qualifications/:id" element={<Qualifications />} />
               <Route path="/users" element={<Users />} />
-              <Route path="/requests" element={null} />
               <Route path="/verification" element={<Verification />} />
               <Route path="/verification/:userIdentifier" element={<Verification />} />
-              <Route path="/administration" element={null} />
+              <Route path="/management" element={<Management />} />
               <Route path="/profile" element={<Profile />} />
           </Route>
           <Route element={<ExternalLayout />}>
