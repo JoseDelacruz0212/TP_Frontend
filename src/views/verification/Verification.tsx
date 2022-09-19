@@ -1,4 +1,4 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useEffect, useState} from "react";
 
 import {useParams} from "react-router-dom";
 import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
@@ -8,11 +8,11 @@ const Verification = () => {
     const { userIdentifier: userId } = useParams();
 
     const [userIdentifier, setUserIdentifier] = useState(userId);
-    const [userIdentifierForTable, setUserIdentifierForTable] = useState(userId);
+    const [defaultFilters, setDefaultFilters] = useState({ userId });
 
     const verifyUserHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setUserIdentifierForTable(userIdentifier);
+        setDefaultFilters({ userId: userIdentifier });
     };
 
     return (
@@ -29,7 +29,7 @@ const Verification = () => {
                     Verificar
                 </button>
             </form>
-            <QualificationsTable service={QualificationBlockchainService} userId={userIdentifierForTable} />
+            <QualificationsTable service={QualificationBlockchainService} defaultFilters={defaultFilters} />
         </div>
     )
 };

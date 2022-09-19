@@ -11,6 +11,7 @@ import {Filter} from "../types/communication/requests/filter";
 import {ConvertorCreator, FilterSchemaCreator, Service} from "../types/common";
 import {toast} from "react-toastify";
 import {FetchService} from "../services/FetchService";
+import {dataFetchingFailed} from "../redux/reducers/tablaData";
 
 const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: Service<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
@@ -28,7 +29,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
         service.getData(filters as F, paginationOptions?.page, paginationOptions?.pageSize)
             .then(response => dispatch(dataLoaded(response)))
             .catch(error => {
-                dataFetchingFailed(null);
+                dispatch(dataFetchingFailed(null));
                 toast.error(error)
             })
     };

@@ -14,18 +14,17 @@ import {FetchService} from "../../services/FetchService";
 import MenuOptions from "../../components/common/menu/MenuOptions";
 import QualificationsMenuOptions from "../../components/menu-options/QualificationsMenuOptions";
 
-interface QualificationsTableProps {
-    service: FetchService<Qualification, QualificationFilter>;
+interface DefaultFilters {
     assessmentId?: string;
     userId?: string;
 }
 
-const QualificationsTable = ({ service, assessmentId, userId }: QualificationsTableProps) => {
-    const defaultFilters = useMemo(() => ({
-        assessmentId: assessmentId || '',
-        userId: userId || ''
-    }), [assessmentId, userId]);
+interface QualificationsTableProps {
+    service: FetchService<Qualification, QualificationFilter>;
+    defaultFilters: DefaultFilters;
+}
 
+const QualificationsTable = ({ service, defaultFilters }: QualificationsTableProps) => {
     const convertorCreator : ConvertorCreator<Qualification> = () => (column, rowData) => {
         let value: React.ReactNode = null;
 

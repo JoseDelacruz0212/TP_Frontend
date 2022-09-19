@@ -12,7 +12,9 @@ const Qualifications = () => {
     const location = useLocation();
     const state = location.state as LocationState;
 
-    return <QualificationsTable service={QualificationService} assessmentId={state?.assessmentId} />;
+    const defaultFilters = { assessmentId: state?.assessmentId };
+
+    return <QualificationsTable service={QualificationService} defaultFilters={defaultFilters} />;
 };
 
 export default Qualifications;

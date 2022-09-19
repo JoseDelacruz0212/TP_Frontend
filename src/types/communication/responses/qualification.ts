@@ -28,6 +28,7 @@ export interface Qualification extends Entity {
 
 export const createFrom = (qualification: APIQualification): Qualification => {
     return {
+        id: qualification.id,
         userId: qualification.user.idUser,
         courseName: qualification.evaluation.courses?.name,
         courseId: qualification.evaluation.courseId,
