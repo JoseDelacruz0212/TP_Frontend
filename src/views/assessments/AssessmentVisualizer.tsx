@@ -9,7 +9,6 @@ import withPermission from "../../hoc/with-permission/withPermission";
 import {Permissions} from "../../types/auth";
 import {AssessmentStatus} from "../../types/assessment-status";
 import AssessmentService from "../../services/AssessmentService";
-import BlockchainService from "../../services/BlockchainService";
 import {toast} from "react-toastify";
 import Loading from "../../components/common/loading/Loading";
 import useFetch from "../../hooks/useFetch";
