@@ -1,8 +1,10 @@
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {FormEvent, useState} from "react";
 
 import {useParams} from "react-router-dom";
 import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
 import QualificationBlockchainService from "../../services/QualificationBlockchainService";
+import {Permissions} from "../../types/auth";
+import withPermission from "../../hoc/with-permission/withPermission";
 
 const Verification = () => {
     const { userIdentifier: userId } = useParams();
@@ -34,4 +36,4 @@ const Verification = () => {
     )
 };
 
-export default Verification;
+export default withPermission(Verification, Permissions.VERIFICATION);

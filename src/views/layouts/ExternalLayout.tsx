@@ -2,8 +2,6 @@ import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {IoEnterOutline, IoSchool} from "react-icons/io5";
 
-import {APP_NAME} from "../../config/app/basic-settings";
-
 const Externalayout = () => {
     return (
         <div className="flex flex-col min-h-screen lg:flex-row">
@@ -11,7 +9,7 @@ const Externalayout = () => {
                 <header className="flex justify-between items-center p-2 px-6 sm:px-12">
                     <div className="flex justify-center items-center space-x-3">
                         <IoSchool size="30" />
-                        <h5>{APP_NAME}</h5>
+                        <h5>{process.env.REACT_APP_SITE_NAME}</h5>
                     </div>
                     <Link to="/">
                         <IoEnterOutline size={30} className="md:hidden" />

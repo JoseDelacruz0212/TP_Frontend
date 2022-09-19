@@ -10,7 +10,6 @@ import ProfileHeader from "../../components/layouts/application-layout/ProfileHe
 import {useAuthContext} from "../../contexts/AuthContext";
 
 import items from "../../config/app/menu-options";
-import {APP_NAME, URL} from "../../config/app/basic-settings";
 import {getActiveOptionForCurrentLocation, getTitleForCurrentLocation} from "../../config/app/routes";
 import {toast} from "react-toastify";
 
@@ -42,7 +41,7 @@ const ApplicationLayout = () => {
     const onProfileClicked = () => navigate('profile');
 
     const onShareClicked = () => {
-        copy(`${URL}/verification-external/${getUserId()}`);
+        copy(`${process.env.REACT_APP_URL}/verification-external/${getUserId()}`);
         toast.success("Enlace copiado al portapapeles");
     };
 
@@ -52,7 +51,7 @@ const ApplicationLayout = () => {
         <div className="flex flex-col min-h-screen lg:flex-row">
             <aside className={`bg-primary text-on-primary fixed top-0 h-14 lg:h-screen lg:pt-5 w-full lg:w-52 ${isMenuOpen ? 'h-screen' : ''}`}>
                 <Header titleIcon={<IoSchool size="30" />}
-                        title={APP_NAME}
+                        title={process.env.REACT_APP_SITE_NAME as string}
                         isMenuOpen={isMenuOpen}
                         toggleOpen={() => setIsMenuOpen(!isMenuOpen)} />
                 <span className="lg:hidden">
