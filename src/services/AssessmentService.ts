@@ -1,12 +1,13 @@
 import moment from "moment";
 
 import {CrudService} from "./CrudService";
-import {Assessment} from "../types/communication/responses/assessment";
+import {Assessment, createFrom} from "../types/communication/responses/assessment";
 import {AssessmentFilter} from "../types/communication/requests/asessments";
 import {PointsGenerated} from "../types/communication/responses/points-generated";
 import httpClient from "../config/httpClients/httpClient";
 import {UserCourse} from "../types/communication/responses/user-course";
 import AuthorizationService from "./AuthorizationService";
+import {APIQualification} from "../types/communication/responses/qualification";
 
 class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
     public async getData(filters: AssessmentFilter, page: number = 1, pageSize: number = 10) {
@@ -27,11 +28,8 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
                 .then(({data}) => data)
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
         } else {
-            return httpClient.get(`/user-evaluation/byUser/${id}/${AuthorizationService.getUserId()}`)
-                .then(({data}) => {
-                    console.log(data);
-                    return null;
-                })
+            return httpClient.get<APIQualification[]>(`/user-evaluation/byUser/${id}/${AuthorizationService.getUserId()}`)
+                .then(({data}) => data ? createFrom(data[0]) : undefined)
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
         }
     }

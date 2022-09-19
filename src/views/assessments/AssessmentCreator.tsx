@@ -20,7 +20,7 @@ const AssessmentCreator = () => {
 
     const navigate = useNavigate();
     const { id } = useParams();
-    const [assessment, setAssessment] = useState<Assessment | null>(null);
+    const [assessment, setAssessment] = useState<Assessment | undefined>(undefined);
 
     useEffect(() => {
         if (id) {
