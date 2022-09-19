@@ -15,7 +15,7 @@ const QualificationsMenuOptions = ({ rowData }: InstitutionsMenuOptionsProps) =>
             <Link to={`/assessment-visualizer/${rowData.evaluationId}`} state={{ subtitle: rowData.evaluationName }}>
                 <div role="button" className="menu-option">
                     <div><IoDocumentOutline /></div>
-                    <span>Ver detalles</span>
+                    <span>Ver respuestas</span>
                 </div>
             </Link>
         </HasPermission>

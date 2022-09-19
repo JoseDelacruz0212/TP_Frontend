@@ -9,7 +9,6 @@ const useFetch = <T>(getData: () => Promise<T>) => {
         setIsLoading(true);
         getData()
             .then(data => {
-                console.log(data);
                 setIsLoading(false);
                 setData(data);
             })

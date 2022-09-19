@@ -5,6 +5,7 @@ import {PaginatedResponse} from "../types/communication/responses/pagination";
 import {PointsGenerated} from "../types/communication/responses/points-generated";
 import AuthorizationService from "./AuthorizationService";
 import blockchainClient from "../config/httpClients/blockchainClient";
+import {Assessment} from "../types/communication/responses/assessment";
 
 class QualificationBlockchainService extends FetchService<Qualification, QualificationFilter> {
     getData(filters: QualificationFilter, page: number = 1, pageSize: number = 10): Promise<Qualification[] | PaginatedResponse<Qualification>> {
@@ -15,15 +16,19 @@ class QualificationBlockchainService extends FetchService<Qualification, Qualifi
         } else return new Promise(resolve => resolve([]));
     }
 
-    public async addTransaction(pointsGenerated: PointsGenerated) {
-        const userId = AuthorizationService.getUserId();
-
+    public async addTransaction(pointsGenerated: PointsGenerated, assessment: Assessment) {
         return blockchainClient.post('/addTransaction', {
-            carid: userId,
-            make: pointsGenerated.course,
-            model: pointsGenerated.evaluation,
-            colour: pointsGenerated.institution,
-            owner: pointsGenerated.points
+            userId: AuthorizationService.getUserId(),
+            courseName: assessment.courses?.name,
+            courseId: assessment.courses?.id,
+            evaluationName: assessment.name,
+            evaluationId: assessment.id,
+            institutionName: assessment.courses?.institution?.name,
+            institutionId: assessment.courses?.institutionId,
+            time: assessment.availableOn,
+            points: pointsGenerated.points,
+            grade: assessment.courses?.grade,
+            section: assessment.courses?.section
         });
     }
 

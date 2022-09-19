@@ -27,7 +27,7 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: A
                 <Link to={`/assessment-visualizer/${rowData.id}`} state={{ isForStudent: true, subtitle: rowData.name }}>
                     <div role="button" className="menu-option">
                         <div><IoEyeOutline /></div>
-                        <span>Ver resultado</span>
+                        <span>Ver respuestas</span>
                     </div>
                 </Link>
             </HasPermission>

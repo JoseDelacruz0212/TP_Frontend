@@ -36,15 +36,15 @@ const QualificationsTable = ({ service, defaultFilters }: QualificationsTablePro
             case 5: value = <div className="py-4">{rowData.evaluationName}</div>; break;
             case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
             case 7:
-                if (!rowData.nota) return <div className="py-4"></div>;
+                if (!rowData.points) return <div className="py-4"></div>;
 
                 let color = "bg-green-500 text-white";
 
-                if (rowData.nota < 10) color = "bg-red-500 text-white";
-                else if (rowData.nota < 13) color = "bg-yellow-500";
+                if (rowData.points < 10) color = "bg-red-500 text-white";
+                else if (rowData.points < 13) color = "bg-yellow-500";
 
                 value = (
-                    <div className="py-4"><Chip label={rowData.nota.toString()} className={`${color} w-full`} /></div>
+                    <div className="py-4"><Chip label={rowData.points.toString()} className={`${color} w-full`} /></div>
                 );
                 break;
             case 8:

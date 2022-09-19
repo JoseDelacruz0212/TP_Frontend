@@ -13,6 +13,7 @@ import BlockchainService from "../../services/BlockchainService";
 import {toast} from "react-toastify";
 import Loading from "../../components/common/loading/Loading";
 import useFetch from "../../hooks/useFetch";
+import QualificationBlockchainService from "../../services/QualificationBlockchainService";
 
 interface LocationState {
     flag: boolean;
@@ -33,9 +34,11 @@ const AssessmentVisualizer = () => {
     const getData = useCallback(() => AssessmentService.getById(id!, isForStudent), [id, isForStudent]);
     const { data: assessment, isLoading, hasError } = useFetch(getData);
 
-    const onAssessmentSubmit = (assessment: string) => {
-        AssessmentService.generatePoints(id!, assessment).then(
-            pointsGenerated => BlockchainService.addTransaction(pointsGenerated).then(
+    const onAssessmentSubmit = (assessmentId: string) => {
+        if (!assessment) return;
+
+        AssessmentService.generatePoints(id!, assessmentId).then(
+            pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated, assessment).then(
                 () => {
                     navigate("/assessments");
                     toast.success("La evaluación se envió exitosamente");

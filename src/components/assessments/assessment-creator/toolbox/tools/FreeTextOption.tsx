@@ -54,7 +54,7 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         <small className="text-overline self-end">{answerInput?.length || '0'} / 50</small>
                     </div>
             }
-            {
+            {/*{
                 !enabled &&
                 <div className="flex justify-end">
                     <div className="flex items-center space-x-2">
@@ -73,7 +73,7 @@ const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, h
                         </div>
                     </div>
                 </div>
-            }
+            }*/}
         </div>
     )
 };
