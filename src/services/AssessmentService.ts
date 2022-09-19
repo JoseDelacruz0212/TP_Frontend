@@ -5,7 +5,6 @@ import {Assessment, createFrom} from "../types/communication/responses/assessmen
 import {AssessmentFilter} from "../types/communication/requests/asessments";
 import {PointsGenerated} from "../types/communication/responses/points-generated";
 import httpClient from "../config/httpClients/httpClient";
-import {UserCourse} from "../types/communication/responses/user-course";
 import AuthorizationService from "./AuthorizationService";
 import {APIQualification} from "../types/communication/responses/qualification";
 
@@ -16,8 +15,8 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
                 .then(({ data }) => this.getPaginatedData(data, filters, page, pageSize))
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las evaluaciones"));
         } else {
-            return httpClient.get<UserCourse[]>(`/evaluation/byCourse/${filters.courseId}`)
-                .then(({ data }) => this.getPaginatedData(data.map((x: any) => x.user), filters, page, pageSize))
+            return httpClient.get<Assessment[]>(`/evaluation/byCourse/${filters.courseId}`)
+                .then(({ data }) => this.getPaginatedData(data, filters, page, pageSize))
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las evaluaciones"));
         }
     }
