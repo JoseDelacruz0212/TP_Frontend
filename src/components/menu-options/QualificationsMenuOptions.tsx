@@ -12,13 +12,10 @@ interface InstitutionsMenuOptionsProps {
 const QualificationsMenuOptions = ({ rowData }: InstitutionsMenuOptionsProps) => (
     <>
         <HasPermission permission={Permissions.ASSESSMENT_DETAILS}>
-            <Link to={`/assessment-visualizer/${rowData.evaluationId}`} state={{
-                assessmentId: rowData.evaluationId,
-                status: rowData.evaluationStatus
-            }}>
+            <Link to={`/assessment-visualizer/${rowData.evaluationId}`} state={{ subtitle: rowData.evaluationName }}>
                 <div role="button" className="menu-option">
                     <div><IoDocumentOutline /></div>
-                    <span>Ver detalles</span>
+                    <span>Ver respuestas</span>
                 </div>
             </Link>
         </HasPermission>

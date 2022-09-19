@@ -50,7 +50,7 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                 }
                 </ul>
             }
-            {
+            {/*{
                 !enabled &&
                 <div className="flex justify-end">
                     <div className="flex items-center space-x-2">
@@ -69,7 +69,7 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
                         </div>
                     </div>
                 </div>
-            }
+            }*/}
         </div>
     )
 };

@@ -19,7 +19,7 @@ export interface Qualification extends Entity {
     institutionName?: string;
     institutionId?: string;
     availableOn?: string;
-    nota?: number;
+    points?: number;
     grade?: string;
     section?: string;
     isEdited?: boolean;
@@ -38,7 +38,7 @@ export const createFrom = (qualification: APIQualification): Qualification => {
         institutionName: qualification.user.institution?.name,
         institutionId: qualification.user.institution?.id,
         availableOn: qualification.evaluation.availableOn,
-        nota: qualification.points,
+        points: qualification.points,
         grade: qualification.evaluation.courses?.grade,
         section: qualification.evaluation.courses?.section
     }

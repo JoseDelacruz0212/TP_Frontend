@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
 
@@ -13,29 +13,32 @@ import BlockchainService from "../../services/BlockchainService";
 import {toast} from "react-toastify";
 import Loading from "../../components/common/loading/Loading";
 import useFetch from "../../hooks/useFetch";
+import QualificationBlockchainService from "../../services/QualificationBlockchainService";
 
 interface LocationState {
-    assessmentId: string;
-    status: number;
     flag: boolean;
+    isForStudent?: boolean;
 }
 
 const AssessmentVisualizer = () => {
+    const { hasPermissionFor } = useAuthContext();
+    const { id } = useParams();
+
     const navigate = useNavigate();
     const location = useLocation();
     const state = location.state as LocationState;
 
-    const id = state?.assessmentId;
+    const isForStudent = state?.isForStudent;
     const flag = state?.flag;
 
-    const getData = useCallback(() => AssessmentService.getById(id), [id]);
+    const getData = useCallback(() => AssessmentService.getById(id!, isForStudent), [id, isForStudent]);
     const { data: assessment, isLoading, hasError } = useFetch(getData);
 
-    const { hasPermissionFor } = useAuthContext();
+    const onAssessmentSubmit = (assessmentId: string) => {
+        if (!assessment) return;
 
-    const onAssessmentSubmit = (assessment: string) => {
-        AssessmentService.generatePoints(id, assessment).then(
-            pointsGenerated => BlockchainService.addTransaction(pointsGenerated).then(
+        AssessmentService.generatePoints(id!, assessmentId).then(
+            pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated, assessment).then(
                 () => {
                     navigate("/assessments");
                     toast.success("La evaluación se envió exitosamente");
@@ -45,6 +48,15 @@ const AssessmentVisualizer = () => {
     };
 
     if (isLoading) return <Loading />;
+
+    if (assessment) {
+        const accessAllowed =
+            (assessment.status === AssessmentStatus.STARTED && flag === false && hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)) ||
+            (assessment.status === AssessmentStatus.FINISHED && hasPermissionFor(Permissions.ASSESSMENT_DETAILS));
+
+        if (!accessAllowed) navigate(-1);
+    }
+
     if (hasError || !assessment) return (
         <div className="flex justify-center">
             <span className="text-center w-full md:w-2/3 lg:w-1/2">
@@ -52,12 +64,6 @@ const AssessmentVisualizer = () => {
             </span>
         </div>
     );
-
-    const accessAllowed =
-        (assessment.status === AssessmentStatus.STARTED && !flag && hasPermissionFor(Permissions.ASSESSMENT_SUBMIT)) ||
-        (assessment.status === AssessmentStatus.FINISHED && hasPermissionFor(Permissions.ASSESSMENT_DETAILS));
-
-    if (!accessAllowed) return <Navigate to="/assessments" />;
 
     return (
         <AssessmentVisualizerEditor json={assessment.json}

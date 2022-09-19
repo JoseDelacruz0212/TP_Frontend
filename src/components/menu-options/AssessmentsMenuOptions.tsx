@@ -3,7 +3,13 @@ import If from "../common/logic/If";
 import {AssessmentStatus as AssessmentStatusOptions} from "../../types/assessment-status";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {Permissions} from "../../types/auth";
-import {IoCreateOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline} from "react-icons/io5";
+import {
+    IoCreateOutline,
+    IoDocumentTextOutline,
+    IoEyeOutline,
+    IoPencilOutline,
+    IoTrashOutline
+} from "react-icons/io5";
 import {Link} from "react-router-dom";
 import {Assessment} from "../../types/communication/responses/assessment";
 
@@ -16,6 +22,24 @@ interface AssessmentMenuOptionsProps {
 
 const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: AssessmentMenuOptionsProps) => (
     <>
+        <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
+            <HasPermission permission={Permissions.ASSESSMENT_DETAILS_ACTION}>
+                <Link to={`/assessment-visualizer/${rowData.id}`} state={{ isForStudent: true, subtitle: rowData.name }}>
+                    <div role="button" className="menu-option">
+                        <div><IoEyeOutline /></div>
+                        <span>Ver respuestas</span>
+                    </div>
+                </Link>
+            </HasPermission>
+        </If>
+        <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
+            <HasPermission permission={Permissions.ASSESSMENT_REQUEST_ACTION}>
+                <div role="button" className="menu-option">
+                    <div><IoDocumentTextOutline /></div>
+                    <span>Iniciar reclamo</span>
+                </div>
+            </HasPermission>
+        </If>
         <If condition={rowData.status === AssessmentStatusOptions.FINISHED}>
             <HasPermission permission={Permissions.ASSESSMENT_QUALIFICATIONS}>
                 <Link to={`/qualifications/${rowData.id}`} state={{
@@ -48,12 +72,7 @@ const AssessmentsMenuOptions = ({ rowData, onEdit, onDelete, onUpdateStatus }: A
         </If>
         <If condition={rowData.status === AssessmentStatusOptions.STARTED && rowData.flag !== true}>
             <HasPermission permission={Permissions.ASSESSMENT_START}>
-                <Link to={`/assessment-visualizer/${rowData.id}`} state={{
-                    assessmentId: rowData.id,
-                    status: rowData.status,
-                    flag: rowData.flag,
-                    subtitle: rowData.name
-                }}>
+                <Link to={`/assessment-visualizer/${rowData.id}`} state={{ flag: rowData.flag, subtitle: rowData.name }}>
                     <div role="button" className="menu-option">
                         <div><IoEyeOutline /></div>
                         <span>Realizar evaluación</span>
