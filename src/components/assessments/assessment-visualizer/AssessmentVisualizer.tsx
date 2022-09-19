@@ -12,11 +12,12 @@ interface AssessmentVisualizerProps {
     json: string;
     onAssessmentSubmit: (assessment: string) => void;
     isReadOnly?: boolean;
-    assessment?: Assessment
+    assessment?: Assessment;
+    isSubmitting?: boolean;
 }
 
 
-const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false }: AssessmentVisualizerProps) => {
+const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false }: AssessmentVisualizerProps) => {
     const { query } = useEditor();
 
     const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -26,7 +27,7 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
 
     const SendButton = () => (
         <div className="flex justify-end">
-            <button type="submit" className="button-primary text-on-primary">
+            <button type="submit" className="button-primary" disabled={isSubmitting}>
                 Enviar
             </button>
         </div>
