@@ -1,19 +1,14 @@
 import React from "react";
 import Select from "react-select";
 
-import {CourseOption} from "../../types/communication/responses/courses";
-
 import CourseService from "../../services/CourseService";
-import useSelect from "../../hooks/useSelect";
+import useFetchSelect from "../../hooks/useFetchSelect";
 
-const getValue = (x: CourseOption) => x.id;
-const getLabel = (x: CourseOption) => x.name;
+const getCourses = () => CourseService.getCoursesForCombo().then(data => data.map(x => ({ value: x.id, label: x.name })))
 
 const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x?: string) => void }) => {
-    const selectProps = useSelect(
-        CourseService.getCoursesForCombo,
-        getValue,
-        getLabel,
+    const selectProps = useFetchSelect(
+        getCourses,
         onCourseChanged,
         courseId
     );

@@ -108,23 +108,27 @@
     }
 
     .form-input {
-        @apply border px-2 py-1 rounded-md
+        @apply border px-2 py-1 rounded-md h-9
+    }
+
+    .button-disabled {
+        @apply bg-gray-200 text-on-secondary py-1 px-2 rounded-md cursor-not-allowed
     }
 
     .button-default {
-        @apply py-1 px-2 shadow rounded-md hover:bg-gray-100
+        @apply py-1 px-2 shadow rounded-md hover:bg-gray-100 disabled:button-disabled
     }
 
     .button-primary {
-        @apply bg-primary text-on-primary py-1 px-2 rounded-md hover:bg-primary-dark
+        @apply bg-primary text-on-primary py-1 px-2 rounded-md hover:bg-primary-dark disabled:button-disabled
     }
 
     .button-secondary {
-        @apply bg-secondary text-on-secondary py-1 px-2 rounded-md hover:bg-secondary-dark
+        @apply bg-secondary text-on-secondary py-1 px-2 rounded-md hover:bg-secondary-dark disabled:button-disabled
     }
 
     .button-error {
-        @apply bg-error text-on-error py-1 px-2 rounded-md hover:bg-red-600
+        @apply bg-error text-on-error py-1 px-2 rounded-md hover:bg-red-600 disabled:button-disabled
     }
 
     .menu-option {

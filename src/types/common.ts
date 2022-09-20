@@ -5,8 +5,8 @@ import {CrudService} from "../services/CrudService";
 import {FetchService} from "../services/FetchService";
 
 export interface Option {
-    value: number | string;
-    label: number | string;
+    value: string;
+    label: string;
 }
 
 export interface FormInputProps<T extends Entity> {
@@ -25,7 +25,7 @@ export interface FilterSchema {
     withLabel?: boolean;
     placeholder?: string;
     label?: string;
-    initialValue?: number | string;
+    initialValue?: string;
     withTime?: boolean;
 }
 

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useMemo} from "react";
 
 import {User} from "../../types/communication/responses/user";
 import {FormInputProps} from "../../types/common";
@@ -7,17 +7,28 @@ import {Permissions} from "../../types/auth";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 
 import InstitutionsSelect from "../selects/InstitutionsSelect";
+import {useAuthContext} from "../../contexts/AuthContext";
+import useSelect from "../../hooks/useSelect";
+import Select from "react-select";
 
 const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
-    const [selectedRole, setSelectedRole] = useState<string>((values.roles && values.roles[0]) || "");
+    const { hasPermissionFor } = useAuthContext();
 
-    const onSelectedRoleChanged = (option: string) => {
-        onChange && onChange({ ...values, roles: [option] });
-        setSelectedRole(option);
+    const options = useMemo(() => [
+        ...(hasPermissionFor(Permissions.USERS_ADD_ADMINISTRATOR) ? [{ value: 'admin', label: 'Administrador' }] : []),
+        ...(hasPermissionFor(Permissions.USERS_ADD_INSTITUTION) ? [{ value: 'institution', label: 'Institución' }] : []),
+        { value: 'teacher', label: 'Profesor' },
+        { value: 'user', label: 'Estudiante' }
+    ], []);
+
+    const onSelectedRoleChanged = (option?: string) => {
+         option && onChange && onChange({ ...values, roles: [option] });
     };
 
+    const selectProps = useSelect(onSelectedRoleChanged, options, (values.roles && values.roles[0]) || "");
+
     const onInstitutionChanged = (insitutionId?: string) => {
-        onChange && onChange({ ...values, insitutionId });
+         onChange && onChange({ ...values, insitutionId });
     }
 
     return (
@@ -88,22 +99,10 @@ const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
                 <label htmlFor="edit-user-roles" className="form-label">
                     <small>Rol</small>
                 </label>
-                <select className="form-input select"
-                        id="edit-user-roles"
-                        name="edit-user-roles"
-                        placeholder="Rol"
-                        value={selectedRole}
-                        onChange={(e) => onSelectedRoleChanged(e.target.value)}>
-                    <option value="">Seleccione una opción</option>
-                    <HasPermission permission={Permissions.USERS_ADD_ADMINISTRATOR}>
-                        <option value="admin">Administrador</option>
-                    </HasPermission>
-                    <HasPermission permission={Permissions.USERS_ADD_INSTITUTION}>
-                        <option value="institution">Institución</option>
-                    </HasPermission>
-                    <option value="teacher">Profesor</option>
-                    <option value="user">Estudiante</option>
-                </select>
+                <Select {...selectProps}
+                        id="edit-course-institution"
+                        name="edit-course-institution"
+                        placeholder="Rol" />
             </div>
             <HasPermission permission={Permissions.USERS_SELECT_INSTITUTION}>
                 <InstitutionsSelect institutionId={values.institution?.id || ""} onInstitutionChanged={onInstitutionChanged} />
