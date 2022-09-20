@@ -9,7 +9,7 @@ import useFetchSelect from "../../hooks/useFetchSelect";
 const getValue = (x: CourseOption) => x.id;
 const getLabel = (x: CourseOption) => x.name;
 
-const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x?: string) => void }) => {
+const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x?: string | number) => void }) => {
     const selectProps = useFetchSelect(
         CourseService.getCoursesForCombo,
         getValue,

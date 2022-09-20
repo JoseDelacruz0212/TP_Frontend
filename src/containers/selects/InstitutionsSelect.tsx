@@ -9,7 +9,7 @@ import useFetchSelect from "../../hooks/useFetchSelect";
 const getValue = (x: InstitutionOption) => x.id;
 const getLabel = (x: InstitutionOption) => x.name;
 
-const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x?: string) => void }) => {
+const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x?: string | number) => void }) => {
     const selectProps = useFetchSelect(
         InstitutionService.getInstitutionsForCombo,
         getValue,

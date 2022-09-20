@@ -21,7 +21,7 @@ export interface FilterSchema {
     options?: Option[];
     startDate?: string;
     endDate?: string;
-    onChange: (value: string) => void;
+    onChange: (value: string | number) => void;
     withLabel?: boolean;
     placeholder?: string;
     label?: string;
@@ -31,7 +31,7 @@ export interface FilterSchema {
 
 export interface FilterProps {
     schema: FilterSchema;
-    onChange: (value: string) => void;
+    onChange: (value: string | number) => void;
 }
 
 export interface Column {

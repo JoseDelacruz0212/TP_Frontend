@@ -18,6 +18,7 @@ import withPermission from "../../hoc/with-permission/withPermission";
 import TableView from "../layouts/TableView";
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 import InstitutionsMenuOptions from "../../components/menu-options/InstitutionsMenuOptions";
+import Select from "../../components/common/table/filter-renderer/elements/Select";
 
 const defaultInstitution: Institution = {
     name: '',
@@ -70,16 +71,25 @@ const createFilterSchema: FilterSchemaCreator<InstitutionFilter> = (filters, onF
         id: "institution-name-filter",
         type: Text,
         initialValue: filters.name,
-        onChange: (value: string) => onFiltersUpdate({ ...filters, name: value }),
+        onChange: (value: string | number) => onFiltersUpdate({ ...filters, name: value as string }),
         withLabel: true,
         label: 'Nombre',
         placeholder: 'Nombre'
     },
     {
+        id: "institution-name-select",
+        type: Select,
+        onChange: (value: string | number) => onFiltersUpdate({ ...filters, name: value as string }),
+        withLabel: true,
+        label: 'Nombre',
+        placeholder: 'Nombre',
+        options: [{ value: "xd", label: "asd" }]
+    },
+    {
         id: "institution-address-filter",
         type: Text,
         initialValue: filters.direction,
-        onChange: (value: string) => onFiltersUpdate({ ...filters, direction: value }),
+        onChange: (value: string | number) => onFiltersUpdate({ ...filters, direction: value as string }),
         withLabel: true,
         label: 'Dirección',
         placeholder: 'Dirección',
@@ -88,7 +98,7 @@ const createFilterSchema: FilterSchemaCreator<InstitutionFilter> = (filters, onF
         id: "institution-code-filter",
         type: Text,
         initialValue: filters.code,
-        onChange: (value: string) => onFiltersUpdate({ ...filters, code: value }),
+        onChange: (value: string | number) => onFiltersUpdate({ ...filters, code: value as string }),
         withLabel: true,
         label: 'Código',
         placeholder: 'Código',

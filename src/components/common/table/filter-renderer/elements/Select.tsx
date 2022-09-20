@@ -1,14 +1,21 @@
 import React, {useState} from "react";
+import Select from "react-select";
 
-import {FilterProps} from "../../../../../types/common";
+import {FilterProps, Option} from "../../../../../types/common";
+import useSelect from "../../../../../hooks/useSelect";
 
-const Select = (props: FilterProps) => {
-    const [value, setValue] = useState(props.schema.initialValue || '');
+const getValue = (option: Option) => option.value;
+const getLabel = (option: Option) => option.label;
 
-    const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValue(e.target.value);
-        props.onChange(e.target.value);
+const SelectFilter = (props: FilterProps) => {
+    const onChangeHandler = (newValue?: string | number) => {
+        newValue && props.onChange(newValue);
     }
+
+    const options = props.schema.options || [];
+    const initialValue = props.schema.initialValue ? props.schema.initialValue as string : '';
+
+    const selectProps = useSelect(options, getValue, getLabel, onChangeHandler, initialValue);
 
     return (
         <div className="form-group">
@@ -18,23 +25,12 @@ const Select = (props: FilterProps) => {
                     <small>{props.schema.label}</small>
                 </label>
             }
-            <select className="form-input select"
-                    id={props.schema.id}
-                    name={props.schema.id}
-                    value={value}
-                    placeholder={props.schema.placeholder}
-                    onChange={onChangeHandler} >
-                <option value="">Todos</option>
-                {
-                    props.schema.options && props.schema.options.map(option => (
-                        <option key={option.value} value={option.value}>
-                            { option.label }
-                        </option>
-                    ))
-                }
-            </select>
+            <Select {...selectProps}
+                    id="edit-course-institution"
+                    name="edit-course-institution"
+                    placeholder={props.schema.placeholder} />
         </div>
     )
 };
 
-export default Select;
+export default SelectFilter;

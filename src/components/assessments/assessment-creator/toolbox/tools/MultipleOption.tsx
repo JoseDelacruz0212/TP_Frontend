@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {useEditor, useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
 import {Option} from "../../../../../types/common";
 
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
+import useSelect from "../../../../../hooks/useSelect";
+import Select from "react-select";
 
 interface MultipleOptionProps {
     question?: string;
@@ -74,6 +76,9 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
     )
 };
 
+const getValue = (option: Option) => option.value;
+const getLabel = (option: Option) => option.label;
+
 const MultipleOptionSettings = () => {
     const [newOption, setNewOption] = useState("");
 
@@ -84,6 +89,12 @@ const MultipleOptionSettings = () => {
         answer: node.data.props.answer,
         points: node.data.props.points
     }));
+
+    const selectOptions = useMemo(() => options || [], [options]);
+    const selectValue = useMemo(() => answer || '', [answer]);
+    const onSelectChange = useCallback((newValue?: string | number) => setProp((props: MultipleOptionProps) => props.answer = newValue ? newValue as string : ''), [setProp]);
+
+    const selectProps = useSelect(selectOptions, getValue, getLabel, onSelectChange, selectValue);
 
     const onNewOptionClicked = () => {
         setNewOption("");
@@ -187,22 +198,11 @@ const MultipleOptionSettings = () => {
                 <label htmlFor="multiple-question-answer" className="form-label">
                     <small>Opción correcta (respuesta)</small>
                 </label>
-                <select className={`form-input select ${!options || options.length === 0 ? 'cursor-not-allowed' : ''}`}
-                        id="multiple-question-answer"
-                        name="multiple-question-answer"
-                        value={answer || ""}
-                        placeholder="Respuesta"
-                        disabled={!options || options.length === 0}
-                        onChange={(e) => setProp((props: MultipleOptionProps) => props.answer = e.target.value)}>
-                    { options && options.length > 0 && <option value="">Seleccione una opción</option> }
-                    {
-                        options && options.map((option: Option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))
-                    }
-                </select>
+                <Select {...selectProps}
+                        id="edit-course-institution"
+                        name="edit-course-institution"
+                        isDisabled={!options || options.length === 0}
+                        placeholder="Respuesta" />
             </div>
         </div>
     );
