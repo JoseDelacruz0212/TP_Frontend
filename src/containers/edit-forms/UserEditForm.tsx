@@ -25,9 +25,7 @@ const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
          option && onChange && onChange({ ...values, roles: [option] });
     };
 
-    const defaultValue = (values.roles && values.roles[0]) || "";
-
-    const selectProps = useSelect(onSelectedRoleChanged, options, defaultValue);
+    const selectProps = useSelect(onSelectedRoleChanged, options, (values.roles && values.roles[0]) || "");
 
     const onInstitutionChanged = (insitutionId?: string) => {
          onChange && onChange({ ...values, insitutionId });
