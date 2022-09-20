@@ -4,13 +4,13 @@ import Select from "react-select";
 import {InstitutionOption} from "../../types/communication/responses/institutions";
 
 import InstitutionService from "../../services/InstitutionService";
-import useSelect from "../../hooks/useSelect";
+import useFetchSelect from "../../hooks/useFetchSelect";
 
 const getValue = (x: InstitutionOption) => x.id;
 const getLabel = (x: InstitutionOption) => x.name;
 
 const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x?: string) => void }) => {
-    const selectProps = useSelect(
+    const selectProps = useFetchSelect(
         InstitutionService.getInstitutionsForCombo,
         getValue,
         getLabel,

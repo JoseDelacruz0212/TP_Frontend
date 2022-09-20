@@ -1,6 +1,5 @@
-import {useCallback, useState} from "react";
+import {useEffect, useState} from "react";
 import {PropsValue} from "react-select";
-import useFetch from "./useFetch";
 
 export interface SelectOption {
     value: string;
@@ -26,30 +25,29 @@ const styles = {
     }),
 }
 
-const useSelect = <T>(getData: () => Promise<T[]>, getValue: (x: T) => string, getLabel: (x: T) => string, onSelectedChanged: (x?: string) => void, defaultValueId?: string) => {
+const useSelect = <T>(options: T[], getValue: (x: T) => string, getLabel: (x: T) => string, onSelectedChanged: (x?: string) => void, defaultValueId?: string) => {
     const [selectedOption, setSelectedOption] = useState<PropsValue<SelectOption>>(null);
+    const [optionsList, setOptionsList] = useState(options);
 
-    const getSelectData = useCallback(() => getData().then(data => {
-        const selected = data.find(x => getValue(x) === defaultValueId);
+    useEffect(() => {
+        if (options !== optionsList) setOptionsList(options);
+
+        const selected = options.find(x => getValue(x) === defaultValueId);
 
         if (selected) {
             const newSelectedOption = { value: getValue(selected), label: getLabel(selected) };
             setSelectedOption(newSelectedOption);
         }
-
-        return data;
-    }), [getData]);
-
-    const { data, isLoading } = useFetch<T[]>(getSelectData);
+    }, [options, getValue, getLabel]);
 
     const onSelectedChangedHandler = (option: SelectOption | null) => {
-        if (!data) return;
+        if (!optionsList) return;
 
         const selectedId = option?.value || undefined;
 
         onSelectedChanged && onSelectedChanged(selectedId);
 
-        const selected = data.find(x => getValue(x) === selectedId);
+        const selected = optionsList.find(x => getValue(x) === selectedId);
 
         if (selected) {
             const newSelectedOption = { value: getValue(selected), label: getLabel(selected) };
@@ -58,9 +56,8 @@ const useSelect = <T>(getData: () => Promise<T[]>, getValue: (x: T) => string, g
     }
 
     return {
-        options: (data || []).map(x => ({ value: getValue(x), label: getLabel(x) })),
-        isDisabled: !data || data?.length === 0,
-        isLoading,
+        options: (optionsList || []).map(x => ({ value: getValue(x), label: getLabel(x) })),
+        isDisabled: !optionsList || optionsList?.length === 0,
         value: selectedOption,
         onChange: onSelectedChangedHandler,
         styles

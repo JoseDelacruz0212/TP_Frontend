@@ -4,13 +4,13 @@ import Select from "react-select";
 import {CourseOption} from "../../types/communication/responses/courses";
 
 import CourseService from "../../services/CourseService";
-import useSelect from "../../hooks/useSelect";
+import useFetchSelect from "../../hooks/useFetchSelect";
 
 const getValue = (x: CourseOption) => x.id;
 const getLabel = (x: CourseOption) => x.name;
 
 const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x?: string) => void }) => {
-    const selectProps = useSelect(
+    const selectProps = useFetchSelect(
         CourseService.getCoursesForCombo,
         getValue,
         getLabel,
