@@ -12,14 +12,16 @@ interface AssessmentVisualizerEditorProps {
     onAssessmentSubmit: (assessment: string) => void;
     assessments?: Assessment;
     isReadOnly?: boolean;
+    isSubmitting?: boolean;
 }
 
-const AssessmentVisualizerEditor = ({ json, onAssessmentSubmit, assessments, isReadOnly = false }: AssessmentVisualizerEditorProps) => (
+const AssessmentVisualizerEditor = ({ json, onAssessmentSubmit, assessments, isReadOnly = false, isSubmitting = false }: AssessmentVisualizerEditorProps) => (
     <Editor resolver={{MultipleOption, FreeText}} enabled={!isReadOnly}>
         <AssessmentVisualizerComponent json={json}
                                        onAssessmentSubmit={onAssessmentSubmit}
                                        isReadOnly={isReadOnly}
-                                       assessment={assessments} />
+                                       assessment={assessments}
+                                       isSubmitting={isSubmitting} />
     </Editor>
 );
 

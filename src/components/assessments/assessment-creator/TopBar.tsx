@@ -20,12 +20,12 @@ const TopBar = ({ onDesignSave, onDesignPublish, canSave = true, canPublish = tr
             <span className="subtitle">Diseño</span>
             <div className="flex space-x-2">
                 <button onClick={onDesignSaveHandler}
-                        className={`button-primary ${!canSave ? 'cursor-not-allowed bg-primary-dark' : ''}`}
+                        className="button-primary"
                         disabled={!canSave}>
                     <IoSaveOutline size={15} />
                 </button>
                 <button onClick={onDesignPublishHandler}
-                        className={`button-secondary ${!canPublish ? 'cursor-not-allowed bg-secondary-dark' : ''}`}
+                        className="button-secondary"
                         disabled={!canPublish}>
                     Publicar
                 </button>

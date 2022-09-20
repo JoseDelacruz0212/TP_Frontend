@@ -3,10 +3,10 @@ import HasPermission from "../../hoc/with-permission/HasPermission";
 import {Permissions} from "../../types/auth";
 import {Link} from "react-router-dom";
 import {IoDocumentOutline} from "react-icons/io5";
-import {Qualification} from "../../types/communication/responses/qualification";
+import {QualificationGroup} from "../../types/communication/responses/qualification";
 
 interface InstitutionsMenuOptionsProps {
-    rowData: Qualification;
+    rowData: QualificationGroup;
 }
 
 const QualificationsMenuOptions = ({ rowData }: InstitutionsMenuOptionsProps) => (

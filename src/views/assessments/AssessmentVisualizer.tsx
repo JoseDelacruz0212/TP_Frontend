@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 import {useAuthContext} from "../../contexts/AuthContext";
@@ -20,6 +20,8 @@ interface LocationState {
 }
 
 const AssessmentVisualizer = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const { hasPermissionFor } = useAuthContext();
     const { id } = useParams();
 
@@ -36,9 +38,12 @@ const AssessmentVisualizer = () => {
     const onAssessmentSubmit = (assessmentId: string) => {
         if (!assessment) return;
 
+        setIsSubmitting(true);
         AssessmentService.generatePoints(id!, assessmentId).then(
             pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated, assessment).then(
                 () => {
+                    setIsSubmitting(false);
+
                     navigate("/assessments");
                     toast.success("La evaluación se envió exitosamente");
                 }
@@ -68,7 +73,8 @@ const AssessmentVisualizer = () => {
         <AssessmentVisualizerEditor json={assessment.json}
                                     onAssessmentSubmit={onAssessmentSubmit}
                                     isReadOnly={assessment.status !== AssessmentStatus.STARTED}
-                                    assessments={assessment} />
+                                    assessments={assessment}
+                                    isSubmitting={isSubmitting} />
     )
 }
 
