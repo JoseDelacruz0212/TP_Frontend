@@ -6,7 +6,6 @@ import {IoFilterCircle, IoFilterCircleOutline} from "react-icons/io5";
 import {
     FaAngleDoubleLeft,
     FaAngleDoubleRight,
-    FaAngleDown,
     FaAngleLeft,
     FaAngleRight
 } from "react-icons/fa";
@@ -68,19 +67,19 @@ const Table = ({
     }
 
     const options: Option[] = useMemo(() => pageSizeOptions || [{
-            value: "1",
+            value: "5",
             label: "5"
         },
         {
-            value: "2",
+            value: "10",
             label: "10"
         },
         {
-            value: "3",
+            value: "25",
             label: "25"
         },
         {
-            value: "4",
+            value: "50",
             label: "50"
         }], [pageSizeOptions]);
 
