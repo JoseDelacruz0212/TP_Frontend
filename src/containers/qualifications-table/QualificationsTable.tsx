@@ -4,7 +4,7 @@ import moment from "moment";
 import Chip from "../../components/common/chip/Chip";
 
 import {ConvertorCreator} from "../../types/common";
-import {Qualification} from "../../types/communication/responses/qualification";
+import {QualificationGroup} from "../../types/communication/responses/qualification";
 import {QualificationFilter} from "../../types/communication/requests/qualification";
 
 import TableView from "../../views/layouts/TableView";
@@ -20,12 +20,12 @@ interface DefaultFilters {
 }
 
 interface QualificationsTableProps {
-    service: FetchService<Qualification, QualificationFilter>;
+    service: FetchService<QualificationGroup, QualificationFilter>;
     defaultFilters: DefaultFilters;
 }
 
 const QualificationsTable = ({ service, defaultFilters }: QualificationsTableProps) => {
-    const convertorCreator : ConvertorCreator<Qualification> = () => (column, rowData) => {
+    const convertorCreator : ConvertorCreator<QualificationGroup> = () => (column, rowData) => {
         let value: React.ReactNode = null;
 
         switch (column) {
@@ -36,15 +36,15 @@ const QualificationsTable = ({ service, defaultFilters }: QualificationsTablePro
             case 5: value = <div className="py-4">{rowData.evaluationName}</div>; break;
             case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
             case 7:
-                if (!rowData.points) return <div className="py-4"></div>;
+                if (!rowData.points || !rowData.points[0]) return <div className="py-4"></div>;
 
                 let color = "bg-green-500 text-white";
 
-                if (rowData.points < 10) color = "bg-red-500 text-white";
-                else if (rowData.points < 13) color = "bg-yellow-500";
+                if (rowData.points[0] < 10) color = "bg-red-500 text-white";
+                else if (rowData.points[0] < 13) color = "bg-yellow-500";
 
                 value = (
-                    <div className="py-4"><Chip label={rowData.points.toString()} className={`${color} w-full`} /></div>
+                    <div className="py-4"><Chip label={rowData.points[0].toString()} className={`${color} w-full`} /></div>
                 );
                 break;
             case 8:
