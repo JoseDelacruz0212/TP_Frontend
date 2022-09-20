@@ -90,11 +90,10 @@ const MultipleOptionSettings = () => {
         points: node.data.props.points
     }));
 
-    const selectOptions = useMemo(() => options || [], [options]);
-    const selectValue = useMemo(() => answer || '', [answer]);
-    const onSelectChange = useCallback((newValue?: string | number) => setProp((props: MultipleOptionProps) => props.answer = newValue ? newValue as string : ''), [setProp]);
+    const onSelectChange = (newValue?: string | number) => setProp((props: MultipleOptionProps) => props.answer = newValue ? newValue as string : '');
+    const defaultValue = answer || '';
 
-    const selectProps = useSelect(selectOptions, getValue, getLabel, onSelectChange, selectValue);
+    const selectProps = useSelect(getValue, getLabel, onSelectChange, options, defaultValue);
 
     const onNewOptionClicked = () => {
         setNewOption("");

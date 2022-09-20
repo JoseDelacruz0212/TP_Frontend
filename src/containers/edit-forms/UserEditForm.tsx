@@ -17,20 +17,20 @@ const getLabel = (option: Option) => option.label;
 const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
     const { hasPermissionFor } = useAuthContext();
 
-    const options = useMemo(() => [
+    const options = [
         ...(hasPermissionFor(Permissions.USERS_ADD_ADMINISTRATOR) ? [{ value: 'admin', label: 'Administrador' }] : []),
         ...(hasPermissionFor(Permissions.USERS_ADD_INSTITUTION) ? [{ value: 'institution', label: 'Institución' }] : []),
         { value: 'teacher', label: 'Profesor' },
         { value: 'user', label: 'Estudiante' }
-    ], []);
+    ];
 
-    const onSelectedRoleChanged = useCallback((option?: string | number) => {
+    const onSelectedRoleChanged = (option?: string | number) => {
         option && onChange && onChange({ ...values, roles: [option as string] });
-    }, []);
+    };
 
-    const defaultValue = useMemo(() => (values.roles && values.roles[0]) || "", [])
+    const defaultValue = (values.roles && values.roles[0]) || "";
 
-    const selectProps = useSelect(options, getValue, getLabel, onSelectedRoleChanged, defaultValue);
+    const selectProps = useSelect(getValue, getLabel, onSelectedRoleChanged, options, defaultValue);
 
     const onInstitutionChanged = (insitutionId?: string | number) => {
         insitutionId && onChange && onChange({ ...values, insitutionId: insitutionId as string });

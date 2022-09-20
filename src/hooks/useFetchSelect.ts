@@ -8,7 +8,7 @@ const useFetchSelect = <T>(getData: () => Promise<T[]>, getValue: (x: T) => stri
     const defaultData = useMemo(() => [], []);
 
     const { data, isLoading } = useFetch<T[]>(getSelectData);
-    const { options, isDisabled, onChange, value, styles } = useSelect(data || defaultData, getValue, getLabel, onSelectedChanged, defaultValueId);
+    const { options, isDisabled, onChange, value, styles } = useSelect(getValue, getLabel, onSelectedChanged, data, defaultValueId);
 
     return {
         options,

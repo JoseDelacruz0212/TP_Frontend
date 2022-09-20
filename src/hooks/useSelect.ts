@@ -25,29 +25,26 @@ const styles = {
     }),
 }
 
-const useSelect = <T>(options: T[], getValue: (x: T) => string | number, getLabel: (x: T) => string | number, onSelectedChanged: (x?: string | number) => void, defaultValueId?: string) => {
+const useSelect = <T>(getValue: (x: T) => string | number, getLabel: (x: T) => string | number, onSelectedChanged: (x?: string | number) => void, options?: T[], defaultValueId?: string) => {
     const [selectedOption, setSelectedOption] = useState<PropsValue<SelectOption>>(null);
-    const [optionsList, setOptionsList] = useState(options);
 
     useEffect(() => {
-        if (options !== optionsList) setOptionsList(options);
-
-        const selected = options.find(x => getValue(x) === defaultValueId);
+        const selected = options?.find(x => getValue(x) === defaultValueId);
 
         if (selected) {
             const newSelectedOption = { value: getValue(selected), label: getLabel(selected) };
             setSelectedOption(newSelectedOption);
         }
-    }, [options, getValue, getLabel]);
+    }, []);
 
     const onSelectedChangedHandler = (option: SelectOption | null) => {
-        if (!optionsList) return;
+        if (!options) return;
 
         const selectedId = option?.value || undefined;
 
         onSelectedChanged && onSelectedChanged(selectedId);
 
-        const selected = optionsList.find(x => getValue(x) === selectedId);
+        const selected = options.find(x => getValue(x) === selectedId);
 
         if (selected) {
             const newSelectedOption = { value: getValue(selected), label: getLabel(selected) };
@@ -56,8 +53,8 @@ const useSelect = <T>(options: T[], getValue: (x: T) => string | number, getLabe
     }
 
     return {
-        options: (optionsList || []).map(x => ({ value: getValue(x), label: getLabel(x) })),
-        isDisabled: !optionsList || optionsList?.length === 0,
+        options: (options || []).map(x => ({ value: getValue(x), label: getLabel(x) })),
+        isDisabled: !options || options?.length === 0,
         value: selectedOption,
         onChange: onSelectedChangedHandler,
         styles

@@ -77,15 +77,6 @@ const createFilterSchema: FilterSchemaCreator<InstitutionFilter> = (filters, onF
         placeholder: 'Nombre'
     },
     {
-        id: "institution-name-select",
-        type: Select,
-        onChange: (value: string | number) => onFiltersUpdate({ ...filters, name: value as string }),
-        withLabel: true,
-        label: 'Nombre',
-        placeholder: 'Nombre',
-        options: [{ value: "xd", label: "asd" }]
-    },
-    {
         id: "institution-address-filter",
         type: Text,
         initialValue: filters.direction,

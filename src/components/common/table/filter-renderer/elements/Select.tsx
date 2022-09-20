@@ -12,10 +12,10 @@ const SelectFilter = (props: FilterProps) => {
         newValue && props.onChange(newValue);
     }
 
-    const options = props.schema.options || [];
+    const options = props.schema.options;
     const initialValue = props.schema.initialValue ? props.schema.initialValue as string : '';
 
-    const selectProps = useSelect(options, getValue, getLabel, onChangeHandler, initialValue);
+    const selectProps = useSelect(getValue, getLabel, onChangeHandler, options, initialValue);
 
     return (
         <div className="form-group">
