@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import Select from "react-select";
 
 import {FilterProps} from "../../../../../types/common";
@@ -9,10 +9,12 @@ const SelectFilter = (props: FilterProps) => {
         newValue && props.onChange(newValue);
     }
 
-    const options = props.schema.options?.map(x => ({ value: x.value, label: x.label }) as SelectOption);
+    const options = props.schema.options;
+
+    const selectOptions = useMemo(() => options?.map(x => ({ value: x.value, label: x.label }) as SelectOption), [options]);
     const initialValue = props.schema.initialValue ? props.schema.initialValue as string : '';
 
-    const selectProps = useSelect(onChangeHandler, options, initialValue);
+    const selectProps = useSelect(onChangeHandler, selectOptions, initialValue);
 
     return (
         <div className="form-group">

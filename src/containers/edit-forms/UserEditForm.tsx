@@ -11,18 +11,15 @@ import {useAuthContext} from "../../contexts/AuthContext";
 import useSelect from "../../hooks/useSelect";
 import Select from "react-select";
 
-const getValue = (option: Option) => option.value as string;
-const getLabel = (option: Option) => option.label as string;
-
 const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
     const { hasPermissionFor } = useAuthContext();
 
-    const options = [
+    const options = useMemo(() => [
         ...(hasPermissionFor(Permissions.USERS_ADD_ADMINISTRATOR) ? [{ value: 'admin', label: 'Administrador' }] : []),
         ...(hasPermissionFor(Permissions.USERS_ADD_INSTITUTION) ? [{ value: 'institution', label: 'Institución' }] : []),
         { value: 'teacher', label: 'Profesor' },
         { value: 'user', label: 'Estudiante' }
-    ];
+    ], []);
 
     const onSelectedRoleChanged = (option?: string) => {
          option && onChange && onChange({ ...values, roles: [option] });

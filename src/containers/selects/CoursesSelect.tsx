@@ -5,9 +5,12 @@ import CourseService from "../../services/CourseService";
 import useFetchSelect from "../../hooks/useFetchSelect";
 import {SelectOption} from "../../hooks/useSelect";
 
+const getCourses = () => CourseService.getCoursesForCombo()
+    .then(data => data.map(x => ({ value: x.id, label: x.name } as SelectOption)))
+
 const CourseSelect = ({ courseId, onCourseChanged }: { courseId?: string, onCourseChanged: (x?: string) => void }) => {
     const selectProps = useFetchSelect(
-        () => CourseService.getCoursesForCombo().then(data => data.map(x => ({ value: x.id, label: x.name } as SelectOption))),
+        getCourses,
         onCourseChanged,
         courseId
     );
