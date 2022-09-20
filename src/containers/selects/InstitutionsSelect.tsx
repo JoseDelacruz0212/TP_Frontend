@@ -5,15 +5,11 @@ import {InstitutionOption} from "../../types/communication/responses/institution
 
 import InstitutionService from "../../services/InstitutionService";
 import useFetchSelect from "../../hooks/useFetchSelect";
-
-const getValue = (x: InstitutionOption) => x.id;
-const getLabel = (x: InstitutionOption) => x.name;
+import {SelectOption} from "../../hooks/useSelect";
 
 const InstitutionsSelect = ({ institutionId, onInstitutionChanged }: { institutionId?: string, onInstitutionChanged: (x?: string) => void }) => {
     const selectProps = useFetchSelect(
-        InstitutionService.getInstitutionsForCombo,
-        getValue,
-        getLabel,
+        () => InstitutionService.getInstitutionsForCombo().then(data => data.map(x => ({ value: x.id, label: x.name } as SelectOption))),
         onInstitutionChanged,
         institutionId
     );

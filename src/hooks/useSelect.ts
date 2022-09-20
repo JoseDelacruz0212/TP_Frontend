@@ -26,15 +26,14 @@ const styles = {
     }),
 }
 
-const useSelect = <T>(getValue: (x: T) => string, getLabel: (x: T) => string, onSelectedChanged: (x?: string) => void, options?: T[], defaultValueId?: string) => {
+const useSelect = (onSelectedChanged: (x?: string) => void, options?: SelectOption[], defaultValueId?: string) => {
     const [selectedOption, setSelectedOption] = useState<PropsValue<SelectOption>>(null);
 
     useEffect(() => {
-        const selected = options?.find(x => getValue(x) === defaultValueId);
+        const selected = options?.find(x => x.value === defaultValueId);
 
         if (selected) {
-            const newSelectedOption = { value: getValue(selected), label: getLabel(selected) };
-            setSelectedOption(newSelectedOption);
+            setSelectedOption(selected);
         }
     }, []);
 
@@ -45,16 +44,15 @@ const useSelect = <T>(getValue: (x: T) => string, getLabel: (x: T) => string, on
 
         onSelectedChanged && onSelectedChanged(selectedId);
 
-        const selected = options.find(x => getValue(x) === selectedId);
+        const selected = options.find(x => x.value === selectedId);
 
         if (selected) {
-            const newSelectedOption = { value: getValue(selected), label: getLabel(selected) };
-            setSelectedOption(newSelectedOption);
+            setSelectedOption(selected);
         }
     }
 
     return {
-        options: (options || []).map(x => ({ value: getValue(x), label: getLabel(x) })),
+        options: options || [],
         isDisabled: !options || options?.length === 0,
         value: selectedOption,
         onChange: onSelectedChangedHandler,

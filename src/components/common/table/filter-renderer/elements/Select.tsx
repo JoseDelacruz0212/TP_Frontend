@@ -1,21 +1,18 @@
-import React, {useState} from "react";
+import React from "react";
 import Select from "react-select";
 
-import {FilterProps, Option} from "../../../../../types/common";
-import useSelect from "../../../../../hooks/useSelect";
-
-const getValue = (option: Option) => option.value as string;
-const getLabel = (option: Option) => option.label as string;
+import {FilterProps} from "../../../../../types/common";
+import useSelect, {SelectOption} from "../../../../../hooks/useSelect";
 
 const SelectFilter = (props: FilterProps) => {
     const onChangeHandler = (newValue?: string) => {
         newValue && props.onChange(newValue);
     }
 
-    const options = props.schema.options;
+    const options = props.schema.options?.map(x => ({ value: x.value, label: x.label }) as SelectOption);
     const initialValue = props.schema.initialValue ? props.schema.initialValue as string : '';
 
-    const selectProps = useSelect(getValue, getLabel, onChangeHandler, options, initialValue);
+    const selectProps = useSelect(onChangeHandler, options, initialValue);
 
     return (
         <div className="form-group">

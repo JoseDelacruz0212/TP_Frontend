@@ -5,7 +5,7 @@ import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 import {Option} from "../../../../../types/common";
 
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
-import useSelect from "../../../../../hooks/useSelect";
+import useSelect, {SelectOption} from "../../../../../hooks/useSelect";
 import Select from "react-select";
 
 interface MultipleOptionProps {
@@ -93,7 +93,7 @@ const MultipleOptionSettings = () => {
     const onSelectChange = (newValue?: string) => setProp((props: MultipleOptionProps) => props.answer = newValue || '');
     const defaultValue = answer || '';
 
-    const selectProps = useSelect(getValue, getLabel, onSelectChange, options, defaultValue);
+    const selectProps = useSelect(onSelectChange, options?.map((x: any) => ({ value: x.value, label: x.label }) as SelectOption), defaultValue);
 
     const onNewOptionClicked = () => {
         setNewOption("");

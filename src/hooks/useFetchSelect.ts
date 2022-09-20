@@ -1,14 +1,12 @@
-import {useCallback, useMemo} from "react";
+import {useCallback} from "react";
 import useFetch from "./useFetch";
-import useSelect from "./useSelect";
+import useSelect, {SelectOption} from "./useSelect";
 
-const useFetchSelect = <T>(getData: () => Promise<T[]>, getValue: (x: T) => string, getLabel: (x: T) => string, onSelectedChanged: (x?: string) => void, defaultValueId?: string) => {
-    const getSelectData = useCallback(() => getData(), [getData]);
+const useFetchSelect = (getData: () => Promise<SelectOption[]>, onSelectedChanged: (x?: string) => void, defaultValueId?: string) => {
+    const getSelectData = useCallback(() => getData(), []);
 
-    const defaultData = useMemo(() => [], []);
-
-    const { data, isLoading } = useFetch<T[]>(getSelectData);
-    const { options, isDisabled, onChange, value, styles } = useSelect(getValue, getLabel, onSelectedChanged, data, defaultValueId);
+    const { data, isLoading } = useFetch(getSelectData);
+    const { options, isDisabled, onChange, value, styles } = useSelect(onSelectedChanged, data, defaultValueId);
 
     return {
         options,
