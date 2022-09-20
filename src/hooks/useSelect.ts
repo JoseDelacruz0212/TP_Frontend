@@ -13,6 +13,7 @@ const styles = {
         paddingLeft: '0.5rem',
         paddingRight: '0.5rem',
         borderRadius: '0.375rem',
+        height: '2.25rem',
         ...(isFocused ? {
             borderColor: '#5b6abf',
             borderWidth: '2px'

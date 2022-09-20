@@ -108,7 +108,7 @@
     }
 
     .form-input {
-        @apply border px-2 py-1 rounded-md
+        @apply border px-2 py-1 rounded-md h-9
     }
 
     .button-disabled {
