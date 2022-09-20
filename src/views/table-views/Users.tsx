@@ -142,7 +142,7 @@ const createFilterSchema: FilterSchemaCreator<UserFilter> = (filters, onFiltersU
         id: "course-name-filter",
         type: Text,
         initialValue: filters.name,
-        onChange: (value: string | number) => onFiltersUpdate({ ...filters, name: value as string }),
+        onChange: (value: string) => onFiltersUpdate({ ...filters, name: value }),
         withLabel: true,
         label: 'Nombre',
         placeholder: 'Nombre'

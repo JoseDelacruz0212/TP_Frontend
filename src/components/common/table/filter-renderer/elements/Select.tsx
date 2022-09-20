@@ -4,11 +4,11 @@ import Select from "react-select";
 import {FilterProps, Option} from "../../../../../types/common";
 import useSelect from "../../../../../hooks/useSelect";
 
-const getValue = (option: Option) => option.value;
-const getLabel = (option: Option) => option.label;
+const getValue = (option: Option) => option.value as string;
+const getLabel = (option: Option) => option.label as string;
 
 const SelectFilter = (props: FilterProps) => {
-    const onChangeHandler = (newValue?: string | number) => {
+    const onChangeHandler = (newValue?: string) => {
         newValue && props.onChange(newValue);
     }
 

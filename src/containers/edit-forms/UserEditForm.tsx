@@ -11,8 +11,8 @@ import {useAuthContext} from "../../contexts/AuthContext";
 import useSelect from "../../hooks/useSelect";
 import Select from "react-select";
 
-const getValue = (option: Option) => option.value;
-const getLabel = (option: Option) => option.label;
+const getValue = (option: Option) => option.value as string;
+const getLabel = (option: Option) => option.label as string;
 
 const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
     const { hasPermissionFor } = useAuthContext();
@@ -24,16 +24,16 @@ const UserEditForm = ({ values, onChange }: FormInputProps<User>) => {
         { value: 'user', label: 'Estudiante' }
     ];
 
-    const onSelectedRoleChanged = (option?: string | number) => {
-        option && onChange && onChange({ ...values, roles: [option as string] });
+    const onSelectedRoleChanged = (option?: string) => {
+         option && onChange && onChange({ ...values, roles: [option] });
     };
 
     const defaultValue = (values.roles && values.roles[0]) || "";
 
     const selectProps = useSelect(getValue, getLabel, onSelectedRoleChanged, options, defaultValue);
 
-    const onInstitutionChanged = (insitutionId?: string | number) => {
-        insitutionId && onChange && onChange({ ...values, insitutionId: insitutionId as string });
+    const onInstitutionChanged = (insitutionId?: string) => {
+         onChange && onChange({ ...values, insitutionId });
     }
 
     return (

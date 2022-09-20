@@ -2,8 +2,8 @@ import {useEffect, useState} from "react";
 import {PropsValue} from "react-select";
 
 export interface SelectOption {
-    value: string | number;
-    label: string | number;
+    value: string;
+    label: string;
 }
 
 const styles = {
@@ -26,7 +26,7 @@ const styles = {
     }),
 }
 
-const useSelect = <T>(getValue: (x: T) => string | number, getLabel: (x: T) => string | number, onSelectedChanged: (x?: string | number) => void, options?: T[], defaultValueId?: string) => {
+const useSelect = <T>(getValue: (x: T) => string, getLabel: (x: T) => string, onSelectedChanged: (x?: string) => void, options?: T[], defaultValueId?: string) => {
     const [selectedOption, setSelectedOption] = useState<PropsValue<SelectOption>>(null);
 
     useEffect(() => {

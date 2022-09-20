@@ -76,8 +76,8 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
     )
 };
 
-const getValue = (option: Option) => option.value;
-const getLabel = (option: Option) => option.label;
+const getValue = (option: Option) => option.value as string;
+const getLabel = (option: Option) => option.label as string;
 
 const MultipleOptionSettings = () => {
     const [newOption, setNewOption] = useState("");
@@ -90,7 +90,7 @@ const MultipleOptionSettings = () => {
         points: node.data.props.points
     }));
 
-    const onSelectChange = (newValue?: string | number) => setProp((props: MultipleOptionProps) => props.answer = newValue ? newValue as string : '');
+    const onSelectChange = (newValue?: string) => setProp((props: MultipleOptionProps) => props.answer = newValue || '');
     const defaultValue = answer || '';
 
     const selectProps = useSelect(getValue, getLabel, onSelectChange, options, defaultValue);

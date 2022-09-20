@@ -76,7 +76,7 @@ const createFilterSchema: FilterSchemaCreator<CourseFilter> = (filters, onFilter
         id: "course-name-filter",
         type: Text,
         initialValue: filters.name,
-        onChange: (value: string | number) => onFiltersUpdate({ ...filters, name: value as string }),
+        onChange: (value: string) => onFiltersUpdate({ ...filters, name: value }),
         withLabel: true,
         label: 'Nombre',
         placeholder: 'Nombre'
@@ -85,7 +85,7 @@ const createFilterSchema: FilterSchemaCreator<CourseFilter> = (filters, onFilter
         id: "course-institution-filter",
         type: Text,
         initialValue: filters.institution,
-        onChange: (value: string | number) => onFiltersUpdate({ ...filters, institution: value as string }),
+        onChange: (value: string) => onFiltersUpdate({ ...filters, institution: value }),
         withLabel: true,
         label: 'Institución',
         placeholder: 'Institución'
