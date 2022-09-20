@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
+import Select from "react-select";
 
 import {IoFilterCircle, IoFilterCircleOutline} from "react-icons/io5";
 
@@ -14,6 +15,7 @@ import FilterRenderer from "./filter-renderer/FilterRenderer";
 
 import {Column, FilterSchema, Option, Row} from "../../../types/common";
 import Loading from "../loading/Loading";
+import useSelect from "../../../hooks/useSelect";
 
 interface TableProps {
     title: string;
@@ -54,8 +56,8 @@ const Table = ({
 }: TableProps) => {
     const [filtersOpen, setFiltersOpen] = useState(false);
 
-    const onPageSizeChangedHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>
-        onPageSizeChanged && onPageSizeChanged(parseInt(e.target.value));
+    const onPageSizeChangedHandler = (page?: string) =>
+        page && onPageSizeChanged && onPageSizeChanged(parseInt(page));
 
     const openFilters = () =>{
         if (filtersOpen) {
@@ -64,6 +66,25 @@ const Table = ({
 
         setFiltersOpen(!filtersOpen);
     }
+
+    const options: Option[] = useMemo(() => pageSizeOptions || [{
+            value: "1",
+            label: "5"
+        },
+        {
+            value: "2",
+            label: "10"
+        },
+        {
+            value: "3",
+            label: "25"
+        },
+        {
+            value: "4",
+            label: "50"
+        }], [pageSizeOptions]);
+
+    const selectProps = useSelect(onPageSizeChangedHandler, options, pageSize.toString());
 
     return (
         <div className="bg-surface shadow flex flex-col space-y-7">
@@ -132,35 +153,15 @@ const Table = ({
             <footer className="p-4 pt-0">
                 {
                     !hidePagination &&
-                    <div className="flex flex-col items-end space-x-10 space-y-1 sm:flex-row sm:justify-end">
+                    <div className="flex flex-col items-end space-x-10 space-y-1 sm:flex-row sm:justify-end sm:items-center">
                         <small className="flex items-center text-gray-500 space-x-3">
                             <span>Filas por página</span>
-                            <div className="relative">
-                                <select className="appearance-none w-12 px-2 border" value={pageSize} onChange={onPageSizeChangedHandler}>
-                                    {
-                                        (pageSizeOptions || [{
-                                            value: 1,
-                                            label: 5
-                                        }, {
-                                            value: 2,
-                                            label: 10
-                                        }, {
-                                            value: 3,
-                                            label: 25
-                                        }, {
-                                            value: 4,
-                                            label: 50
-                                        }]).map(option => (
-                                            <option key={option.value}>
-                                                {option.label}
-                                            </option>
-                                        ))
-                                    }
-                                </select>
-                                <FaAngleDown size={13} className="absolute top-1 right-1 pointer-events-none" />
-                            </div>
+                            <Select {...selectProps} styles={{
+                                ...selectProps.styles,
+                                indicatorSeparator: () => ({})
+                            }} />
                         </small>
-                        <small className="flex items-center text-gray-500 space-x-3 pt-3 sm:pt-0">
+                        <small className="flex items-center text-gray-500 space-x-3">
                             <span>{(currentPage - 1) * pageSize + 1} - {currentPage * pageSize} de {totalItems}</span>
                             <div className="flex space-x-2">
                                 <FaAngleDoubleLeft className={`${!hasPrev ? 'cursor-not-allowed' : ''}`} role="button" size={18} onClick={() => hasPrev && onPageChange && onPageChange(-2)} />
