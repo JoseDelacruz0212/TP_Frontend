@@ -1,8 +1,9 @@
 import {useCallback} from "react";
 import useFetch from "./useFetch";
-import useSelect, {SelectOption} from "./useSelect";
+import useSelect from "./useSelect";
+import {Option} from "../types/common";
 
-const useFetchSelect = (getData: () => Promise<SelectOption[]>, onSelectedChanged: (x?: string) => void, defaultValueId?: string) => {
+const useFetchSelect = (getData: () => Promise<Option[]>, onSelectedChanged: (x?: string) => void, defaultValueId?: string) => {
     const getSelectData = useCallback(() => getData(), [getData]);
 
     const { data, isLoading } = useFetch(getSelectData);

@@ -1,7 +1,7 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useMemo} from "react";
 
 import {User} from "../../types/communication/responses/user";
-import {FormInputProps, Option} from "../../types/common";
+import {FormInputProps} from "../../types/common";
 import {Permissions} from "../../types/auth";
 
 import HasPermission from "../../hoc/with-permission/HasPermission";

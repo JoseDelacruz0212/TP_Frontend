@@ -1,11 +1,11 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {useEditor, useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
 import {Option} from "../../../../../types/common";
 
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
-import useSelect, {SelectOption} from "../../../../../hooks/useSelect";
+import useSelect from "../../../../../hooks/useSelect";
 import Select from "react-select";
 
 interface MultipleOptionProps {
@@ -76,9 +76,6 @@ const MultipleOption = ({ question, options, multiple, points, answerInput, assi
     )
 };
 
-const getValue = (option: Option) => option.value as string;
-const getLabel = (option: Option) => option.label as string;
-
 const MultipleOptionSettings = () => {
     const [newOption, setNewOption] = useState("");
 
@@ -90,11 +87,8 @@ const MultipleOptionSettings = () => {
         points: node.data.props.points
     }));
 
-    const selectOptions = useMemo(() => options?.map((x: any) => ({ value: x.value, label: x.label }) as SelectOption), [options]);
     const onSelectChange = (newValue?: string) => setProp((props: MultipleOptionProps) => props.answer = newValue || '');
-    const defaultValue = answer || '';
-
-    const selectProps = useSelect(onSelectChange, selectOptions, defaultValue);
+    const selectProps = useSelect(onSelectChange, options, answer || '');
 
     const onNewOptionClicked = () => {
         setNewOption("");

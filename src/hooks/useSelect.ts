@@ -1,10 +1,6 @@
 import {useEffect, useState} from "react";
 import {PropsValue} from "react-select";
-
-export interface SelectOption {
-    value: string;
-    label: string;
-}
+import {Option} from "../types/common";
 
 const styles = {
     control: (_: any, { isFocused }: any) => ({
@@ -26,8 +22,8 @@ const styles = {
     }),
 }
 
-const useSelect = (onSelectedChanged: (x?: string) => void, options?: SelectOption[], defaultValueId?: string) => {
-    const [selectedOption, setSelectedOption] = useState<PropsValue<SelectOption>>(null);
+const useSelect = (onSelectedChanged: (x?: string) => void, options?: Option[], defaultValueId?: string) => {
+    const [selectedOption, setSelectedOption] = useState<PropsValue<Option>>(null);
 
     useEffect(() => {
         const selected = options?.find(x => x.value === defaultValueId);
@@ -37,7 +33,7 @@ const useSelect = (onSelectedChanged: (x?: string) => void, options?: SelectOpti
         }
     }, [options]);
 
-    const onSelectedChangedHandler = (option: SelectOption | null) => {
+    const onSelectedChangedHandler = (option: Option | null) => {
         if (!options) return;
 
         const selectedId = option?.value || undefined;
