@@ -1,6 +1,6 @@
 import {FetchService} from "./FetchService";
 import {
-    APIQualification,
+    APIQualification, createFrom,
     mapToQualificationGroup,
     QualificationGroup
 } from "../types/communication/responses/qualification";
@@ -11,7 +11,7 @@ import {PaginatedResponse} from "../types/communication/responses/pagination";
 class QualificationService extends FetchService<QualificationGroup, QualificationFilter> {
     getData(filters: QualificationFilter, page: number = 1, pageSize: number = 10): Promise<QualificationGroup[] | PaginatedResponse<QualificationGroup>> {
         return httpClient.get<APIQualification[]>(`/user-evaluation/ByEvaluation/${filters.assessmentId}`)
-            .then(({ data }) => this.getPaginatedData(mapToQualificationGroup(data), filters, page, pageSize))
+            .then(({ data }) => this.getPaginatedData(mapToQualificationGroup(data.map(createFrom)), filters, page, pageSize))
             .catch(() => Promise.reject("Ocurrió un error al tratar de obtener las calificaciones"));
     }
 
