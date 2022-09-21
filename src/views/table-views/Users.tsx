@@ -24,7 +24,7 @@ import Chip from "../../components/common/chip/Chip";
 import {toast} from "react-toastify";
 import UsersMenuOptions from "../../components/menu-options/UsersMenuOptions";
 import UserCourseAssignationModal from "../../components/user-course/UserCourseAssignationModal";
-import validationSchema from "../../containers/edit-forms/validations/users-edit-form-validation";
+import validationSchema from "../../validations/edit-forms/users-edit-form-validation";
 
 const defaultUser: User = {
     name: '',

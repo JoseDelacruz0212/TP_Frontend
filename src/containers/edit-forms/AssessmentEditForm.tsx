@@ -5,7 +5,7 @@ import {Assessment} from "../../types/communication/responses/assessment";
 import {FormInputProps} from "../../types/common";
 
 import CoursesSelect from "../selects/CoursesSelect";
-import {AssessmentValidation} from "./validations/assessment-edit-form-validation";
+import {AssessmentValidation} from "../../validations/edit-forms/assessment-edit-form-validation";
 
 const AssessmentEditForm = ({ values, onChange, errors }: FormInputProps<Assessment, AssessmentValidation>) => {
     const onCourseChanged = (courseId?: string) => {

@@ -10,7 +10,7 @@ import InstitutionsSelect from "../selects/InstitutionsSelect";
 import {useAuthContext} from "../../contexts/AuthContext";
 import useSelect from "../../hooks/useSelect";
 import Select from "react-select";
-import {UserValidation} from "./validations/users-edit-form-validation";
+import {UserValidation} from "../../validations/edit-forms/users-edit-form-validation";
 
 const UserEditForm = ({ values, onChange, errors }: FormInputProps<User, UserValidation>) => {
     const { hasPermissionFor } = useAuthContext();

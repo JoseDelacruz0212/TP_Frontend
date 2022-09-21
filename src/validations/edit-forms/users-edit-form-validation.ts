@@ -16,7 +16,8 @@ const validationSchema: Yup.SchemaOf<UserValidation> = Yup.object().shape({
     lastName: Yup.string()
         .max(100, "El apellido debe contener 100 caracteres como máximo")
         .required("El campo apellido es requerido"),
-    email: Yup.string().email()
+    email: Yup.string()
+        .email("El formato del correo ingresado no es válido")
         .max(255, "El email debe contener 255 caracteres como máximo")
         .required("El campo email es requerido"),
     password: Yup.string()

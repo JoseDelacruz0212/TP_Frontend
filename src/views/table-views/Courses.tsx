@@ -18,7 +18,7 @@ import TableView from "../layouts/TableView";
 
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 import CoursesMenuOptions from "../../components/menu-options/CoursesMenuOptions";
-import validationSchema from "../../containers/edit-forms/validations/courses-edit-form-validation";
+import validationSchema from "../../validations/edit-forms/courses-edit-form-validation";
 
 const defaultCourses: Course = {
     name: '',

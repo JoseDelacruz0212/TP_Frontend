@@ -7,7 +7,7 @@ import {FormInputProps} from "../../types/common";
 import InstitutionsSelect from "../selects/InstitutionsSelect";
 
 import HasPermission from "../../hoc/with-permission/HasPermission";
-import {CoursesValidation} from "./validations/courses-edit-form-validation";
+import {CoursesValidation} from "../../validations/edit-forms/courses-edit-form-validation";
 
 const CourseEditForm = ({ values, onChange, errors }: FormInputProps<Course, CoursesValidation>) => {
     const onInstitutionChanged = (institutionId?: string) => {

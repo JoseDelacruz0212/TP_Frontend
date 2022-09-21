@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React from "react";
 import moment from "moment";
 
 import Chip from "../../components/common/chip/Chip";

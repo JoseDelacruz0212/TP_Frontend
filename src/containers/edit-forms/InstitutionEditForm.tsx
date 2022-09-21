@@ -2,7 +2,7 @@ import React from "react";
 
 import {Institution} from "../../types/communication/responses/institutions";
 import {FormInputProps} from "../../types/common";
-import {InstitutionValidation} from "./validations/institution-edit-form-validation";
+import {InstitutionValidation} from "../../validations/edit-forms/institution-edit-form-validation";
 
 const InstitutionEditForm = ({ values, onChange, errors }: FormInputProps<Institution, InstitutionValidation>) => {
     return (
