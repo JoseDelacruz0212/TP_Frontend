@@ -9,8 +9,8 @@ import InstitutionsSelect from "../selects/InstitutionsSelect";
 import HasPermission from "../../hoc/with-permission/HasPermission";
 
 const CourseEditForm = ({ values, onChange }: FormInputProps<Course>) => {
-    const onInstitutionChanged = (institutionId?: string | number) => {
-        onChange && institutionId && onChange({ ...values, institutionId: institutionId as string });
+    const onInstitutionChanged = (institutionId?: string) => {
+        onChange && institutionId && onChange({ ...values, institutionId });
     }
 
     return (

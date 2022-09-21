@@ -1,30 +1,41 @@
 import React, {FormEvent} from "react";
+import { SchemaOf } from "yup";
+
 import {IoCloseOutline} from "react-icons/io5";
 
 import {Entity} from "../../../types/communication/responses/entity";
 
 import SidePanel from "./SidePanel";
+import useFormValidation from "../../../hooks/useFormValidation";
 
-interface SidePanelFormProps<T extends Entity> {
+interface SidePanelFormProps<T extends Entity, K> {
     title: string;
     sidePanelId: string;
     isEditPanelOpen: boolean;
     handleClose: () => void;
     onSubmit: () => void;
-    formInputs?: React.ReactNode;
+    formInputs?: any;
     onFormInputChange?: (x: T) => void;
     showLoadingIndicator?: boolean;
+    validationSchema?: SchemaOf<K>;
+    values: T,
+    onChange: (x: T) => void;
 }
 
-const SidePanelForm = <T extends Entity>({
-     title,
-     sidePanelId,
-     isEditPanelOpen,
-     handleClose,
-     onSubmit,
-     formInputs,
-     showLoadingIndicator = false
- }: SidePanelFormProps<T>) => {
+const SidePanelForm = <T extends Entity, K>({
+    title,
+    sidePanelId,
+    isEditPanelOpen,
+    handleClose,
+    onSubmit,
+    formInputs,
+    showLoadingIndicator = false,
+    validationSchema,
+    values,
+    onChange
+ }: SidePanelFormProps<T, K>) => {
+    const { isValid, errors } = useFormValidation(values, validationSchema);
+
     const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         onSubmit();
@@ -40,7 +51,9 @@ const SidePanelForm = <T extends Entity>({
                     </button>
                 </div>
                 <form onSubmit={onSubmitHandler} className="flex flex-col space-y-5">
-                    {formInputs}
+                    {
+                        formInputs && formInputs({ onChange, values, isValid, errors })
+                    }
                 </form>
             </div>
         </SidePanel>

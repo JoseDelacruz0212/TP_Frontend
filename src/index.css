@@ -111,6 +111,10 @@
         @apply border px-2 py-1 rounded-md h-9
     }
 
+    .form-error {
+        @apply text-error px-2
+    }
+
     .button-disabled {
         @apply bg-gray-200 text-on-secondary py-1 px-2 rounded-md cursor-not-allowed
     }

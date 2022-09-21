@@ -18,6 +18,7 @@ import withPermission from "../../hoc/with-permission/withPermission";
 import TableView from "../layouts/TableView";
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 import InstitutionsMenuOptions from "../../components/menu-options/InstitutionsMenuOptions";
+import validationSchema from "../../containers/edit-forms/validations/institution-edit-form-validation";
 
 const defaultInstitution: Institution = {
     name: '',
@@ -60,6 +61,7 @@ const Institutions = () => {
                        sidePanelCreateTitle="Agregar institución"
                        formInputs={InstitutionEditForm}
                        defaultItemSchema={defaultInstitution}
+                       formValidationSchema={validationSchema}
                        addButtonText="Crear institución" />
         </div>
     )

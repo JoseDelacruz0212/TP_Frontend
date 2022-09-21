@@ -2,8 +2,9 @@ import React from "react";
 
 import {Institution} from "../../types/communication/responses/institutions";
 import {FormInputProps} from "../../types/common";
+import {InstitutionValidation} from "./validations/institution-edit-form-validation";
 
-const InstitutionEditForm = ({ values, onChange }: FormInputProps<Institution>) => {
+const InstitutionEditForm = ({ values, onChange, errors }: FormInputProps<Institution, InstitutionValidation>) => {
     return (
         <>
             <div className="form-group">
@@ -20,6 +21,7 @@ const InstitutionEditForm = ({ values, onChange }: FormInputProps<Institution>) 
                        maxLength={100}
                        value={values.name}
                        onChange={(e) => onChange && onChange({ ...values, name: e.target.value })} />
+                <small className="form-error">{errors?.name}</small>
             </div>
             <div className="form-group">
                 <label htmlFor="edit-institution-address" className="form-label">
@@ -36,6 +38,7 @@ const InstitutionEditForm = ({ values, onChange }: FormInputProps<Institution>) 
                           maxLength={100}
                           value={values.direction}
                           onChange={(e) => onChange && onChange({ ...values, direction: e.target.value })} />
+                <small className="form-error">{errors?.direction}</small>
             </div>
             <div className="form-group">
                 <label htmlFor="edit-institution-code" className="form-label">
@@ -51,6 +54,7 @@ const InstitutionEditForm = ({ values, onChange }: FormInputProps<Institution>) 
                        maxLength={25}
                        value={values.code}
                        onChange={(e) => onChange && onChange({ ...values, code: e.target.value })} />
+                <small className="form-error">{errors?.code}</small>
             </div>
         </>
     );

@@ -7,8 +7,8 @@ import {FormInputProps} from "../../types/common";
 import CoursesSelect from "../selects/CoursesSelect";
 
 const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) => {
-    const onCourseChanged = (courseId?: string | number) => {
-        onChange && courseId && onChange({ ...values, courseId: courseId as string });
+    const onCourseChanged = (courseId?: string) => {
+        onChange && courseId && onChange({ ...values, courseId });
     }
 
     return (
