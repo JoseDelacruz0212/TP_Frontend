@@ -4,6 +4,7 @@ import {IoCloseOutline} from "react-icons/io5";
 import Modal from "../common/modal/Modal";
 
 import ProfileImage from "./ProfileImage";
+import ImageSelection from "./ImageSelection";
 
 interface ProfileProps {
     firstName: string;
@@ -16,11 +17,9 @@ interface ProfileProps {
 
 const Profile = ({ firstName, lastName, email, rol, image, onSelectedImageChange }: ProfileProps) => {
     const [imageSelectionModalOpen, setImageSelectionModalOpen] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const onImageSelectedSubmit = () => {
-        setImageSelectionModalOpen(false);
-        onSelectedImageChange && onSelectedImageChange(selectedImage as string);
+    const onImageSelectedSubmit = (selectedImage: string) => {
+        onSelectedImageChange && onSelectedImageChange(selectedImage);
     }
 
     return (
@@ -58,40 +57,7 @@ const Profile = ({ firstName, lastName, email, rol, image, onSelectedImageChange
             <Modal id="user-image-selection-modal"
                    isOpen={imageSelectionModalOpen}
                    handleClose={() => setImageSelectionModalOpen(false)}>
-                <div className="flex flex-col space-y-10 p-4">
-                    <div className="flex justify-between items-center">
-                        <span className="subtitle">Seleccionar imagen de perfil</span>
-                        <button onClick={() => setImageSelectionModalOpen(false)}>
-                            <IoCloseOutline />
-                        </button>
-                    </div>
-                    <form className="flex flex-col space-y-10">
-                        <div className="grid grid-cols-6">
-                            <div className="flex justify-center items-center">
-                                <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("1")}>
-                                    <img src="/assets/female_avatar.svg" alt="profile" className="w-full h-full" />
-                                </div>
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <div tabIndex={0}
-                                     className="h-12 w-12 rounded-full focus:border-2 border-primary-dark"
-                                     onClick={() => setSelectedImage("2")}>
-                                    <img src="/assets/male_avatar.svg" alt="profile" className="w-full h-full" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-end space-x-2">
-                            <button type="button" className="button-primary" onClick={() => onImageSelectedSubmit()}>
-                                Actualizar
-                            </button>
-                            <button type="button" className="button-secondary" onClick={() => setImageSelectionModalOpen(false)}>
-                                Cancelar
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                <ImageSelection handleClose={() => setImageSelectionModalOpen(false)} onSubmit={onImageSelectedSubmit} />
             </Modal>
         </>
     );
