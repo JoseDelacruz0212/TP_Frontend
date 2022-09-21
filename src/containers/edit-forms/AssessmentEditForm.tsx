@@ -5,10 +5,11 @@ import {Assessment} from "../../types/communication/responses/assessment";
 import {FormInputProps} from "../../types/common";
 
 import CoursesSelect from "../selects/CoursesSelect";
+import {AssessmentValidation} from "../../validations/edit-forms/assessment-edit-form-validation";
 
-const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) => {
-    const onCourseChanged = (courseId?: string | number) => {
-        onChange && courseId && onChange({ ...values, courseId: courseId as string });
+const AssessmentEditForm = ({ values, onChange, errors }: FormInputProps<Assessment, AssessmentValidation>) => {
+    const onCourseChanged = (courseId?: string) => {
+        onChange && courseId && onChange({ ...values, courseId });
     }
 
     return (
@@ -27,6 +28,7 @@ const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) =>
                        maxLength={100}
                        value={values.name}
                        onChange={(e) => onChange && onChange({ ...values, name: e.target.value })} />
+                <small className="form-error">{errors?.name}</small>
             </div>
             <div className="form-group">
                 <label htmlFor="edit-assessment-available-on" className="form-label">
@@ -40,6 +42,7 @@ const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) =>
                        min={moment(new Date()).format('yyyy-MM-DDTHH:mm')}
                        value={values.availableOn ? moment(values.availableOn).format('yyyy-MM-DDTHH:mm') : ''}
                        onChange={(e) => onChange && onChange({ ...values, availableOn: moment.utc(e.target.value).format('yyyy-MM-DDTHH:mm') })} />
+                <small className="form-error">{errors?.availableOn?.toString()}</small>
             </div>
             <div className="form-group">
                 <label htmlFor="edit-assessment-duration" className="form-label">
@@ -52,8 +55,12 @@ const AssessmentEditForm = ({ values, onChange }: FormInputProps<Assessment>) =>
                        placeholder="Duración"
                        value={values.duration || ''}
                        onChange={(e) => onChange && onChange({ ...values, duration: parseInt(e.target.value) })} />
+                <small className="form-error">{errors?.duration}</small>
             </div>
-            <CoursesSelect onCourseChanged={onCourseChanged} courseId={values.courses?.id || ""} />
+            <div>
+                <CoursesSelect onCourseChanged={onCourseChanged} courseId={values.courseId || ""} />
+                <small className="form-error">{errors?.courseId}</small>
+            </div>
         </>
     );
 }

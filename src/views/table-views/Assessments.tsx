@@ -22,6 +22,7 @@ import MenuOptions from "../../components/common/menu/MenuOptions";
 import {toast} from "react-toastify";
 import {useDispatch} from "react-redux";
 import {useSliceActions} from "../../redux/providers/SliceProvider";
+import validationSchema from "../../validations/edit-forms/assessment-edit-form-validation";
 
 const defaultAssessment: Assessment = {
     name: '',
@@ -89,6 +90,7 @@ const Assessments = () => {
                        defaultItemSchema={defaultAssessment}
                        addButtonText="Crear evaluación"
                        canAddPermission={Permissions.ASSESSMENT_ADD}
+                       formValidationSchema={validationSchema}
                        defaultFilters={{ courseId: state?.courseId || '' }} />
         </div>
     )

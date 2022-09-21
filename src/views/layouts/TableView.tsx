@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import * as Yup from 'yup';
 
 import {Entity} from "../../types/communication/responses/entity";
 import {ConvertorCreator, FilterSchemaCreator, FormInputProps, Service} from "../../types/common";
@@ -13,7 +14,7 @@ import HasPermission from "../../hoc/with-permission/HasPermission";
 const defaultFilterSchemaCreator = () => [];
 const defaultConvertorCreator = () => () => null;
 
-interface TableViewProps<T extends Entity, F> {
+interface TableViewProps<T extends Entity, F, K> {
     title: string;
     filterSchemaCreator?: FilterSchemaCreator<F>;
     convertorCreator?: ConvertorCreator<T>
@@ -24,15 +25,16 @@ interface TableViewProps<T extends Entity, F> {
     sidePanelEditTitle?: string;
     defaultItemSchema?: T;
     addButtonText?: string;
-    formInputs?: React.ComponentType<FormInputProps<T>>;
+    formInputs?: React.ComponentType<FormInputProps<T, K>>;
     onItemClick?: (id: number | string) => void;
     showAuditInfo?: boolean;
     canAddPermission?: string;
     defaultFilters?: object;
     hideAddButton?: boolean;
+    formValidationSchema?: Yup.SchemaOf<K>;
 }
 
-const TableView = <T extends Entity, F>({
+const TableView = <T extends Entity, F, K>({
     title,
     filterSchemaCreator = defaultFilterSchemaCreator,
     convertorCreator = defaultConvertorCreator,
@@ -49,7 +51,8 @@ const TableView = <T extends Entity, F>({
     canAddPermission,
     defaultFilters,
     hideAddButton = false,
-}: TableViewProps<T, F>) => {
+    formValidationSchema,
+}: TableViewProps<T, F, K>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator, defaultFilters);
 
     const getNewPage = (option: number) => {
@@ -89,38 +92,44 @@ const TableView = <T extends Entity, F>({
                    totalItems={tableData.pagination?.totalItems}
                    onClick={onItemClick}
                    isLoading={tableData.isLoading} />
-            <SidePanelForm title={tableData.item.id ? sidePanelEditTitle : sidePanelCreateTitle}
-                           sidePanelId={sidePanelId}
-                           showLoadingIndicator={tableData.showPanelLoadingIndicator}
-                           isEditPanelOpen={tableData.isEditPanelOpen}
-                           handleClose={tableData.onEditPanelClose}
-                           onSubmit={tableData.onSaveItem}
-                           formInputs={(
-                               <>
-                                   { FormInputs && tableData.item && <FormInputs values={tableData.item} onChange={tableData.onItemUpdate} /> }
-                                   <div className="flex space-x-2 justify-end pt-5">
-                                       <button type="submit" className="button-primary">
-                                           Guardar
-                                       </button>
-                                       <button type="button" className="button-secondary" onClick={tableData.onEditPanelClose}>
-                                           Cancelar
-                                       </button>
-                                   </div>
-                                   {
-                                       showAuditInfo && tableData.item.id &&
-                                       <div className="flex flex-col space-y-5">
-                                           <div>
-                                               <span className="font-bold block">Fecha de última actualización:</span>
-                                               <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
-                                           </div>
-                                           <div>
-                                               <span className="font-bold block">Actualizado por:</span>
-                                               <span>{tableData.item.updatedBy}</span>
-                                           </div>
+            {
+                tableData.isEditPanelOpen &&
+                <SidePanelForm title={tableData.item.id ? sidePanelEditTitle : sidePanelCreateTitle}
+                               sidePanelId={sidePanelId}
+                               showLoadingIndicator={tableData.showPanelLoadingIndicator}
+                               isEditPanelOpen={tableData.isEditPanelOpen}
+                               handleClose={tableData.onEditPanelClose}
+                               onSubmit={tableData.onSaveItem}
+                               values={tableData.item}
+                               onChange={tableData.onItemUpdate}
+                               validationSchema={formValidationSchema}
+                               formInputs={({ values, onChange, isValid, errors }: any) => (
+                                   <>
+                                       { FormInputs && tableData.item && <FormInputs values={values} onChange={onChange} errors={errors} /> }
+                                       <div className="flex space-x-2 justify-end pt-5">
+                                           <button type="submit" className="button-primary" disabled={!isValid}>
+                                               Guardar
+                                           </button>
+                                           <button type="button" className="button-secondary" onClick={tableData.onEditPanelClose}>
+                                               Cancelar
+                                           </button>
                                        </div>
-                                   }
-                               </>
-                           )} />
+                                       {
+                                           showAuditInfo && tableData.item.id &&
+                                           <div className="flex flex-col space-y-5">
+                                               <div>
+                                                   <span className="font-bold block">Fecha de última actualización:</span>
+                                                   <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
+                                               </div>
+                                               <div>
+                                                   <span className="font-bold block">Actualizado por:</span>
+                                                   <span>{tableData.item.updatedBy}</span>
+                                               </div>
+                                           </div>
+                                       }
+                                   </>
+                               )} />
+            }
         </>
     );
 };

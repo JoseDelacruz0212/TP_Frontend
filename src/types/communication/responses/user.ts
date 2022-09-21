@@ -6,6 +6,7 @@ export interface User extends Entity {
     lastName: string;
     email: string;
     roles?: string[];
+    role?: string;
     password?: string;
     status?: boolean;
     insitutionId?: string;

@@ -1,10 +1,12 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useMemo, useState} from "react";
 
 import {IoSchool} from "react-icons/io5";
 
 import {useAuthContext} from "../../contexts/AuthContext";
 
 import {Link} from "react-router-dom";
+import useFormValidation from "../../hooks/useFormValidation";
+import validationSchema from "../../validations/auth/sign-in-validation";
 
 const SignInPage = () => {
     const { signIn, isLoggedIn, goToFirstAllowedView } = useAuthContext();
@@ -19,6 +21,9 @@ const SignInPage = () => {
 
         signIn(username, password);
     }
+
+    const values = useMemo(() => ({ username, password }), [username, password]);
+    const { isValid, errors } = useFormValidation(values, validationSchema);
 
     return (
         <div className="min-h-screen flex">
@@ -43,6 +48,7 @@ const SignInPage = () => {
                                    placeholder="Usuario"
                                    value={username}
                                    onChange={(e) => setUsername(e.target.value)} />
+                            <small className="form-error">{errors?.username}</small>
                         </div>
                         <div className="form-group">
                             <label htmlFor="edit-institution-name" className="form-label">
@@ -55,10 +61,11 @@ const SignInPage = () => {
                                    placeholder="Contraseña"
                                    value={password}
                                    onChange={(e) => setPassword(e.target.value)} />
+                            <small className="form-error">{errors?.password}</small>
                         </div>
                     </form>
                     <div>
-                        <button type="submit" form="sign-in-form" className="button-primary w-full">
+                        <button type="submit" form="sign-in-form" className="button-primary w-full" disabled={!isValid}>
                             Iniciar sesión
                         </button>
                     </div>

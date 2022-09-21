@@ -3,15 +3,18 @@ import React, {ReactElement} from "react";
 import {IconType} from "react-icons";
 import {CrudService} from "../services/CrudService";
 import {FetchService} from "../services/FetchService";
+import {SchemaOf} from "yup";
 
 export interface Option {
     value: string;
     label: string;
 }
 
-export interface FormInputProps<T extends Entity> {
+export interface FormInputProps<T extends Entity, K = {}> {
     values: T;
     onChange?: (x: T) => void;
+    isValid?: boolean;
+    errors?: K
 }
 
 export interface FilterSchema {
