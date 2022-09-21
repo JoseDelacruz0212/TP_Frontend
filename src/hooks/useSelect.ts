@@ -31,7 +31,7 @@ const useSelect = (onSelectedChanged: (x?: string) => void, options?: Option[], 
         if (selected) {
             setSelectedOption(selected);
         }
-    }, [options]);
+    }, [options, defaultValueId]);
 
     const onSelectedChangedHandler = (option: Option | null) => {
         if (!options) return;
