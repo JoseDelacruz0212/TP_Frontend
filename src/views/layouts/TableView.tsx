@@ -92,41 +92,44 @@ const TableView = <T extends Entity, F, K>({
                    totalItems={tableData.pagination?.totalItems}
                    onClick={onItemClick}
                    isLoading={tableData.isLoading} />
-            <SidePanelForm title={tableData.item.id ? sidePanelEditTitle : sidePanelCreateTitle}
-                           sidePanelId={sidePanelId}
-                           showLoadingIndicator={tableData.showPanelLoadingIndicator}
-                           isEditPanelOpen={tableData.isEditPanelOpen}
-                           handleClose={tableData.onEditPanelClose}
-                           onSubmit={tableData.onSaveItem}
-                           values={tableData.item}
-                           onChange={tableData.onItemUpdate}
-                           validationSchema={formValidationSchema}
-                           formInputs={({ values, onChange, isValid, errors }: any) => (
-                               <>
-                                   { FormInputs && tableData.item && <FormInputs values={values} onChange={onChange} errors={errors} /> }
-                                   <div className="flex space-x-2 justify-end pt-5">
-                                       <button type="submit" className="button-primary" disabled={!isValid}>
-                                           Guardar
-                                       </button>
-                                       <button type="button" className="button-secondary" onClick={tableData.onEditPanelClose}>
-                                           Cancelar
-                                       </button>
-                                   </div>
-                                   {
-                                       showAuditInfo && tableData.item.id &&
-                                       <div className="flex flex-col space-y-5">
-                                           <div>
-                                               <span className="font-bold block">Fecha de última actualización:</span>
-                                               <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
-                                           </div>
-                                           <div>
-                                               <span className="font-bold block">Actualizado por:</span>
-                                               <span>{tableData.item.updatedBy}</span>
-                                           </div>
+            {
+                tableData.isEditPanelOpen &&
+                <SidePanelForm title={tableData.item.id ? sidePanelEditTitle : sidePanelCreateTitle}
+                               sidePanelId={sidePanelId}
+                               showLoadingIndicator={tableData.showPanelLoadingIndicator}
+                               isEditPanelOpen={tableData.isEditPanelOpen}
+                               handleClose={tableData.onEditPanelClose}
+                               onSubmit={tableData.onSaveItem}
+                               values={tableData.item}
+                               onChange={tableData.onItemUpdate}
+                               validationSchema={formValidationSchema}
+                               formInputs={({ values, onChange, isValid, errors }: any) => (
+                                   <>
+                                       { FormInputs && tableData.item && <FormInputs values={values} onChange={onChange} errors={errors} /> }
+                                       <div className="flex space-x-2 justify-end pt-5">
+                                           <button type="submit" className="button-primary" disabled={!isValid}>
+                                               Guardar
+                                           </button>
+                                           <button type="button" className="button-secondary" onClick={tableData.onEditPanelClose}>
+                                               Cancelar
+                                           </button>
                                        </div>
-                                   }
-                               </>
-                           )} />
+                                       {
+                                           showAuditInfo && tableData.item.id &&
+                                           <div className="flex flex-col space-y-5">
+                                               <div>
+                                                   <span className="font-bold block">Fecha de última actualización:</span>
+                                                   <span>{moment(tableData.item.updatedOn).format('LLL')}</span>
+                                               </div>
+                                               <div>
+                                                   <span className="font-bold block">Actualizado por:</span>
+                                                   <span>{tableData.item.updatedBy}</span>
+                                               </div>
+                                           </div>
+                                       }
+                                   </>
+                               )} />
+            }
         </>
     );
 };

@@ -13,7 +13,6 @@ export interface Option {
 export interface FormInputProps<T extends Entity, K = {}> {
     values: T;
     onChange?: (x: T) => void;
-    validationSchema?: SchemaOf<T>;
     isValid?: boolean;
     errors?: K
 }

@@ -14,7 +14,7 @@ const validationSchema: Yup.SchemaOf<InstitutionValidation> = Yup.object().shape
         .max(100, "La dirección debe contener 100 caracteres como máximo")
         .required("El campo dirección es requerido"),
     code: Yup.string()
-        .max(25, "El código debe contener 100 caracteres como máximo")
+        .max(25, "El código debe contener 25 caracteres como máximo")
         .required("El campo código es requerido")
 });
 
