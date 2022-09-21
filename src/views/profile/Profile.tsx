@@ -30,7 +30,7 @@ const Profile = () => {
         <ProfileComponent firstName={userData?.name || ""}
                           lastName={userData?.lastName || ""}
                           email={userData?.email || ""}
-                          rol={(userData?.roles && userData.roles[0]) || ""}
+                          rol={userData?.role || ""}
                           image={userData?.avatarUrl}
                           onSelectedImageChange={onSelectedImageChange} />
     )
