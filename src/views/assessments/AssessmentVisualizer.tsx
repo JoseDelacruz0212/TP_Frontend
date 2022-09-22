@@ -51,6 +51,28 @@ const AssessmentVisualizer = () => {
         );
     };
 
+    const onSendRequest = () => {
+        if (id) {
+            const toastMessage = toast.loading("Enviando solicitud de cambio, por favor espere");
+
+            AssessmentService.generateRequest(id)
+                .then(message => toast.update(toastMessage, {
+                    render: message,
+                    type: 'success',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                }))
+                .catch(error => toast.update(toastMessage, {
+                    render: error,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                }));
+        }
+    };
+
     if (isLoading) return <Loading />;
 
     if (assessment) {
@@ -74,7 +96,8 @@ const AssessmentVisualizer = () => {
                                     onAssessmentSubmit={onAssessmentSubmit}
                                     isReadOnly={assessment.status !== AssessmentStatus.STARTED}
                                     assessments={assessment}
-                                    isSubmitting={isSubmitting} />
+                                    isSubmitting={isSubmitting}
+                                    onSendRequest={onSendRequest} />
     )
 }
 

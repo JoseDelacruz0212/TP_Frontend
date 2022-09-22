@@ -45,6 +45,12 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
             .catch(() => Promise.reject("Ocurrió un error al tratar de asignar una puntación a la evaluación"));
     }
 
+    public async generateRequest(evaluationId: string) {
+        return httpClient.post(`evaluation/generateRequest`, { evaluationId })
+            .then(() => "La solicitud fue enviada exitosamente")
+            .catch(() => Promise.reject("Ocurrió un problema al tratar de enviar la solicitud"));
+    }
+
     protected updateItem(item: Assessment) {
         return httpClient.put(`/evaluation/${item.id}`, { ...item, availableOn: moment(item.availableOn).toISOString()})
             .then(() => "La evaluación se actualizó exitosamente")

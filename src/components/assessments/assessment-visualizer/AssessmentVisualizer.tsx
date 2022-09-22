@@ -5,7 +5,6 @@ import {AssessmentStatus} from "../../../types/assessment-status";
 import {Assessment} from "../../../types/communication/responses/assessment";
 
 import AssessmentTimeBar from "./AssessmentTimeBar";
-import {toast} from "react-toastify";
 import SendRequest from "./SendRequest";
 
 interface AssessmentVisualizerProps {
@@ -14,10 +13,11 @@ interface AssessmentVisualizerProps {
     isReadOnly?: boolean;
     assessment?: Assessment;
     isSubmitting?: boolean;
+    onSendRequest: () => void;
 }
 
 
-const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false }: AssessmentVisualizerProps) => {
+const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest }: AssessmentVisualizerProps) => {
     const { query } = useEditor();
 
     const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -32,15 +32,6 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
             </button>
         </div>
     );
-
-    const onSendRequest = () => {
-        const resolveAfter3Sec = new Promise(resolve => setTimeout(resolve, 3000));
-        toast.promise(resolveAfter3Sec, {
-            pending: 'Enviando solicitud de cambio, por favor espere',
-            success: 'La solicitud fue enviada exitosamente',
-            error: 'Ocurrió un problema al tratar de enviar la solicitud'
-        }).then();
-    }
 
     return (
         <>
