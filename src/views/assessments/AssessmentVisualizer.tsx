@@ -77,7 +77,7 @@ const AssessmentVisualizer = () => {
         if (!userId || !id || !assessment || !assessment.id) return;
 
         AssessmentService.changePoints(assessment.id, userId, id, newQualification).then(
-            pointsGenerated => QualificationBlockchainService.addTransaction(newQualification, assessment, id).then(
+            () => QualificationBlockchainService.addTransaction(newQualification, assessment, id).then(
                 () => {
                     setIsSubmitting(false);
 
