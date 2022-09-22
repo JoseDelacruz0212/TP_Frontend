@@ -60,7 +60,9 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
                     { !isReadOnly && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
                 </form>
             }
-            <AssignPoints onQualificationUpdate={onQualificationUpdate} isDisabled={isAssigningPoints} />
+            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+                { assessment && assessment.status === AssessmentStatus.FINISHED && <AssignPoints onQualificationUpdate={onQualificationUpdate} isDisabled={isAssigningPoints} /> }
+            </HasPermission>
         </>
     );
 };
