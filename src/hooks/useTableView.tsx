@@ -10,8 +10,11 @@ import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 import {ConvertorCreator, FilterSchemaCreator, Service} from "../types/common";
 import {toast} from "react-toastify";
+import ConfirmationToast from "../components/common/confirmation-toast/ConfirmationToast";
 
 const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: Service<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
+    const toastId = React.useRef<any>(null);
+
     const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
     const [item, setItem] = useState<T>(defaultItemSchema);
 
@@ -74,11 +77,24 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
         setItem(item);
     };
 
+    const showDeletionConfirmation = (id?: string) => {
+        toastId.current = toast(<ConfirmationToast text="¿Desea eliminar este elemento de la lista?"
+                                                   onSend={() => {
+                                                       toast.dismiss(toastId.current);
+                                                       onDeleteItem(id);
+                                                   }}
+                                                   onClose={() => toast.dismiss(toastId.current)}/>, {
+            closeButton: true,
+            autoClose: false,
+            closeOnClick: false,
+            progress: 100
+        })
+    }
+
     const onDeleteItem = (id?: string) => {
         if (!(service instanceof CrudService<T, F>) || !id) return;
 
         dispatch(panelRequestStarted(null));
-
         const toastMessage = toast.loading("Se está procesado la petición, por favor espere");
 
         service.deleteItem(id)
@@ -109,7 +125,7 @@ const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNo
     const onItemUpdate = (item: T) => setItem(item);
 
     const filterSchemas = filterSchemaCreator(filters as F, (filters) => dispatch(filtersUpdated(filters)));
-    const convertor = useCallback(convertorCreator(onEditItem, onDeleteItem), [convertorCreator]);
+    const convertor = useCallback(convertorCreator(onEditItem, showDeletionConfirmation), [convertorCreator]);
 
     const { tableColumns, tableData } = useTable(convertor, columns, items?.data as T[]);
 

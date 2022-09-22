@@ -2,6 +2,8 @@ import React from "react";
 
 import ProfileImage from "../../profile/ProfileImage";
 import {IoShareSocialSharp} from "react-icons/io5";
+import HasPermission from "../../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../../types/auth";
 
 interface ProfileHeaderProps {
     title: React.ReactNode;
@@ -17,9 +19,11 @@ const ProfileHeader = ({ title, username, userImage, onProfileClicked, onShareCl
             <h5 className="flex-1">{title}</h5>
             <div className="flex items-center divide-x">
                 <div className="flex mr-5">
-                    <button className="hover:bg-gray-100 h-6 w-6 flex justify-center items-center rounded-full" onClick={onShareClicked}>
-                        <IoShareSocialSharp />
-                    </button>
+                    <HasPermission permission={Permissions.PROFILE_SHARE_QUALIFICATIONS}>
+                        <button className="hover:bg-gray-100 h-6 w-6 flex justify-center items-center rounded-full" onClick={onShareClicked}>
+                            <IoShareSocialSharp />
+                        </button>
+                    </HasPermission>
                 </div>
                 <div className="flex items-center space-x-5">
                     <span className="subtitle hidden md:block text-right hover:underline ml-5" role="button" onClick={onProfileClicked}>{username}</span>

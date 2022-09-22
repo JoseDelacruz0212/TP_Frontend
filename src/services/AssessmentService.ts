@@ -21,13 +21,13 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
         }
     }
 
-    public async getById(id: string, isForStudent: boolean = false) {
+    public async getById(id: string, isForStudent: boolean = false, userId?: string) {
         if (!isForStudent) {
             return httpClient.get<Assessment>(`/evaluation/${id}`)
                 .then(({data}) => data)
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
         } else {
-            return httpClient.get<APIQualification[]>(`/user-evaluation/byUser/${id}/${AuthorizationService.getUserId()}`)
+            return httpClient.get<APIQualification[]>(`/user-evaluation/byUser/${id}/${userId || AuthorizationService.getUserId()}`)
                 .then(({data}) => data ? createFrom(data[0]) : undefined)
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
         }
@@ -39,10 +39,26 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
             .catch(() => Promise.reject("Ocurrió un error al tratar de eliminar la evaluación"));
     }
 
+    public async changePoints(id: string, userId: string, evaluationId: string, points: number) {
+        return httpClient.put(`/user-evaluation/${id}`, {
+            userId,
+            evaluationId,
+            points
+        })
+            .then(() => "La calificación se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar la calificación"));
+    }
+
     public async generatePoints(evaluationId: string, json: string) {
         return httpClient.post<PointsGenerated>('/evaluation/GeneratePoints', { evaluationId, json })
             .then(({ data }) => data)
             .catch(() => Promise.reject("Ocurrió un error al tratar de asignar una puntación a la evaluación"));
+    }
+
+    public async generateRequest(evaluationId: string) {
+        return httpClient.post(`evaluation/generateRequest`, { evaluationId })
+            .then(() => "La solicitud fue enviada exitosamente")
+            .catch(() => Promise.reject("Ocurrió un problema al tratar de enviar la solicitud"));
     }
 
     protected updateItem(item: Assessment) {

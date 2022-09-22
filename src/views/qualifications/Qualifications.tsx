@@ -16,7 +16,7 @@ const Qualifications = () => {
 
     const defaultFilters = { assessmentId: state?.assessmentId };
 
-    return <QualificationsTable service={QualificationService} defaultFilters={defaultFilters} />;
+    return <QualificationsTable service={QualificationService} defaultFilters={defaultFilters} showAnswers />;
 };
 
 export default withPermission(Qualifications, Permissions.ASSESSMENT_QUALIFICATIONS);

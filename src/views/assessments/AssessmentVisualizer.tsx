@@ -21,9 +21,10 @@ interface LocationState {
 
 const AssessmentVisualizer = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAssigningPoints, setIsAssigningPoints] = useState(false);
 
     const { hasPermissionFor } = useAuthContext();
-    const { id } = useParams();
+    const { id, userId } = useParams();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,23 +33,117 @@ const AssessmentVisualizer = () => {
     const isForStudent = state?.isForStudent;
     const flag = state?.flag;
 
-    const getData = useCallback(() => AssessmentService.getById(id!, isForStudent), [id, isForStudent]);
+    const getData = useCallback(() => AssessmentService.getById(id!, isForStudent, userId), [id, isForStudent]);
     const { data: assessment, isLoading, hasError } = useFetch(getData);
 
     const onAssessmentSubmit = (assessmentId: string) => {
-        if (!assessment) return;
+        if (!assessment || !id) return;
+
+        const toastMessage = toast.loading("Enviando respuestas, por favor espere");
 
         setIsSubmitting(true);
-        AssessmentService.generatePoints(id!, assessmentId).then(
-            pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated, assessment).then(
-                () => {
+        AssessmentService.generatePoints(id!, assessmentId)
+            .then(pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated.points, assessment, id)
+                .then(message => {
                     setIsSubmitting(false);
 
                     navigate("/assessments");
-                    toast.success("La evaluación se envió exitosamente");
-                }
-            )
-        );
+                    toast.update(toastMessage, {
+                        render: message,
+                        type: 'success',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                })
+                .catch(error => {
+                    setIsSubmitting(false);
+
+                    toast.update(toastMessage, {
+                        render: error,
+                        type: 'error',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                }))
+            .catch(error => {
+                setIsSubmitting(false);
+
+                toast.update(toastMessage, {
+                    render: error,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                })
+            })
+    };
+
+    const onSendRequest = () => {
+        if (id) {
+            const toastMessage = toast.loading("Enviando solicitud de cambio, por favor espere");
+
+            AssessmentService.generateRequest(id)
+                .then(message => toast.update(toastMessage, {
+                    render: message,
+                    type: 'success',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                }))
+                .catch(error => toast.update(toastMessage, {
+                    render: error,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                }));
+        }
+    };
+
+    const onQualificationUpdate = (newQualification: number) => {
+        if (!userId || !id || !assessment || !assessment.id) return;
+
+        const toastMessage = toast.loading("Enviando actualización de calificación, por favor espere");
+
+        setIsAssigningPoints(true);
+        AssessmentService.changePoints(assessment.id, userId, id, newQualification)
+            .then(() => QualificationBlockchainService.addTransaction(newQualification, assessment, id)
+                .then(message => {
+                    setIsSubmitting(false);
+
+                    navigate("/assessments");
+                    toast.update(toastMessage, {
+                        render: message,
+                        type: 'success',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                })
+                .catch(error => {
+                    setIsSubmitting(false);
+
+                    toast.update(toastMessage, {
+                        render: error,
+                        type: 'error',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                }))
+            .catch(error => {
+                setIsSubmitting(false);
+
+                toast.update(toastMessage, {
+                    render: error,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                })
+            })
     };
 
     if (isLoading) return <Loading />;
@@ -74,7 +169,10 @@ const AssessmentVisualizer = () => {
                                     onAssessmentSubmit={onAssessmentSubmit}
                                     isReadOnly={assessment.status !== AssessmentStatus.STARTED}
                                     assessments={assessment}
-                                    isSubmitting={isSubmitting} />
+                                    isSubmitting={isSubmitting}
+                                    isAssigningPoints={isAssigningPoints}
+                                    onSendRequest={onSendRequest}
+                                    onQualificationUpdate={onQualificationUpdate} />
     )
 }
 

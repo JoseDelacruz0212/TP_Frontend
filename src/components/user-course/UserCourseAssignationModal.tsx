@@ -30,7 +30,7 @@ const UserCourseAssignationModal = ({ isOpen, handleClose, selectedUser, onAssig
                 <div className="flex justify-between items-center">
                     <span className="subtitle">Asignar curso a {selectedUser?.name}</span>
                     <button onClick={handleClose}>
-                        <IoCloseOutline />
+                        <IoCloseOutline size={20} />
                     </button>
                 </div>
                 <form className="flex flex-col space-y-5" onSubmit={onAssignHandler}>

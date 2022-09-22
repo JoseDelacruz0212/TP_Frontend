@@ -26,6 +26,7 @@ function App() {
               <Route path="/assessments" element={<Assessments />} />
               <Route path="/assessment-creator/:id" element={<AssessmentCreator />} />
               <Route path="/assessment-visualizer/:id" element={<AssessmentVisualizer />} />
+              <Route path="/assessment-visualizer/:id/:userId" element={<AssessmentVisualizer />} />
               <Route path="/qualifications/:id" element={<Qualifications />} />
               <Route path="/users" element={<Users />} />
               <Route path="/verification" element={<Verification />} />

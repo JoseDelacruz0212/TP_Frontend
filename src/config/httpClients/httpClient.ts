@@ -3,7 +3,6 @@ import AuthorizationService from "../../services/AuthorizationService";
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
-    timeout: 5000
 });
 
 instance.interceptors.request.use(

@@ -5,23 +5,46 @@ import {AssessmentStatus} from "../../../types/assessment-status";
 import {Assessment} from "../../../types/communication/responses/assessment";
 
 import AssessmentTimeBar from "./AssessmentTimeBar";
-import {toast} from "react-toastify";
 import SendRequest from "./SendRequest";
+import HasPermission from "../../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../../types/auth";
+import AssignPoints from "./AssignPoints";
+import {toast} from "react-toastify";
+import ConfirmationToast from "../../common/confirmation-toast/ConfirmationToast";
 
 interface AssessmentVisualizerProps {
     json: string;
     onAssessmentSubmit: (assessment: string) => void;
+    onQualificationUpdate: (x: number) => void;
     isReadOnly?: boolean;
     assessment?: Assessment;
     isSubmitting?: boolean;
+    onSendRequest: () => void;
+    isAssigningPoints?: boolean;
 }
 
 
-const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false }: AssessmentVisualizerProps) => {
+const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest, onQualificationUpdate, isAssigningPoints = false }: AssessmentVisualizerProps) => {
+    const submitConfirmationToast = React.useRef<any>(null);
+
     const { query } = useEditor();
 
-    const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+    const showConfirmationMessage = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        submitConfirmationToast.current = toast(
+            <ConfirmationToast text="¿Desea enviar el examen? Asegurese de hacer respondido todas las preguntas antes de enviar"
+                               onClose={() => toast.dismiss(submitConfirmationToast.current)}
+                               onSend={onAssessmentSubmitHandler} />, {
+            closeButton: true,
+            autoClose: false,
+            closeOnClick: false,
+            progress: 100
+        })
+    }
+
+    const onAssessmentSubmitHandler = () => {
+        toast.dismiss(submitConfirmationToast.current);
         onAssessmentSubmit(query.serialize());
     }
 
@@ -33,21 +56,16 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
         </div>
     );
 
-    const onSendRequest = () => {
-        const resolveAfter3Sec = new Promise(resolve => setTimeout(resolve, 3000));
-        toast.promise(resolveAfter3Sec, {
-            pending: 'Enviando solicitud de cambio, por favor espere',
-            success: 'La solicitud fue enviada exitosamente',
-            error: 'Ocurrió un problema al tratar de enviar la solicitud'
-        }).then();
-    }
-
     return (
         <>
-            { assessment && assessment.status === AssessmentStatus.FINISHED && <SendRequest onSendRequest={onSendRequest} /> }
+            <div className="flex justify-end space-x-5">
+                <HasPermission permission={Permissions.ASSESSMENT_REQUEST_ACTION}>
+                    { assessment && assessment.status === AssessmentStatus.FINISHED && <SendRequest onSendRequest={onSendRequest} /> }
+                </HasPermission>
+            </div>
             {
                 assessment &&
-                <form onSubmit={onAssessmentSubmitHandler} className="flex flex-col space-y-10">
+                <form onSubmit={showConfirmationMessage} className="flex flex-col space-y-10">
                     {
                         assessment.status === AssessmentStatus.STARTED &&
                         <AssessmentTimeBar availableOn={assessment.availableOn}
@@ -60,6 +78,9 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
                     { !isReadOnly && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
                 </form>
             }
+            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+                { assessment && assessment.status === AssessmentStatus.FINISHED && <AssignPoints onQualificationUpdate={onQualificationUpdate} isDisabled={isAssigningPoints} /> }
+            </HasPermission>
         </>
     );
 };
