@@ -33,9 +33,9 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
         e.preventDefault();
 
         submitConfirmationToast.current = toast(
-            <ConfirmationToast text="¿Desea enviar una nueva solicitud de reclamo?"
-                               onClose={onAssessmentSubmitHandler}
-                               onSend={() => toast.dismiss(submitConfirmationToast.current)} />, {
+            <ConfirmationToast text="¿Desea enviar el examen? Asegurese de hacer respondido todas las preguntas antes de enviar"
+                               onClose={() => toast.dismiss(submitConfirmationToast.current)}
+                               onSend={onAssessmentSubmitHandler} />, {
             closeButton: true,
             autoClose: false,
             closeOnClick: false,
