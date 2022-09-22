@@ -10,11 +10,11 @@ class UserService extends CrudService<User, UserFilter> {
     public async getData(filters: UserFilter, page: number = 1, pageSize: number = 10) {
         if (!filters.courseId) {
             return httpClient.get<User[]>('/user/all')
-                .then(({ data }) => this.getPaginatedData(data.map((x: any) => ({ ...x, role: (x.roles && x.roles[0]) || '' })), filters, page, pageSize))
+                .then(({ data }) => this.getPaginatedData(data.map((x: any) => ({ ...x, role: (x.roles && x.roles[0]) || '', insitutionId: x.institution?.id })), filters, page, pageSize))
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener los usuarios"));
         } else {
             return httpClient.get<UserCourse[]>(`/user-course/getAllByCourse/${filters.courseId}`)
-                .then(({ data }) => this.getPaginatedData(data.map((x: any) => x.user), filters, page, pageSize))
+                .then(({ data }) => this.getPaginatedData(data.map((x: any) => ({ ...x.user, role: (x.user?.roles && x.user?.roles[0]) || '', insitutionId: x.user?.institution?.id })), filters, page, pageSize))
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener los usuarios"));
         }
     }
