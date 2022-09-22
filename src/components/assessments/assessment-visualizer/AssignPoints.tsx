@@ -1,6 +1,23 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {FormEvent, useState} from "react";
+import {toast} from "react-toastify";
+import ConfirmationToast from "../../common/confirmation-toast/ConfirmationToast";
 
 const AssignPoints = ({ onQualificationUpdate, isDisabled }: { onQualificationUpdate: (x: number) => void, isDisabled: boolean }) => {
+    const toastId = React.useRef<any>(null);
+
+    const showStartRequestMessage = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        toastId.current = toast(<ConfirmationToast text="¿Desea actualizar la calificación de la evaluación?"
+                                                   onClose={() => toast.dismiss(toastId.current)}
+                                                   onSend={() => onQualificationUpdateHandler()} />, {
+            closeButton: true,
+            autoClose: false,
+            closeOnClick: false,
+            progress: 100
+        })
+    }
+
     const [newQualification, setNewQualification] = useState("");
 
     const onNewQualificationHandler = (newQualification: string) => {
@@ -16,11 +33,13 @@ const AssignPoints = ({ onQualificationUpdate, isDisabled }: { onQualificationUp
         setNewQualification(qualification);
     };
 
+    const onQualificationUpdateHandler = () => {
+        toast.dismiss(toastId.current);
+        onQualificationUpdate(parseFloat(newQualification));
+    }
+
     return (
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            onQualificationUpdate(parseFloat(newQualification));
-        }} className="flex flex-col space-y-5 items-end">
+        <form onSubmit={showStartRequestMessage} className="flex flex-col space-y-5 items-end">
             <div className="form-group-row">
                 <label htmlFor="points-update-input" className="form-label">
                     <small>Actualizar calificación: </small>

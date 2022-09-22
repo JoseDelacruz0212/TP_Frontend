@@ -105,17 +105,45 @@ const AssessmentVisualizer = () => {
     const onQualificationUpdate = (newQualification: number) => {
         if (!userId || !id || !assessment || !assessment.id) return;
 
+        const toastMessage = toast.loading("Enviando actualización de calificación, por favor espere");
+
         setIsAssigningPoints(true);
-        AssessmentService.changePoints(assessment.id, userId, id, newQualification).then(
-            () => QualificationBlockchainService.addTransaction(newQualification, assessment, id).then(
-                () => {
-                    setIsAssigningPoints(false);
+        AssessmentService.changePoints(assessment.id, userId, id, newQualification)
+            .then(() => QualificationBlockchainService.addTransaction(newQualification, assessment, id)
+                .then(message => {
+                    setIsSubmitting(false);
 
                     navigate("/assessments");
-                    toast.success("La calificación se actualizó correctamente");
-                }
-            )
-        );
+                    toast.update(toastMessage, {
+                        render: message,
+                        type: 'success',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                })
+                .catch(error => {
+                    setIsSubmitting(false);
+
+                    toast.update(toastMessage, {
+                        render: error,
+                        type: 'error',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                }))
+            .catch(error => {
+                setIsSubmitting(false);
+
+                toast.update(toastMessage, {
+                    render: error,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                })
+            })
     };
 
     if (isLoading) return <Loading />;
