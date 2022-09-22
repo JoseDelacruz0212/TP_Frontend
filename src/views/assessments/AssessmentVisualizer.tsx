@@ -39,17 +39,45 @@ const AssessmentVisualizer = () => {
     const onAssessmentSubmit = (assessmentId: string) => {
         if (!assessment || !id) return;
 
+        const toastMessage = toast.loading("Enviando respuestas, por favor espere");
+
         setIsSubmitting(true);
-        AssessmentService.generatePoints(id!, assessmentId).then(
-            pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated.points, assessment, id).then(
-                () => {
+        AssessmentService.generatePoints(id!, assessmentId)
+            .then(pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated.points, assessment, id)
+                .then(message => {
                     setIsSubmitting(false);
 
                     navigate("/assessments");
-                    toast.success("La evaluación se envió exitosamente");
-                }
-            )
-        );
+                    toast.update(toastMessage, {
+                        render: message,
+                        type: 'success',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                })
+                .catch(error => {
+                    setIsSubmitting(false);
+
+                    toast.update(toastMessage, {
+                        render: error,
+                        type: 'error',
+                        isLoading: false,
+                        autoClose: 5000,
+                        closeButton: true
+                    })
+                }))
+            .catch(error => {
+                setIsSubmitting(false);
+
+                toast.update(toastMessage, {
+                    render: error,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 5000,
+                    closeButton: true
+                })
+            })
     };
 
     const onSendRequest = () => {

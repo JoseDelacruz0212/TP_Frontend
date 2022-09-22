@@ -34,7 +34,9 @@ class QualificationBlockchainService extends FetchService<QualificationGroup, Qu
             points: pointsGenerated,
             grade: assessment.courses?.grade,
             section: assessment.courses?.section
-        });
+        })
+            .then(() => "La evaluación se envió exitosamente")
+            .catch(() => Promise.reject("Un error ocurrió al intentar guardar la calificación"));
     }
 
     protected applyFilters(data: QualificationGroup[], filters: QualificationFilter): QualificationGroup[] {

@@ -9,6 +9,8 @@ import SendRequest from "./SendRequest";
 import HasPermission from "../../../hoc/with-permission/HasPermission";
 import {Permissions} from "../../../types/auth";
 import AssignPoints from "./AssignPoints";
+import {toast} from "react-toastify";
+import ConfirmationToast from "../../common/confirmation-toast/ConfirmationToast";
 
 interface AssessmentVisualizerProps {
     json: string;
@@ -23,10 +25,26 @@ interface AssessmentVisualizerProps {
 
 
 const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest, onQualificationUpdate, isAssigningPoints = false }: AssessmentVisualizerProps) => {
+    const submitConfirmationToast = React.useRef<any>(null);
+
     const { query } = useEditor();
 
-    const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+    const showConfirmationMessage = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        submitConfirmationToast.current = toast(
+            <ConfirmationToast text="¿Desea enviar una nueva solicitud de reclamo?"
+                               onClose={onAssessmentSubmitHandler}
+                               onSend={() => toast.dismiss(submitConfirmationToast.current)} />, {
+            closeButton: true,
+            autoClose: false,
+            closeOnClick: false,
+            progress: 100
+        })
+    }
+
+    const onAssessmentSubmitHandler = () => {
+        toast.dismiss(submitConfirmationToast.current);
         onAssessmentSubmit(query.serialize());
     }
 
@@ -47,7 +65,7 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
             </div>
             {
                 assessment &&
-                <form onSubmit={onAssessmentSubmitHandler} className="flex flex-col space-y-10">
+                <form onSubmit={showConfirmationMessage} className="flex flex-col space-y-10">
                     {
                         assessment.status === AssessmentStatus.STARTED &&
                         <AssessmentTimeBar availableOn={assessment.availableOn}
