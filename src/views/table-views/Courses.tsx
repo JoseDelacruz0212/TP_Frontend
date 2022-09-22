@@ -67,7 +67,7 @@ const Courses = () => {
                        formInputs={CourseEditForm}
                        defaultItemSchema={defaultCourses}
                        addButtonText="Crear curso"
-                       formValidationSchema={validationSchema}
+                       updateValidationSchema={validationSchema}
                        canAddPermission={Permissions.COURSES_ADD} />
         </div>
     )

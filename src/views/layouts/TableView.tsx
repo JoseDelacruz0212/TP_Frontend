@@ -31,7 +31,8 @@ interface TableViewProps<T extends Entity, F, K> {
     canAddPermission?: string;
     defaultFilters?: object;
     hideAddButton?: boolean;
-    formValidationSchema?: Yup.SchemaOf<K>;
+    updateValidationSchema?: Yup.SchemaOf<K>;
+    createValidationSchema?: Yup.SchemaOf<K>
 }
 
 const TableView = <T extends Entity, F, K>({
@@ -51,7 +52,8 @@ const TableView = <T extends Entity, F, K>({
     canAddPermission,
     defaultFilters,
     hideAddButton = false,
-    formValidationSchema,
+    updateValidationSchema,
+    createValidationSchema
 }: TableViewProps<T, F, K>) => {
     const tableData = useTableView<T, F>(columns, service, defaultItemSchema, filterSchemaCreator, convertorCreator, defaultFilters);
 
@@ -102,7 +104,7 @@ const TableView = <T extends Entity, F, K>({
                                onSubmit={tableData.onSaveItem}
                                values={tableData.item}
                                onChange={tableData.onItemUpdate}
-                               validationSchema={formValidationSchema}
+                               validationSchema={tableData.item.id ? updateValidationSchema : (createValidationSchema || updateValidationSchema)}
                                formInputs={({ values, onChange, isValid, errors }: any) => (
                                    <>
                                        { FormInputs && tableData.item && <FormInputs values={values} onChange={onChange} errors={errors} /> }

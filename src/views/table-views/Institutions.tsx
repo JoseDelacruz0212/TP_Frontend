@@ -61,7 +61,7 @@ const Institutions = () => {
                        sidePanelCreateTitle="Agregar institución"
                        formInputs={InstitutionEditForm}
                        defaultItemSchema={defaultInstitution}
-                       formValidationSchema={validationSchema}
+                       updateValidationSchema={validationSchema}
                        addButtonText="Crear institución" />
         </div>
     )
