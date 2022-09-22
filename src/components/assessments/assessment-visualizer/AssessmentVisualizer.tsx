@@ -13,6 +13,7 @@ import AssignPoints from "./AssignPoints";
 interface AssessmentVisualizerProps {
     json: string;
     onAssessmentSubmit: (assessment: string) => void;
+    onQualificationUpdate: (x: number) => void;
     isReadOnly?: boolean;
     assessment?: Assessment;
     isSubmitting?: boolean;
@@ -20,7 +21,7 @@ interface AssessmentVisualizerProps {
 }
 
 
-const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest }: AssessmentVisualizerProps) => {
+const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest, onQualificationUpdate }: AssessmentVisualizerProps) => {
     const { query } = useEditor();
 
     const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -42,9 +43,6 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
                 <HasPermission permission={Permissions.ASSESSMENT_REQUEST_ACTION}>
                     { assessment && assessment.status === AssessmentStatus.FINISHED && <SendRequest onSendRequest={onSendRequest} /> }
                 </HasPermission>
-                <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
-                    { assessment && assessment.status === AssessmentStatus.FINISHED && <AssignPoints /> }
-                </HasPermission>
             </div>
             {
                 assessment &&
@@ -61,6 +59,7 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
                     { !isReadOnly && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
                 </form>
             }
+            <AssignPoints onQualificationUpdate={onQualificationUpdate} />
         </>
     );
 };

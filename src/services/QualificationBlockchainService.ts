@@ -21,17 +21,17 @@ class QualificationBlockchainService extends FetchService<QualificationGroup, Qu
         } else return new Promise(resolve => resolve([]));
     }
 
-    public async addTransaction(pointsGenerated: PointsGenerated, assessment: Assessment) {
+    public async addTransaction(pointsGenerated: number, assessment: Assessment, id: string) {
         return blockchainClient.post('/addTransaction', {
             userId: AuthorizationService.getUserId(),
             courseName: assessment.courses?.name,
             courseId: assessment.courses?.id,
             evaluationName: assessment.name,
-            evaluationId: assessment.id,
+            evaluationId: id,
             institutionName: assessment.courses?.institution?.name,
             institutionId: assessment.courses?.institutionId,
             time: assessment.availableOn,
-            points: pointsGenerated.points,
+            points: pointsGenerated,
             grade: assessment.courses?.grade,
             section: assessment.courses?.section
         });

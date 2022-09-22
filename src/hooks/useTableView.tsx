@@ -10,7 +10,7 @@ import {Entity} from "../types/communication/responses/entity";
 import {Filter} from "../types/communication/requests/filter";
 import {ConvertorCreator, FilterSchemaCreator, Service} from "../types/common";
 import {toast} from "react-toastify";
-import ConfirmationToast from "../components/common/ConfirmationToast";
+import ConfirmationToast from "../components/common/confirmation-toast/ConfirmationToast";
 
 const useTableView = <T extends Entity, F extends Filter>(columns: React.ReactNode[] = [], service: Service<T, F>, defaultItemSchema: T, filterSchemaCreator: FilterSchemaCreator<F>, convertorCreator: ConvertorCreator<T>, defaultFilters?: object) => {
     const toastId = React.useRef<any>(null);

@@ -1,6 +1,6 @@
 import React from "react";
 import {toast} from "react-toastify";
-import ConfirmationToast from "../../common/ConfirmationToast";
+import ConfirmationToast from "../../common/confirmation-toast/ConfirmationToast";
 
 const SendRequest = ({ onSendRequest }: { onSendRequest: () => void }) => {
     const toastId = React.useRef<any>(null);

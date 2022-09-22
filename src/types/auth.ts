@@ -43,7 +43,8 @@ export const Permissions = Object.freeze({
    REQUEST: "REQUEST",
    VERIFICATION: "VERIFICATION",
    MANAGEMENT: "MANAGEMENT",
-   PROFILE: "PROFILE"
+   PROFILE: "PROFILE",
+   PROFILE_SHARE_QUALIFICATIONS: "PROFILE-SHARE-QUALIFICATIONS"
 });
 
 export const permissionsByRole: { [x: string]: string[] } = {
@@ -137,6 +138,7 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "ASSESSMENT-DETAILS-ACTION",
       "ASSESSMENT-REQUEST-ACTION",
       "VERIFICATION",
-      "PROFILE"
+      "PROFILE",
+      "PROFILE-SHARE-QUALIFICATIONS"
    ]
 };

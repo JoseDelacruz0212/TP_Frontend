@@ -36,11 +36,11 @@ const AssessmentVisualizer = () => {
     const { data: assessment, isLoading, hasError } = useFetch(getData);
 
     const onAssessmentSubmit = (assessmentId: string) => {
-        if (!assessment) return;
+        if (!assessment || !id) return;
 
         setIsSubmitting(true);
         AssessmentService.generatePoints(id!, assessmentId).then(
-            pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated, assessment).then(
+            pointsGenerated => QualificationBlockchainService.addTransaction(pointsGenerated.points, assessment, id).then(
                 () => {
                     setIsSubmitting(false);
 
@@ -73,6 +73,21 @@ const AssessmentVisualizer = () => {
         }
     };
 
+    const onQualificationUpdate = (newQualification: number) => {
+        if (!userId || !id || !assessment || !assessment.id) return;
+
+        AssessmentService.changePoints(assessment.id, userId, id, newQualification).then(
+            pointsGenerated => QualificationBlockchainService.addTransaction(newQualification, assessment, id).then(
+                () => {
+                    setIsSubmitting(false);
+
+                    navigate("/assessments");
+                    toast.success("La calificación se actualizó correctamente");
+                }
+            )
+        );
+    };
+
     if (isLoading) return <Loading />;
 
     if (assessment) {
@@ -97,7 +112,8 @@ const AssessmentVisualizer = () => {
                                     isReadOnly={assessment.status !== AssessmentStatus.STARTED}
                                     assessments={assessment}
                                     isSubmitting={isSubmitting}
-                                    onSendRequest={onSendRequest} />
+                                    onSendRequest={onSendRequest}
+                                    onQualificationUpdate={onQualificationUpdate} />
     )
 }
 

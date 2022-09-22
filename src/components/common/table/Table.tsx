@@ -88,7 +88,7 @@ const Table = ({
     return (
         <div className="bg-surface shadow flex flex-col space-y-7">
             {
-                title || (filterSchemas && filterSchemas.length > 0) &&
+                (title || (filterSchemas && filterSchemas.length > 0)) &&
                 <div className="flex justify-between p-4 pb-0">
                     { title && <small className="subtitle">{title}</small> }
                     {

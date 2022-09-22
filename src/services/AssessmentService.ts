@@ -39,6 +39,16 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
             .catch(() => Promise.reject("Ocurrió un error al tratar de eliminar la evaluación"));
     }
 
+    public async changePoints(id: string, userId: string, evaluationId: string, points: number) {
+        return httpClient.put(`/user-evaluation/${id}`, {
+            userId,
+            evaluationId,
+            points
+        })
+            .then(() => "La calificación se actualizó exitosamente")
+            .catch(() => Promise.reject("Ocurrió un error al tratar de actualizar la calificación"));
+    }
+
     public async generatePoints(evaluationId: string, json: string) {
         return httpClient.post<PointsGenerated>('/evaluation/GeneratePoints', { evaluationId, json })
             .then(({ data }) => data)
