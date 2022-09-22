@@ -2,7 +2,7 @@ import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {IoEnterOutline, IoSchool} from "react-icons/io5";
 
-const Externalayout = () => {
+const ExternalLayout = () => {
     return (
         <div className="flex flex-col min-h-screen lg:flex-row">
             <aside className={`bg-primary text-on-primary fixed top-0 h-14 w-full`}>
@@ -28,4 +28,4 @@ const Externalayout = () => {
     )
 }
 
-export default Externalayout;
+export default ExternalLayout;

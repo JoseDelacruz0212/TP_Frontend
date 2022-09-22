@@ -3,8 +3,7 @@ import React, {FormEvent, useState} from "react";
 import {useParams} from "react-router-dom";
 import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
 import QualificationBlockchainService from "../../services/QualificationBlockchainService";
-import {Permissions} from "../../types/auth";
-import withPermission from "../../hoc/with-permission/withPermission";
+import AssessmentQualificationHistoryModal from "../../components/verification/AssessmentQualificationHistoryModal";
 
 const Verification = () => {
     const { userIdentifier: userId } = useParams();
@@ -12,10 +11,23 @@ const Verification = () => {
     const [userIdentifier, setUserIdentifier] = useState(userId);
     const [defaultFilters, setDefaultFilters] = useState({ userId });
 
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [history, setHistory] = useState<{ points: number; transactionDate?: string }[] | undefined>();
+
     const verifyUserHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setDefaultFilters({ userId: userIdentifier });
     };
+
+    const onHistoryClick = (history: { points: number; transactionDate?: string }[]) => {
+        setIsHistoryOpen(true);
+        setHistory(history);
+    };
+
+    const onHistoryClose = () => {
+        setIsHistoryOpen(false);
+        setHistory(undefined);
+    }
 
     return (
         <div className="flex flex-col space-y-10">
@@ -31,9 +43,15 @@ const Verification = () => {
                     Verificar
                 </button>
             </form>
-            <QualificationsTable service={QualificationBlockchainService} defaultFilters={defaultFilters} />
+            <QualificationsTable service={QualificationBlockchainService}
+                                 defaultFilters={defaultFilters}
+                                 showHistory
+                                 onHistoryClick={onHistoryClick} />
+            <AssessmentQualificationHistoryModal isOpen={isHistoryOpen}
+                                                 handleClose={() => setIsHistoryOpen(false)}
+                                                 history={history} />
         </div>
     )
 };
 
-export default withPermission(Verification, Permissions.VERIFICATION);
+export default Verification;

@@ -19,7 +19,7 @@ export interface QualificationGroup extends Entity {
     institutionName?: string;
     institutionId?: string;
     availableOn?: string;
-    points: number[];
+    points: { points: number; transactionDate?: string }[];
     grade?: string;
     section?: string;
     isEdited?: boolean;
@@ -41,19 +41,41 @@ export interface Qualification extends Entity {
     section?: string;
     isEdited?: boolean;
     json?: string;
+    transactionDate?: string;
 }
 
 export const mapToQualificationGroup = (qualifications: Qualification[]): QualificationGroup[] => {
     const group: QualificationGroup[] = [];
 
     qualifications.forEach(qualification => {
-       const groupToAssign = group.find(x => x.evaluationId === qualification.evaluationId);
+        if (qualification.points) {
+            let groupToAssign = group.find(x => x.evaluationId === qualification.evaluationId);
 
-       if (qualification.points) {
-           if (groupToAssign)
-               groupToAssign.points = [...groupToAssign.points, qualification.points];
-           else
-               group.push({...qualification, points: [qualification.points]});
+            if (!groupToAssign) {
+                groupToAssign = {
+                   ...qualification,
+                   points: [{
+                       points: qualification.points,
+                       transactionDate: qualification.transactionDate
+                   }]
+                };
+
+                group.push(groupToAssign);
+            } else {
+                groupToAssign.points = [...groupToAssign.points, {
+                    points: qualification.points,
+                    transactionDate: qualification.transactionDate
+                }];
+            }
+
+            groupToAssign.points = groupToAssign.points.sort((a, b) => {
+                if (!a.transactionDate || !b.transactionDate) return 1;
+
+                const firstDate = new Date(a.transactionDate);
+                const secondDate = new Date(b.transactionDate);
+
+                return firstDate.getTime() > secondDate.getTime() ? -1 : 1;
+            });
        }
     });
 

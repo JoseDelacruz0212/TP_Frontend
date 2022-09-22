@@ -13,6 +13,7 @@ import {withQualificationsProvider} from "../../redux/providers/providers";
 import {FetchService} from "../../services/FetchService";
 import MenuOptions from "../../components/common/menu/MenuOptions";
 import QualificationsMenuOptions from "../../components/menu-options/QualificationsMenuOptions";
+import QualificationChip from "../../components/verification/QualificationChip";
 
 interface DefaultFilters {
     assessmentId?: string;
@@ -22,9 +23,12 @@ interface DefaultFilters {
 interface QualificationsTableProps {
     service: FetchService<QualificationGroup, QualificationFilter>;
     defaultFilters: DefaultFilters;
+    showHistory?: boolean;
+    showAnswers?: boolean;
+    onHistoryClick?: (x: { points: number, transactionDate?: string }[]) => void;
 }
 
-const QualificationsTable = ({ service, defaultFilters }: QualificationsTableProps) => {
+const QualificationsTable = ({ service, defaultFilters, showHistory = false, showAnswers = false, onHistoryClick }: QualificationsTableProps) => {
     const convertorCreator : ConvertorCreator<QualificationGroup> = () => (column, rowData) => {
         let value: React.ReactNode = null;
 
@@ -37,21 +41,16 @@ const QualificationsTable = ({ service, defaultFilters }: QualificationsTablePro
             case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
             case 7:
                 if (!rowData.points || !rowData.points[0]) return <div className="py-4"></div>;
-
-                let color = "bg-green-500 text-white";
-
-                if (rowData.points[0] < 10) color = "bg-red-500 text-white";
-                else if (rowData.points[0] < 13) color = "bg-yellow-500";
-
-                value = (
-                    <div className="py-4"><Chip label={rowData.points[0].toString()} className={`${color} w-full`} /></div>
-                );
+                value = <div className="py-4"><QualificationChip points={rowData.points[0].points} /></div>;
                 break;
             case 8:
                 value = (
                     <div className="flex justify-end px-5">
                         <MenuOptions>
-                            <QualificationsMenuOptions rowData={rowData} />
+                            <QualificationsMenuOptions rowData={rowData}
+                                                       showHistory={showHistory}
+                                                       showAnswers={showAnswers}
+                                                       onHistoryClick={() => onHistoryClick && onHistoryClick(rowData.points)} />
                         </MenuOptions>
                     </div>
                 );

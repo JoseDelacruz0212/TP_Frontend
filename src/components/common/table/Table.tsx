@@ -17,7 +17,7 @@ import Loading from "../loading/Loading";
 import useSelect from "../../../hooks/useSelect";
 
 interface TableProps {
-    title: string;
+    title?: string;
     columns: Column[];
     rows: Row[];
     onPageChange?: (direction: -2 | -1 | 1 | 2) => void;
@@ -87,17 +87,20 @@ const Table = ({
 
     return (
         <div className="bg-surface shadow flex flex-col space-y-7">
-            <div className="flex justify-between p-4 pb-0">
-                <small className="subtitle">{title}</small>
-                {
-                    filterSchemas && filterSchemas.length > 0 &&
-                    <div role="button" className="flex items-center justify-end space-x-2" onClick={openFilters}>
-                        { !filtersOpen && <IoFilterCircleOutline /> }
-                        { filtersOpen && <IoFilterCircle /> }
-                        <small>Filtros</small>
-                    </div>
-                }
-            </div>
+            {
+                title || (filterSchemas && filterSchemas.length > 0) &&
+                <div className="flex justify-between p-4 pb-0">
+                    { title && <small className="subtitle">{title}</small> }
+                    {
+                        filterSchemas && filterSchemas.length > 0 &&
+                        <div role="button" className="flex items-center justify-end space-x-2" onClick={openFilters}>
+                            { !filtersOpen && <IoFilterCircleOutline /> }
+                            { filtersOpen && <IoFilterCircle /> }
+                            <small>Filtros</small>
+                        </div>
+                    }
+                </div>
+            }
             {
                 filterSchemas && filtersOpen &&
                     <div className="px-4">
