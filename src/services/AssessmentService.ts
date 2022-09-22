@@ -21,13 +21,13 @@ class AssessmentService extends CrudService<Assessment, AssessmentFilter> {
         }
     }
 
-    public async getById(id: string, isForStudent: boolean = false) {
+    public async getById(id: string, isForStudent: boolean = false, userId?: string) {
         if (!isForStudent) {
             return httpClient.get<Assessment>(`/evaluation/${id}`)
                 .then(({data}) => data)
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
         } else {
-            return httpClient.get<APIQualification[]>(`/user-evaluation/byUser/${id}/${AuthorizationService.getUserId()}`)
+            return httpClient.get<APIQualification[]>(`/user-evaluation/byUser/${id}/${userId || AuthorizationService.getUserId()}`)
                 .then(({data}) => data ? createFrom(data[0]) : undefined)
                 .catch(() => Promise.reject("Ocurrió un error al tratar de obtener la evaluación"));
         }

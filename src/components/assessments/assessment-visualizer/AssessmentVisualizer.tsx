@@ -6,6 +6,9 @@ import {Assessment} from "../../../types/communication/responses/assessment";
 
 import AssessmentTimeBar from "./AssessmentTimeBar";
 import SendRequest from "./SendRequest";
+import HasPermission from "../../../hoc/with-permission/HasPermission";
+import {Permissions} from "../../../types/auth";
+import AssignPoints from "./AssignPoints";
 
 interface AssessmentVisualizerProps {
     json: string;
@@ -35,7 +38,14 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
 
     return (
         <>
-            { assessment && assessment.status === AssessmentStatus.FINISHED && <SendRequest onSendRequest={onSendRequest} /> }
+            <div className="flex justify-end space-x-5">
+                <HasPermission permission={Permissions.ASSESSMENT_REQUEST_ACTION}>
+                    { assessment && assessment.status === AssessmentStatus.FINISHED && <SendRequest onSendRequest={onSendRequest} /> }
+                </HasPermission>
+                <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
+                    { assessment && assessment.status === AssessmentStatus.FINISHED && <AssignPoints /> }
+                </HasPermission>
+            </div>
             {
                 assessment &&
                 <form onSubmit={onAssessmentSubmitHandler} className="flex flex-col space-y-10">

@@ -23,7 +23,7 @@ const AssessmentVisualizer = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { hasPermissionFor } = useAuthContext();
-    const { id } = useParams();
+    const { id, userId } = useParams();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,7 +32,7 @@ const AssessmentVisualizer = () => {
     const isForStudent = state?.isForStudent;
     const flag = state?.flag;
 
-    const getData = useCallback(() => AssessmentService.getById(id!, isForStudent), [id, isForStudent]);
+    const getData = useCallback(() => AssessmentService.getById(id!, isForStudent, userId), [id, isForStudent]);
     const { data: assessment, isLoading, hasError } = useFetch(getData);
 
     const onAssessmentSubmit = (assessmentId: string) => {
