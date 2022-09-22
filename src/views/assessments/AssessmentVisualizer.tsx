@@ -21,6 +21,7 @@ interface LocationState {
 
 const AssessmentVisualizer = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAssigningPoints, setIsAssigningPoints] = useState(false);
 
     const { hasPermissionFor } = useAuthContext();
     const { id, userId } = useParams();
@@ -76,10 +77,11 @@ const AssessmentVisualizer = () => {
     const onQualificationUpdate = (newQualification: number) => {
         if (!userId || !id || !assessment || !assessment.id) return;
 
+        setIsAssigningPoints(true);
         AssessmentService.changePoints(assessment.id, userId, id, newQualification).then(
             () => QualificationBlockchainService.addTransaction(newQualification, assessment, id).then(
                 () => {
-                    setIsSubmitting(false);
+                    setIsAssigningPoints(false);
 
                     navigate("/assessments");
                     toast.success("La calificación se actualizó correctamente");
@@ -112,6 +114,7 @@ const AssessmentVisualizer = () => {
                                     isReadOnly={assessment.status !== AssessmentStatus.STARTED}
                                     assessments={assessment}
                                     isSubmitting={isSubmitting}
+                                    isAssigningPoints={isAssigningPoints}
                                     onSendRequest={onSendRequest}
                                     onQualificationUpdate={onQualificationUpdate} />
     )

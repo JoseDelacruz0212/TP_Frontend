@@ -18,10 +18,11 @@ interface AssessmentVisualizerProps {
     assessment?: Assessment;
     isSubmitting?: boolean;
     onSendRequest: () => void;
+    isAssigningPoints?: boolean;
 }
 
 
-const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest, onQualificationUpdate }: AssessmentVisualizerProps) => {
+const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly = false, isSubmitting = false, onSendRequest, onQualificationUpdate, isAssigningPoints = false }: AssessmentVisualizerProps) => {
     const { query } = useEditor();
 
     const onAssessmentSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -59,9 +60,7 @@ const AssessmentVisualizer = ({ json, onAssessmentSubmit, assessment, isReadOnly
                     { !isReadOnly && assessment.status === AssessmentStatus.STARTED && <SendButton /> }
                 </form>
             }
-            <HasPermission permission={Permissions.ASSESSMENT_ASSIGN_POINTS}>
-                { assessment && assessment.status === AssessmentStatus.FINISHED && <AssignPoints onQualificationUpdate={onQualificationUpdate} /> }
-            </HasPermission>
+            <AssignPoints onQualificationUpdate={onQualificationUpdate} isDisabled={isAssigningPoints} />
         </>
     );
 };

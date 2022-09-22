@@ -1,7 +1,20 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 
-const AssignPoints = ({ onQualificationUpdate }: { onQualificationUpdate: (x: number) => void }) => {
+const AssignPoints = ({ onQualificationUpdate, isDisabled }: { onQualificationUpdate: (x: number) => void, isDisabled: boolean }) => {
     const [newQualification, setNewQualification] = useState("");
+
+    const onNewQualificationHandler = (newQualification: string) => {
+        let qualification = newQualification
+            .replace(/[^.\d]/g, '')
+            .replace(/^(\d*\.?)|(\d*)\.?/g, "$1$2");
+
+        const dotPosition = qualification.indexOf('.');
+
+        if (dotPosition != -1) qualification = qualification.substring(0, dotPosition + 3)
+        else qualification = qualification.substring(0, 2);
+
+        setNewQualification(qualification);
+    };
 
     return (
         <form onSubmit={(e) => {
@@ -18,10 +31,10 @@ const AssignPoints = ({ onQualificationUpdate }: { onQualificationUpdate: (x: nu
                        placeholder="Calificación"
                        type="number"
                        value={newQualification}
-                       onChange={(e) => setNewQualification(e.target.value)} />
+                       onChange={(e) => onNewQualificationHandler(e.target.value)} />
             </div>
             <div>
-                <button className="button-primary">
+                <button className="button-primary" disabled={isDisabled}>
                     Actualizar
                 </button>
             </div>
