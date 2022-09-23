@@ -1,9 +1,8 @@
-import React, {Children, useEffect, useLayoutEffect, useRef, useState} from "react";
+import React, {Children, useLayoutEffect, useState} from "react";
 
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import useClickOutside from "../../../hooks/useClickOutside";
 import Portal from "../portal/Portal";
-import menuOptions from "../../../config/app/menu-options";
 
 export type MenuOptionsProps = {
     children: React.ReactNode
@@ -41,7 +40,7 @@ const MenuOptions = ({ children }: MenuOptionsProps) => {
 
     if (containerRect) {
         style = {
-            top: containerRect.top + 25,
+            top: containerRect.top + window.pageYOffset + 25,
             bottom: containerRect.bottom,
             left: containerRect.left,
             right: containerRect.right
