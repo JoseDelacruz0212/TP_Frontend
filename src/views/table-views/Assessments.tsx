@@ -90,7 +90,7 @@ const Assessments = () => {
                        defaultItemSchema={defaultAssessment}
                        addButtonText="Crear evaluación"
                        canAddPermission={Permissions.ASSESSMENT_ADD}
-                       formValidationSchema={validationSchema}
+                       updateValidationSchema={validationSchema}
                        defaultFilters={{ courseId: state?.courseId || '' }} />
         </div>
     )

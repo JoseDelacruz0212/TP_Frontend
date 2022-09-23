@@ -2,17 +2,12 @@ import React from "react";
 import {useEditor, useNode} from "@craftjs/core";
 
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
+import {QuestionOption} from "../../../../../types/common";
 
-interface FreeTextProps {
-    question?: string;
-    answerInput?: string;
-    answer?: string;
-    points?: number;
+export interface FreeTextProps extends QuestionOption {
     hasAnswer?: boolean;
     isCaseSensitive?: boolean;
     longAnswer?: boolean;
-    assignedPoints?: number;
-    hasPointsToAssign?: boolean;
 }
 
 const FreeText = ({ question, answerInput, longAnswer, points, assignedPoints, hasPointsToAssign }: FreeTextProps) => {

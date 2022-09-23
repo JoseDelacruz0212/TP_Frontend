@@ -4,9 +4,11 @@ import {Editor, Element, Frame} from "@craftjs/core";
 
 import Toolbox from "../../components/assessments/assessment-creator/toolbox/Toolbox";
 import SettingsPanel from "../../components/assessments/assessment-creator/SettingsPanel";
-import MultipleOption from "../../components/assessments/assessment-creator/toolbox/tools/MultipleOption";
+import MultipleOption, {
+    MultipleOptionProps
+} from "../../components/assessments/assessment-creator/toolbox/tools/MultipleOption";
 import TopBar from "../../components/assessments/assessment-creator/TopBar";
-import FreeText from "../../components/assessments/assessment-creator/toolbox/tools/FreeTextOption";
+import FreeText, {FreeTextProps} from "../../components/assessments/assessment-creator/toolbox/tools/FreeTextOption";
 import withPermission from "../../hoc/with-permission/withPermission";
 
 import {Permissions} from "../../types/auth";
@@ -29,28 +31,32 @@ const AssessmentCreator = () => {
     }, [id]);
 
     const onDesignSave = (json: string) => {
-        if (JSON.parse(json)["ROOT"]["nodes"].length > 0) {
+        const isValid = validateQuestionSchema(json);
+
+        console.log(isValid);
+
+        if (isValid) {
             if (assessment) {
-                AssessmentService.saveItem({...assessment, json}).then(
-                    () => {
-                        toast.success("El diseño se guardó exitosamente")
+                AssessmentService.saveItem({...assessment, json})
+                    .then(message => {
+                        toast.success(message)
                         setCanPublish(true);
-                    }
-                );
+                    })
+                    .catch(error => toast.error(error));
             }
         } else {
-            toast.error("El diseño del examen no es válido");
+            toast.error("Las preguntas deben tener una descripción, puntos equivalentes y una respuesta establecida");
         }
     };
 
     const onDesignPublish = (json: string) => {
         if (assessment) {
-            AssessmentService.saveItem({ ...assessment, json, status: AssessmentStatus.PUBLISHED}).then(
-                () => {
-                    toast.success("La evaluación se publicó exitosamente")
+            AssessmentService.saveItem({ ...assessment, json, status: AssessmentStatus.PUBLISHED})
+                .then(message => {
+                    toast.success(message)
                     navigate("/assessments")
-                }
-            );
+                })
+                .catch(error => toast.error(error))
         }
     };
 
@@ -84,5 +90,39 @@ const AssessmentCreator = () => {
         </>
     );
 };
+
+type Node = {
+    type: {
+        resolvedName: string;
+    },
+    props: any
+}
+
+const validateQuestionSchema = (schema: string) => {
+    const object = JSON.parse(schema);
+
+    if (!object["ROOT"] || !object["ROOT"]["nodes"]) return false;
+
+    const nodes = object["ROOT"]["nodes"] as string[];
+
+    if (!nodes || nodes.length === 0) return false;
+
+    let isValid = true;
+
+    nodes.forEach(node => {
+        const nodeInfo = object[node] as Node;
+
+        let props = null;
+
+        if (nodeInfo.type.resolvedName === "MultipleOption") props = nodeInfo.props as MultipleOptionProps;
+        else if (nodeInfo.type.resolvedName === "FreeText") props = nodeInfo.props as FreeTextProps;
+
+        if (!props || !props.question || !props.answer || !props.points) {
+            isValid = false;
+        }
+    });
+
+    return isValid;
+}
 
 export default withPermission(AssessmentCreator, Permissions.ASSESSMENT_CREATOR);

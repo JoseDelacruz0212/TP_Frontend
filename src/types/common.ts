@@ -3,7 +3,6 @@ import React, {ReactElement} from "react";
 import {IconType} from "react-icons";
 import {CrudService} from "../services/CrudService";
 import {FetchService} from "../services/FetchService";
-import {SchemaOf} from "yup";
 
 export interface Option {
     value: string;
@@ -61,6 +60,15 @@ export interface NavMenuItem {
     permission?: string;
     type: string;
     title?: string;
+}
+
+export interface QuestionOption {
+    question?: string;
+    answerInput?: string;
+    answer?: string;
+    points?: number;
+    assignedPoints?: number;
+    hasPointsToAssign?: boolean;
 }
 
 export type Convertor<T extends Entity> = (columnKeys: number, x: T) => React.ReactNode;

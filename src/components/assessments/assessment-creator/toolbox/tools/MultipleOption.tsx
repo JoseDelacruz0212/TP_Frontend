@@ -2,21 +2,15 @@ import React, {useMemo, useState} from "react";
 import {useEditor, useNode} from "@craftjs/core";
 import {IoAddOutline, IoTrashOutline} from "react-icons/io5";
 
-import {Option} from "../../../../../types/common";
+import {Option, QuestionOption} from "../../../../../types/common";
 
 import {addZerosToPoints} from "../../../../../util/assessment-creator";
 import useSelect from "../../../../../hooks/useSelect";
 import Select from "react-select";
 
-interface MultipleOptionProps {
-    question?: string;
+export interface MultipleOptionProps extends QuestionOption {
     options?: Option[];
     multiple?: boolean;
-    answer?: string;
-    points?: number;
-    answerInput?: string;
-    assignedPoints?: number;
-    hasPointsToAssign?: boolean;
 }
 
 const MultipleOption = ({ question, options, multiple, points, answerInput, assignedPoints, hasPointsToAssign }: MultipleOptionProps) => {

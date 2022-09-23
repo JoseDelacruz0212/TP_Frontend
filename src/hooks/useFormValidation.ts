@@ -13,8 +13,6 @@ const useFormValidation = <T, K>(values: T, validationSchema?: SchemaOf<K>) => {
                 setIsValid(true)
             })
             .catch(error => {
-                console.log(error.inner);
-
                 setIsValid(false);
 
                 const newErrors: K = {}  as K;
