@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback, useMemo} from "react";
 import Modal from "../common/modal/Modal";
 import useTable from "../../hooks/useTable";
 import {Convertor} from "../../types/common";
@@ -15,7 +15,7 @@ interface AssessmentQualificationHistoryModalProps {
 }
 
 const AssessmentQualificationHistoryModal = ({ isOpen, handleClose, history }: AssessmentQualificationHistoryModalProps) => {
-    const convertorCreator : Convertor<{ id: string; points: number; transactionDate?: string }> = (column, rowData) => {
+    const convertorCreator: Convertor<{ id: string; points: number; transactionDate?: string }> = useCallback((column, rowData) => {
         let value: React.ReactNode = null;
 
         switch (column) {
@@ -24,9 +24,11 @@ const AssessmentQualificationHistoryModal = ({ isOpen, handleClose, history }: A
         }
 
         return value;
-    }
+    }, []);
 
-    const { tableColumns, tableData } = useTable(convertorCreator, columns, (history || []).map((x, index) => ({ ...x, id: index.toString() })))
+    const data = useMemo(() => (history || []).map((x, index) => ({ ...x, id: index.toString() })), [history]);
+
+    const { tableColumns, tableData } = useTable(convertorCreator, columns, data)
 
     return (
         <Modal id="verification-assessment-qualification-history"
