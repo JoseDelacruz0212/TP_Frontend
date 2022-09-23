@@ -16,7 +16,7 @@ interface ModalWrapperProps {
     wrapperId: string;
 }
 
-const ModalWrapper = ({ children, wrapperId }: ModalWrapperProps) => {
+const Portal = ({ children, wrapperId }: ModalWrapperProps) => {
     const [wrapper, setWrapper] = useState<HTMLElement | null>(null);
 
     useLayoutEffect(() => {
@@ -25,7 +25,7 @@ const ModalWrapper = ({ children, wrapperId }: ModalWrapperProps) => {
 
         if (!element) {
             created = true;
-            element = createModalWrapper(wrapperId);
+            element = createWrapper(wrapperId);
         }
 
         setWrapper(element);
@@ -42,11 +42,11 @@ const ModalWrapper = ({ children, wrapperId }: ModalWrapperProps) => {
     return createPortal(children, wrapper);
 };
 
-const createModalWrapper = (wrapperId: string) => {
+const createWrapper = (wrapperId: string) => {
     const wrapper = document.createElement('div');
     wrapper.setAttribute('id', wrapperId);
     document.body.appendChild(wrapper);
     return wrapper;
 };
 
-export default ModalWrapper;
+export default Portal;

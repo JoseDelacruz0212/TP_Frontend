@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 
-import ModalWrapper, {ModalProps} from "./ModalWrapper";
+import ModalWrapper, {ModalProps} from "../portal/Portal";
 import useEscapeKey from "../../../hooks/useEscapeKey";
 
 const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey = true }: ModalProps) => {

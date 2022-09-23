@@ -1,6 +1,6 @@
 import React from "react";
 
-import ModalWrapper, {ModalProps} from "./ModalWrapper";
+import ModalWrapper, {ModalProps} from "../portal/Portal";
 import useClickOutside from "../../../hooks/useClickOutside";
 import useEscapeKey from "../../../hooks/useEscapeKey";
 
