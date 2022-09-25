@@ -109,7 +109,7 @@ const AssessmentVisualizer = () => {
 
         setIsAssigningPoints(true);
         AssessmentService.changePoints(assessment.id, userId, id, newQualification)
-            .then(() => QualificationBlockchainService.addTransaction(newQualification, assessment, id)
+            .then(() => QualificationBlockchainService.changePoints(newQualification, assessment, userId, id)
                 .then(message => {
                     setIsSubmitting(false);
 
