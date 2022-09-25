@@ -38,6 +38,17 @@ class QualificationBlockchainService extends FetchService<QualificationGroup, Qu
             .then(() => "La evaluación se envió exitosamente")
             .catch(() => Promise.reject("Un error ocurrió al intentar guardar la calificación"));
     }
+    
+    public async changePoints(pointsGenerated: number, assessment: Assessment, userId: string, id: string) {
+        return blockchainClient.put('/changePoints', {
+            userId: userId,
+            evaluationId: id,
+            points: pointsGenerated
+        })
+            .then(() => "La evaluación se envió exitosamente")
+            .catch(() => Promise.reject("Un error ocurrió al intentar guardar la calificación"));
+    }
+
 
     protected applyFilters(data: QualificationGroup[], filters: QualificationFilter): QualificationGroup[] {
         return data;
