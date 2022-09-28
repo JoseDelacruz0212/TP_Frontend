@@ -30,10 +30,12 @@ const CoursesMenuOptions = ({ rowData, onEdit, onDelete }: CoursesMenuOptionsPro
             </Link>
         </HasPermission>
         <HasPermission permission={Permissions.COURSES_OBJECTIVES}>
-            <div role="button" className="menu-option">
-                <div><IoBarChartOutline /></div>
-                <span>Ver objetivos</span>
-            </div>
+            <Link to="/objectives" state={{ courseId: rowData.id!, subtitle: rowData.name }}>
+                <div role="button" className="menu-option">
+                    <div><IoBarChartOutline /></div>
+                    <span>Ver objetivos</span>
+                </div>
+            </Link>
         </HasPermission>
         <HasPermission permission={Permissions.COURSES_EDIT}>
             <div role="button" className="menu-option text-secondary-dark" onClick={() => onEdit(rowData)}>

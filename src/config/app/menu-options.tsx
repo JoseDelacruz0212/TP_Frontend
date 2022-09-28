@@ -7,7 +7,7 @@ import {
     IoPersonOutline,
     IoSchoolOutline,
     IoExitOutline,
-    IoShieldCheckmarkOutline, IoSettingsOutline
+    IoShieldCheckmarkOutline, IoSettingsOutline, IoGolfOutline
 } from "react-icons/io5";
 
 import {Permissions} from "../../types/auth";

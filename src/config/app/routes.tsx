@@ -13,6 +13,7 @@ export const getTitleForCurrentLocation = (location: string, state?: any) => {
 
     if (location.includes('/users') && state && state.subtitle) return <TitleComponent title="Usuarios" />;
     if (location.includes('/assessments') && state && state.subtitle) return <TitleComponent title="Evaluaciones" />;
+    if (location.includes('/objectives') && state && state.subtitle) return <TitleComponent title="Objetivos" />;
     if (location.includes('/qualifications') && state && state.subtitle) return <TitleComponent title="Calificaciones" />
     if (location.includes('/assessment-creator')) return 'Diseñador de evaluación';
     if (location.includes('/assessment-visualizer')) return state && state.subtitle ? state.subtitle : 'Evaluación';

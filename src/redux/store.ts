@@ -6,6 +6,7 @@ import courses from "./slices/courses";
 import assessments from "./slices/assessments";
 import users from "./slices/users";
 import qualifications from "./slices/qualifications";
+import objectives from "./slices/objectives";
 
 const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
         courses,
         assessments,
         users,
-        qualifications
+        qualifications,
+        objectives
     }
 });
 

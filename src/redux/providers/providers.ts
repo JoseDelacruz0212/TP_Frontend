@@ -7,6 +7,7 @@ import {coursesSlice} from "../slices/courses";
 import {assessmentsSlice} from "../slices/assessments";
 import {usersSlice} from "../slices/users";
 import {qualificationsSlice} from "../slices/qualifications";
+import {objectivesSlice} from "../slices/objectives";
 
 export const withInstitutionsProvider = <P extends object>(children: React.ComponentType<P>) =>
     (props: P) => withSliceProvider<P>(institutionsSlice, children)(props);
@@ -18,3 +19,5 @@ export const withUsersProvider = <P extends object>(children: React.ComponentTyp
     (props: P) => withSliceProvider<P>(usersSlice, children)(props);
 export const withQualificationsProvider = <P extends object>(children: React.ComponentType<P>) =>
     (props: P) => withSliceProvider<P>(qualificationsSlice, children)(props);
+export const withObjectivesProvider = <P extends object>(children: React.ComponentType<P>) =>
+    (props: P) => withSliceProvider<P>(objectivesSlice, children)(props);
