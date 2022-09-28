@@ -24,6 +24,8 @@ export interface QualificationGroup extends Entity {
     section?: string;
     isEdited?: boolean;
     json?: string;
+    userFirstName?: string;
+    userLastName?: string;
 }
 
 export interface Qualification extends Entity {
@@ -42,6 +44,8 @@ export interface Qualification extends Entity {
     isEdited?: boolean;
     json?: string;
     transactionDate?: string;
+    userFirstName?: string;
+    userLastName?: string;
 }
 
 export const mapToQualificationGroup = (qualifications: Qualification[]): QualificationGroup[] => {
@@ -96,5 +100,7 @@ export const createFrom = (qualification: APIQualification): Qualification => ({
     points: qualification.points,
     grade: qualification.evaluation.courses?.grade,
     section: qualification.evaluation.courses?.section,
-    json: qualification.json
+    json: qualification.json,
+    userFirstName: qualification.user.name,
+    userLastName: qualification.user.lastName
 })

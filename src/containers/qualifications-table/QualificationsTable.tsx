@@ -33,17 +33,18 @@ const QualificationsTable = ({ service, defaultFilters, showHistory = false, sho
         let value: React.ReactNode = null;
 
         switch (column) {
-            case 1: value = <div className="py-4">{rowData.institutionName}</div>; break;
-            case 2: value = <div className="py-4">{rowData.grade}</div>; break;
-            case 3: value = <div className="py-4">{rowData.section}</div>; break;
-            case 4: value = <div className="py-4">{rowData.courseName}</div>; break;
-            case 5: value = <div className="py-4">{rowData.evaluationName}</div>; break;
-            case 6: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
-            case 7:
+            case 1: value = <div className="py-4">{`${rowData.userFirstName} ${rowData.userLastName}`}</div>; break;
+            case 2: value = <div className="py-4">{rowData.institutionName}</div>; break;
+            case 3: value = <div className="py-4">{rowData.grade}</div>; break;
+            case 4: value = <div className="py-4">{rowData.section}</div>; break;
+            case 5: value = <div className="py-4">{rowData.courseName}</div>; break;
+            case 6: value = <div className="py-4">{rowData.evaluationName}</div>; break;
+            case 7: value = <div className="py-4">{moment(rowData.availableOn).format('LLL')}</div>; break;
+            case 8:
                 if (!rowData.points || !rowData.points[0]) return <div className="py-4"></div>;
                 value = <div className="py-4"><QualificationChip points={rowData.points[0].points} /></div>;
                 break;
-            case 8:
+            case 9:
                 value = (
                     <div className="flex justify-end px-5">
                         <MenuOptions>
@@ -73,6 +74,6 @@ const QualificationsTable = ({ service, defaultFilters, showHistory = false, sho
     )
 }
 
-const columns = ["Institución", "Grado", "Sección", "Curso", "Evaluación", "Fecha de disponibilidad", "Nota", ""];
+const columns = ["Estudiante", "Institución", "Grado", "Sección", "Curso", "Evaluación", "Fecha de disponibilidad", "Nota", ""];
 
 export default withQualificationsProvider(QualificationsTable);
