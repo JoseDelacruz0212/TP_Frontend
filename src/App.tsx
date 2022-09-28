@@ -16,6 +16,7 @@ import Profile from "./views/profile/Profile";
 import Qualifications from "./views/qualifications/Qualifications";
 import Management from "./views/management/Management";
 import Objectives from "./views/table-views/Objectives";
+import Report from "./views/report/Report";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/qualifications/:id" element={<Qualifications />} />
               <Route path="/users" element={<Users />} />
               <Route path="/objectives" element={<Objectives />} />
+              <Route path="/report" element={<Report />} />
               <Route path="/verification" element={<Verification />} />
               <Route path="/verification/:userIdentifier" element={<Verification />} />
               <Route path="/management" element={<Management />} />

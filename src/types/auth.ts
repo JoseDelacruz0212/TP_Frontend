@@ -45,7 +45,8 @@ export const Permissions = Object.freeze({
    MANAGEMENT: "MANAGEMENT",
    PROFILE: "PROFILE",
    PROFILE_SHARE_QUALIFICATIONS: "PROFILE-SHARE-QUALIFICATIONS",
-   OBJECTIVES: "OBJECTIVES"
+   OBJECTIVES: "OBJECTIVES",
+   REPORT: "REPORT"
 });
 
 export const permissionsByRole: { [x: string]: string[] } = {
@@ -83,7 +84,8 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "VERIFICATION",
       "MANAGEMENT",
       "PROFILE",
-      "OBJECTIVES"
+      "OBJECTIVES",
+      "REPORT"
    ],
    [Roles.INSTITUTION]: [
       "COURSES",
@@ -110,7 +112,8 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "VERIFICATION",
       "USERS-ASSIGN-COURSE",
       "PROFILE",
-      "OBJECTIVES"
+      "OBJECTIVES",
+      "REPORT"
    ],
    [Roles.TEACHER]: [
       "COURSES",
@@ -129,7 +132,8 @@ export const permissionsByRole: { [x: string]: string[] } = {
       "VERIFICATION",
       "USERS",
       "PROFILE",
-      "OBJECTIVES"
+      "OBJECTIVES",
+      "REPORT"
    ],
    [Roles.STUDENT]: [
       "COURSES",

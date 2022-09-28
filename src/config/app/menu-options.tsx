@@ -7,7 +7,7 @@ import {
     IoPersonOutline,
     IoSchoolOutline,
     IoExitOutline,
-    IoShieldCheckmarkOutline, IoSettingsOutline, IoGolfOutline
+    IoShieldCheckmarkOutline, IoSettingsOutline, IoGolfOutline, IoStatsChartOutline
 } from "react-icons/io5";
 
 import {Permissions} from "../../types/auth";
@@ -54,16 +54,16 @@ const items: NavMenuItem[] = [
         type: 'link',
         title: "Usuarios"
     },
-    // {
-    //     key: 5,
-    //     label: "Reclamos",
-    //     icon: <IoFileTrayFullOutline size={30} />,
-    //     order: 5,
-    //     link: '/requests',
-    //     permission: Permissions.REQUEST,
-    //     type: 'link',
-    //     title: "Reclamos"
-    // },
+    {
+        key: 5,
+        label: "Reporte",
+        icon: <IoStatsChartOutline size={30} />,
+        order: 5,
+        link: '/report',
+        permission: Permissions.REPORT,
+        type: 'link',
+        title: "Reporte"
+    },
     {
         key: 6,
         label: "Verificación",
