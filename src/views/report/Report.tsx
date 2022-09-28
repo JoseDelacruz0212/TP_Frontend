@@ -2,6 +2,8 @@ import React from "react";
 
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
+import {Permissions} from "../../types/auth";
+import withPermission from "../../hoc/with-permission/withPermission";
 
 const Report = () => {
   const embedConfig = {
@@ -17,4 +19,4 @@ const Report = () => {
   )
 };
 
-export default Report;
+export default withPermission(Report, Permissions.REPORT);
