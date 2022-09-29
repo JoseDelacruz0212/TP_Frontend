@@ -71,7 +71,7 @@ const ApplicationLayout = () => {
                                    userImage={getUserImage()}
                                    onProfileClicked={onProfileClicked}
                                    onShareClicked={onShareClicked} />
-                    <div className="px-2 py-10 pb-0 flex-1">
+                    <div className="px-2 py-10 pb-0 flex-1 flex flex-col">
                         <Outlet />
                     </div>
                 </div>
