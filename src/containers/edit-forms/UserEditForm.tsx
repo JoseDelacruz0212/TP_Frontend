@@ -105,8 +105,8 @@ const UserEditForm = ({ values, onChange, errors }: FormInputProps<User, UserVal
                     <small>Rol</small>
                 </label>
                 <Select {...selectProps}
-                        id="edit-course-institution"
-                        name="edit-course-institution"
+                        id="edit-user-institution"
+                        name="edit-user-institution"
                         placeholder="Rol" />
                 <small className="form-error">{errors?.role}</small>
             </div>

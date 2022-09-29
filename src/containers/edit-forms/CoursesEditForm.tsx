@@ -8,11 +8,42 @@ import InstitutionsSelect from "../selects/InstitutionsSelect";
 
 import HasPermission from "../../hoc/with-permission/HasPermission";
 import {CoursesValidation} from "../../validations/edit-forms/courses-edit-form-validation";
+import useSelect from "../../hooks/useSelect";
+import Select from "react-select";
+
+const gradeOptions = [
+    { value: '1 primaria', label: '1 primaria' },
+    { value: '2 primaria', label: '2 primaria' },
+    { value: '3 primaria', label: '3 primaria' },
+    { value: '4 primaria', label: '4 primaria' },
+    { value: '5 primaria', label: '5 primaria' },
+    { value: '6 primaria', label: '6 primaria' },
+    { value: '1 secundaria', label: '1 secundaria' },
+    { value: '2 secundaria', label: '2 secundaria' },
+    { value: '3 secundaria', label: '3 secundaria' },
+    { value: '4 secundaria', label: '4 secundaria' },
+    { value: '5 secundaria', label: '5 secundaria' }
+];
+
+const sectionOptions = [
+    { value: 'A', label: 'A' },
+    { value: 'B', label: 'B' },
+    { value: 'C', label: 'C' },
+    { value: 'D', label: 'D' }
+]
 
 const CourseEditForm = ({ values, onChange, errors }: FormInputProps<Course, CoursesValidation>) => {
     const onInstitutionChanged = (institutionId?: string) => {
         onChange && institutionId && onChange({ ...values, institutionId });
     }
+
+    const gradeSelectProps = useSelect((selected?: string) => {
+        selected && onChange && onChange({ ...values, grade: selected })
+    }, gradeOptions, values.grade || "");
+
+    const sectionSelectProps = useSelect((selected?: string) => {
+        selected && onChange && onChange({ ...values, section: selected })
+    }, sectionOptions, values.section || "");
 
     return (
         <>
@@ -67,34 +98,22 @@ const CourseEditForm = ({ values, onChange, errors }: FormInputProps<Course, Cou
             </div>
             <div className="form-group">
                 <label htmlFor="edit-course-grade" className="form-label">
-                    <div className="flex justify-between">
-                        <small>Grado</small>
-                        <small className="text-overline">{values.grade.length || '0'} / 25</small>
-                    </div>
+                    <small>Grado</small>
                 </label>
-                <input className="form-input"
-                       id="edit-course-grade"
-                       name="edit-course-grade"
-                       placeholder="Grado"
-                       maxLength={25}
-                       value={values.grade}
-                       onChange={(e) => onChange && onChange({ ...values, grade: e.target.value })} />
+                <Select {...gradeSelectProps}
+                        id="edit-course-grade"
+                        name="edit-course-grade"
+                        placeholder="Grado" />
                 <small className="form-error">{errors?.grade}</small>
             </div>
             <div className="form-group">
                 <label htmlFor="edit-course-section" className="form-label">
-                    <div className="flex justify-between">
-                        <small>Sección</small>
-                        <small className="text-overline">{values.section.length || '0'} / 25</small>
-                    </div>
+                    <small>Sección</small>
                 </label>
-                <input className="form-input"
-                       id="edit-course-section"
-                       name="edit-course-section"
-                       placeholder="Sección"
-                       maxLength={25}
-                       value={values.section}
-                       onChange={(e) => onChange && onChange({ ...values, section: e.target.value })} />
+                <Select {...sectionSelectProps}
+                        id="edit-course-section"
+                        name="edit-course-section"
+                        placeholder="Sección" />
                 <small className="form-error">{errors?.section}</small>
             </div>
             <HasPermission permission={Permissions.COURSES_SELECT_INSTITUTION}>
