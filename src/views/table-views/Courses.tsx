@@ -19,6 +19,7 @@ import TableView from "../layouts/TableView";
 import {ConvertorCreator, FilterSchemaCreator} from "../../types/common";
 import CoursesMenuOptions from "../../components/menu-options/CoursesMenuOptions";
 import validationSchema from "../../validations/edit-forms/courses-edit-form-validation";
+import Select from "../../components/common/table/filter-renderer/elements/Select";
 
 const defaultCourses: Course = {
     name: '',
@@ -82,6 +83,52 @@ const createFilterSchema: FilterSchemaCreator<CourseFilter> = (filters, onFilter
         withLabel: true,
         label: 'Nombre',
         placeholder: 'Nombre'
+    },
+    {
+        id: "course-code-filter",
+        type: Text,
+        initialValue: filters.code,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, code: value }),
+        withLabel: true,
+        label: 'Código',
+        placeholder: 'Código'
+    },
+    {
+        id: "course-grade-filter",
+        type: Select,
+        initialValue: filters.grade,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, grade: value }),
+        withLabel: true,
+        label: 'Grado',
+        placeholder: 'Grado',
+        options: [
+            { value: '1 primaria', label: '1 primaria' },
+            { value: '2 primaria', label: '2 primaria' },
+            { value: '3 primaria', label: '3 primaria' },
+            { value: '4 primaria', label: '4 primaria' },
+            { value: '5 primaria', label: '5 primaria' },
+            { value: '6 primaria', label: '6 primaria' },
+            { value: '1 secundaria', label: '1 secundaria' },
+            { value: '2 secundaria', label: '2 secundaria' },
+            { value: '3 secundaria', label: '3 secundaria' },
+            { value: '4 secundaria', label: '4 secundaria' },
+            { value: '5 secundaria', label: '5 secundaria' }
+        ]
+    },
+    {
+        id: "course-section-filter",
+        type: Select,
+        initialValue: filters.section,
+        onChange: (value: string) => onFiltersUpdate({ ...filters, section: value }),
+        withLabel: true,
+        label: 'Sección',
+        placeholder: 'Sección',
+        options: [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+            { value: 'D', label: 'D' }
+        ]
     },
     {
         id: "course-institution-filter",
