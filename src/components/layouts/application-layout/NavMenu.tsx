@@ -13,7 +13,7 @@ interface NavMenuProps {
 
 const NavMenu = ({ items, selected, onOptionSelected }: NavMenuProps) => {
     return (
-        <nav className="flex flex-col space-y-2 py-10">
+        <nav className="bg-primary text-on-primary flex flex-col space-y-2 py-10">
             {
                 items
                     .sort((a, b) => a.order - b.order)
