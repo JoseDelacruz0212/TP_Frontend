@@ -65,7 +65,7 @@ const ApplicationLayout = () => {
                 <div className="hidden lg:block">{ <NavMenu items={items.filter(x => hasPermissionFor(x.permission))} selected={activeOption?.key} onOptionSelected={onOptionSelected} /> }</div>
             </aside>
             <main className="bg-background flex-1 w-full flex flex-col pt-14 lg:pl-52 lg:pt-0">
-                <div className="py-5 px-4 sm:px-10 min-h-full flex flex-col">
+                <div className="py-5 px-4 sm:px-10 min-h-full flex-1 flex flex-col">
                     <ProfileHeader title={getTitleForCurrentLocation(pathname, state)}
                                    username={getUserName()}
                                    userImage={getUserImage()}
