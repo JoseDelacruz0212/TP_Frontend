@@ -2,20 +2,15 @@ import React from "react";
 
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
-import {Permissions} from "../../types/auth";
+import { Permissions } from "../../types/auth";
 import withPermission from "../../hoc/with-permission/withPermission";
 
 const Report = () => {
-  const embedConfig = {
-    type: "report",
-    id: "",
-    embedUrl: "",
-    accessToken: "",
-    tokenType: models.TokenType.Embed
-  };
-
   return (
-      <PowerBIEmbed embedConfig={embedConfig} />
+      <iframe className="w-full h-full" 
+              src="https://app.powerbi.com/view?r=eyJrIjoiMGI0NmI1Y2ItNWI0NC00NTFmLWFmMjItYTczZjYxNGU5OTgwIiwidCI6IjBlMGNiMDYwLTA5YWQtNDlmNS1hMDA1LTY4YjliNDlhYTFmNiIsImMiOjR9" 
+              allowFullScreen>
+      </iframe>
   )
 };
 
