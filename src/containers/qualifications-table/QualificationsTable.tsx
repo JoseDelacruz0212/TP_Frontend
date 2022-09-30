@@ -33,7 +33,7 @@ const QualificationsTable = ({ service, defaultFilters, showHistory = false, sho
         let value: React.ReactNode = null;
 
         switch (column) {
-            case 1: value = <div className="py-4">{`${rowData.userFirstName} ${rowData.userLastName}`}</div>; break;
+            case 1: value = <div className="py-4">{`${rowData.userFirstName || ''} ${rowData.userLastName || ''}`}</div>; break;
             case 2: value = <div className="py-4">{rowData.institutionName}</div>; break;
             case 3: value = <div className="py-4">{rowData.grade}</div>; break;
             case 4: value = <div className="py-4">{rowData.section}</div>; break;
