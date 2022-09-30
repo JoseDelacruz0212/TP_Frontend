@@ -1,4 +1,4 @@
-import React, {Children, useLayoutEffect, useState} from "react";
+import React, {Children, useLayoutEffect, useRef, useState} from "react";
 
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import useClickOutside from "../../../hooks/useClickOutside";
@@ -9,12 +9,14 @@ export type MenuOptionsProps = {
 }
 
 const MenuOptions = ({ children }: MenuOptionsProps) => {
+    const menuContainerRef = useRef<HTMLDivElement>(null);
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [containerRect, setContainerRect] = useState<DOMRect | undefined>(undefined);
     const elementRef = useClickOutside<HTMLDivElement>(() => setIsMenuOpen(false));
 
     const updateContainerRect = () => {
-        const current = elementRef.current;
+        const current = menuContainerRef.current;
 
         if (current) {
             const containerRect = current.getBoundingClientRect();
@@ -52,11 +54,11 @@ const MenuOptions = ({ children }: MenuOptionsProps) => {
             <button className="hover:bg-gray-100 p-1 rounded-full" onClick={onMenuOpen}>
                 <IoEllipsisVerticalOutline />
             </button>
-            <div ref={elementRef}>
+            <div ref={menuContainerRef}>
             {
                 isMenuOpen &&
                 <Portal wrapperId="menu-options-wrapper">
-                    <div className="absolute" style={style}>
+                    <div className="absolute" style={style} ref={elementRef}>
                         <div className="absolute bg-surface right-0 border rounded-md shadow-md z-20">
                             <div className="min-w-[150px] w-max">
                                 <ul>

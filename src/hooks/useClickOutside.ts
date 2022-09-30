@@ -6,6 +6,7 @@ const useClickOutside = <T extends HTMLElement>(onClickOutside: () => void) => {
     useEffect(() => {
         const clickOutsideHandler = (event: any) => {
             if (elementRef.current && !elementRef.current.contains(event.target)) {
+                onClickOutside();
             }
         }
 
