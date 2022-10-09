@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import QualificationsTable from "../../containers/qualifications-table/QualificationsTable";
 import QualificationBlockchainService from "../../services/QualificationBlockchainService";
 import AssessmentQualificationHistoryModal from "../../components/verification/AssessmentQualificationHistoryModal";
+import BlockchainInformationHelper from "../../components/helpers/BlockchainInformationHelper";
 
 const Verification = () => {
     const { userIdentifier: userId } = useParams();
@@ -38,6 +39,9 @@ const Verification = () => {
                     Verificar
                 </button>
             </form>
+            <div className="pl-1">
+                <BlockchainInformationHelper text="Esta página obtiene la información de la red Blockchain de EduChain" />
+            </div>
             <QualificationsTable service={QualificationBlockchainService}
                                  defaultFilters={defaultFilters}
                                  showHistory
