@@ -7,6 +7,7 @@ import {useAuthContext} from "../../contexts/AuthContext";
 import {Link} from "react-router-dom";
 import useFormValidation from "../../hooks/useFormValidation";
 import validationSchema from "../../validations/auth/sign-in-validation";
+import BlockchainInformationHelper from "../../components/helpers/BlockchainInformationHelper";
 
 const SignInPage = () => {
     const { signIn, isLoggedIn, goToFirstAllowedView } = useAuthContext();
@@ -69,6 +70,7 @@ const SignInPage = () => {
                             Iniciar sesión
                         </button>
                     </div>
+                    <BlockchainInformationHelper text="Esta página utiliza la red Blockchain de EduChain" />
                 </div>
                 <Link to="/verification-external">
                     <span className="text-primary-dark">Verificar calificaciones</span>
