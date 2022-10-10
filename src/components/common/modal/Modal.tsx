@@ -10,7 +10,7 @@ const Modal = ({ id, width, children, isOpen, handleClose, closeOnEscapeKey = tr
 
     return (
         <ModalWrapper wrapperId={id}>
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50 px-5">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center py-10 px-5 z-50 overflow-y-auto">
                 <div style={width ? { width } : {}} className={`bg-surface text-on-surface rounded-lg ${!width ? 'w-full md:w-2/3 lg:w-1/2' : ''}`}>
                     { children }
                 </div>
